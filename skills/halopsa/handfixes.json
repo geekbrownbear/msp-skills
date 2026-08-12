@@ -112,6 +112,53 @@
           "min_count": 1
         }
       ]
+    },
+    {
+      "id": "triage-agent-name-join",
+      "summary": "triage resolves agent names from the synced agent records and groups on a non-colliding alias, instead of reading columns Halo never populates",
+      "why": "The triage view labelled every ticket '(unassigned)' and reported oldest_days as 0 for every agent, from two independent causes. First, it read tickets.agent_name and tickets.datecreated, which are generated columns Halo never fills: the ticket payload carries agent_id and dateoccurred instead, so both columns are blank on all 1254 rows of a real sync. The name is now resolved by joining agent_id against the synced agent records in the resources table, with any populated agent_name still preferred so a future Halo version or an includeagent sync needs no further change; datecreated falls through to dateoccurred. Second, and subtler, the aggregate aliased its grouping expression AS who and then did GROUP BY who, but the generated tickets table has a real who TEXT column that is NULL on every row, and SQLite resolves GROUP BY names against source columns before output aliases. The query therefore grouped by that NULL column and collapsed every agent into a single output row no matter what the SELECT computed, which is why the symptom was one '(unassigned)' line rather than several. The aggregate now runs over a CTE exposing only agent_label, so the grouping key cannot collide. triage.go is a hand-written novel command rather than generated, so regen-merge should preserve it, but these markers are a cheap backstop and pin the live-API truth (blank agent_name/datecreated, the who collision) that the SQL encodes. Verified live: triage went from one '(unassigned)' row with 8 open to Aaron Gould 4 / Abhi Saini 3 / Unassigned 1, with oldest_days 16 / 167 / 4 matching the tickets' real ages.",
+      "status": "active",
+      "asserts": [
+        {
+          "file": "cli/internal/cli/triage.go",
+          "contains": "func buildTriageQuery(",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/triage.go",
+          "contains": "WHERE resource_type = 'agent'",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/triage.go",
+          "contains": "GROUP BY agent_label",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/triage.go",
+          "contains": "$.dateoccurred",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/triage.go",
+          "not_contains": "GROUP BY who"
+        },
+        {
+          "file": "cli/internal/cli/triage_agent_join_test.go",
+          "contains": "TestTriage_ResolvesAgentNamesFromAgentRecords",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/triage_agent_join_test.go",
+          "contains": "TestTriage_DoesNotCollapseOnWhoColumn",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/triage_agent_join_test.go",
+          "contains": "TestTriage_OldestDaysUsesDateoccurred",
+          "min_count": 1
+        }
+      ]
     }
   ]
 }
