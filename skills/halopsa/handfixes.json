@@ -159,6 +159,35 @@
           "min_count": 1
         }
       ]
+    },
+    {
+      "id": "actions-ticket-id-parent-key",
+      "summary": "actions are keyed on ticket_id plus their local id, because Halo numbers actions per ticket and the bare id is not unique",
+      "why": "Halo numbers ticket actions within their ticket, so every ticket has an action 1, an action 2, and so on. resourceStorageID only qualifies a resource with its parent when the resource appears in resourceParentKeyColumns, and actions was absent, so action 1 of each ticket overwrote action 1 of the previous ticket. On a live instance 8185 fetched actions collapsed into 149 stored rows, 149 being the largest action count on any single ticket, with last writer winning. The failure was invisible from the sync output because sync_complete reports rows fetched and upserted rather than distinct rows stored, so it logged total 8185 while the table held 149; it was only visible by counting the table afterwards. Adding actions to resourceParentKeyColumns makes the storage key parent-qualified and is the mechanism the generator already provides for this exact class of collision (see the pre-existing void and outlook_contacts entries). Verified live: a tickets+actions sync went from 149 stored rows to 8185 stored with 8185 distinct ids, and action 1 now coexists across tickets 11512 through 11515. Note this changes the storage key format, so rows written before the fix remain under their old bare-id keys and a resync does not remove them; the actions table has to be cleared once for the corrected keys to be the only ones present.",
+      "status": "active",
+      "spec_encode_followup": "Press should derive parent-qualified storage keys from the spec (e.g. x-parent-key on the child path-item) so per-parent numbering is handled at generation time rather than by a hand-maintained map.",
+      "asserts": [
+        {
+          "file": "cli/internal/store/store.go",
+          "contains": "\"actions\": \"ticket_id\"",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/store/actions_parent_key_test.go",
+          "contains": "TestActionsKeyOnTicketAndID",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/store/actions_parent_key_test.go",
+          "contains": "TestActionsStorageIDCarriesParent",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/store/actions_parent_key_test.go",
+          "contains": "TestActionsUpsertIsStillIdempotent",
+          "min_count": 1
+        }
+      ]
     }
   ]
 }
