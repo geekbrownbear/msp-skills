@@ -98,23 +98,31 @@ web** is remote-only - see the remote section below.)
 # Remote agents (expose the binary over HTTPS first)
 
 All remote agents need `cork-mcp` reachable as a public **HTTPS** endpoint.
-`cork-mcp` speaks **stdio only** - it has no HTTP mode and opens no listener of
-its own - so put a stdio-to-HTTP bridge in front of it:
+`cork-mcp` serves Streamable HTTP natively, so no bridge is needed:
 
 ```bash
-# ChatGPT and anything else that accepts SSE:
-CORK_API_KEY=<value> npx -y supergateway --stdio "cork-mcp" --port 7777
-
-# Microsoft 365 Copilot / Copilot Studio, which take Streamable HTTP only:
-CORK_API_KEY=<value> npx -y supergateway --stdio "cork-mcp" --port 7777 \
-  --outputTransport streamableHttp --streamableHttpPath /mcp
+CORK_API_KEY=<value> cork-mcp --transport http --addr :7777
 ```
 
-**Pick the transport your consumer actually takes** - that is the whole reason
-there are two lines. The first serves the bridged server at
-`http://localhost:7777/sse`; the second at `http://localhost:7777/mcp`. Both were
-verified against this binary (the port binds and the endpoint answers). Expose
-whichever one you started as a public HTTPS URL via a secure tunnel
+That serves the MCP endpoint at `http://localhost:7777/mcp`. The transport can
+also be pinned by environment instead of a flag, which is how container
+supervisors usually pass it:
+
+```bash
+CORK_API_KEY=<value> PP_MCP_TRANSPORT=http cork-mcp --addr :7777
+```
+
+With no arguments `cork-mcp` still serves stdio, so existing local
+configurations keep working unchanged.
+
+**If your consumer needs SSE rather than Streamable HTTP**, put a bridge in
+front, since the binary serves Streamable HTTP only:
+
+```bash
+CORK_API_KEY=<value> npx -y supergateway --stdio "cork-mcp" --port 7777
+```
+
+Expose whichever endpoint you started as a public HTTPS URL via a secure tunnel
 (Cloudflare Tunnel, ngrok) or your own reverse proxy. **Treat that URL as
 sensitive** - it's a key to your MCP server. Never expose it bare on the internet;
 gate it behind SSO / Cloudflare Access for team use.

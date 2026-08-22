@@ -10,13 +10,67 @@
       "status": "active",
       "spec_encode_followup": "Fix belongs in the press: mcp-sync must honor x-auth-env-vars and never derive the auth var from the api_name slug. Filed as a retro (manuscripts/levelio/20260606-173908 findings).",
       "asserts": [
-        {"file": "cli/internal/config/config.go", "contains": "LEVEL_API_TOKEN", "min_count": 1},
-        {"file": "cli/internal/config/config.go", "not_contains": "LEVELIO_API_TOKEN"},
-        {"file": "cli/internal/mcp/tools.go", "contains": "LEVEL_API_TOKEN", "min_count": 1},
-        {"file": "cli/internal/mcp/tools.go", "not_contains": "LEVELIO_API_TOKEN"},
-        {"file": "manifest.json", "contains": "LEVEL_API_TOKEN", "min_count": 1},
-        {"file": "manifest.json", "not_contains": "LEVELIO_API_TOKEN"},
-        {"file": "server.json", "contains": "LEVEL_API_TOKEN", "min_count": 1}
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "LEVEL_API_TOKEN",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/config/config.go",
+          "not_contains": "LEVELIO_API_TOKEN"
+        },
+        {
+          "file": "cli/internal/mcp/tools.go",
+          "contains": "LEVEL_API_TOKEN",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/mcp/tools.go",
+          "not_contains": "LEVELIO_API_TOKEN"
+        },
+        {
+          "file": "manifest.json",
+          "contains": "LEVEL_API_TOKEN",
+          "min_count": 1
+        },
+        {
+          "file": "manifest.json",
+          "not_contains": "LEVELIO_API_TOKEN"
+        },
+        {
+          "file": "server.json",
+          "contains": "LEVEL_API_TOKEN",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "id": "mcp-transport-flag-parity",
+      "summary": "`levelio-mcp` accepts --transport/--addr and PP_MCP_TRANSPORT, matching the 58 connectors that already do",
+      "why": "main() called server.ServeStdio unconditionally and never parsed os.Args, so `levelio-mcp --transport http` was silently ignored and the process still served stdio. Four of the six affected connectors ship an mcp-install.md instructing users to pass exactly that flag, so the documentation described a mode the binary did not have. The block added here is copied verbatim from the generated shape the other 58 connectors already carry (see skills/halopsa/cli/cmd/halopsa-mcp/main.go): a --transport flag defaulting to defaultTransport(), which reads PP_MCP_TRANSPORT and falls back to stdio so no-argument invocation is unchanged, an --addr flag defaulting to :7777, and a switch that serves stdio, serves NewStreamableHTTPServer for http, or exits 2 on an unknown value. This is press drift rather than staleness: cork and avanan are on a NEWER press than several connectors that already have the flag, so a reprint at the current press will not reliably restore it.",
+      "status": "active",
+      "spec_encode_followup": "Make the transport flag block unconditional in the cli-printing-press MCP main template so every future print carries it, and add a generator check that fails when an mcp-install.md documents a flag the printed main.go does not parse (filed as a retro item against the generator).",
+      "asserts": [
+        {
+          "file": "cli/cmd/levelio-mcp/main.go",
+          "contains": "flag.String(\"transport\"",
+          "min_count": 1
+        },
+        {
+          "file": "cli/cmd/levelio-mcp/main.go",
+          "contains": "func defaultTransport()",
+          "min_count": 1
+        },
+        {
+          "file": "cli/cmd/levelio-mcp/main.go",
+          "contains": "NewStreamableHTTPServer",
+          "min_count": 1
+        },
+        {
+          "file": "cli/cmd/levelio-mcp/main.go",
+          "contains": "PP_MCP_TRANSPORT",
+          "min_count": 1
+        }
       ]
     }
   ]
