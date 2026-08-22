@@ -105,7 +105,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 					// unrecognised subcommand by printing its own help and
 					// exiting 0, so following the old hint looked like it
 					// worked while leaving auth unconfigured.
-					report["auth_hint"] = "Set HALOPSA_TENANT, HALOPSA_DOMAIN, HALOPSA_CLIENT_ID and HALOPSA_CLIENT_SECRET, then run 'halopsa-cli auth login' to mint a token."
+					report["auth_hint"] = "Set HALOPSA_TENANT, HALOPSA_CLIENT_ID and HALOPSA_CLIENT_SECRET, then run 'halopsa-cli auth login' to mint a token. HALOPSA_DOMAIN is optional and defaults to halopsa.com."
 				} else {
 					authConfigured = true
 					report["auth"] = "configured"

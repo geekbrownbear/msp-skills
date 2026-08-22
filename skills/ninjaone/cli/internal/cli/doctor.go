@@ -178,7 +178,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 					// unrecognised subcommand by printing its own help and
 					// exiting 0, so following the old hint looked like it
 					// worked while leaving auth unconfigured.
-					report["auth_hint"] = "Set NINJAONE_CLIENT_ID and NINJAONE_CLIENT_SECRET (plus NINJAONE_OAUTH_SCOPE if your instance needs a scope), then run 'ninjaone-cli auth login' to mint a token."
+					report["auth_hint"] = "Set NINJAONE_CLIENT_ID and NINJAONE_CLIENT_SECRET, then run 'ninjaone-cli auth login' to mint a token. NINJAONE_OAUTH_SCOPE is optional and defaults to \"control management monitoring\"."
 				} else {
 					authConfigured = true
 					report["auth"] = "configured"

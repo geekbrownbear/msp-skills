@@ -210,7 +210,9 @@
       "spec_encode_followup": "Emit the auth hint from the set of subcommands the connector actually generates rather than a fixed string. Three other skills carry the same dead hint (appdirect, crowdstrike, halopsa), while blumira and datto-rmm do define `auth setup`, which is why the string was templated in the first place.",
       "asserts": [
         {"file": "cli/internal/cli/doctor.go", "not_contains": "ninjaone-cli auth setup"},
-        {"file": "cli/internal/cli/doctor.go", "contains": "ninjaone-cli auth login", "min_count": 1}
+        {"file": "cli/internal/cli/doctor.go", "contains": "ninjaone-cli auth login", "min_count": 1},
+        {"file": "cli/internal/cli/doctor.go", "contains": "NINJAONE_CLIENT_SECRET", "min_count": 1},
+        {"file": "cli/internal/cli/doctor.go", "contains": "NINJAONE_OAUTH_SCOPE is optional", "min_count": 1}
       ]
     }
   ]
