@@ -16,7 +16,8 @@
       "args": [],
       "env": {
         "ATERA_ACCOUNT_API": "${user_config.atera_account_api}",
-        "ATERA_API_KEY": "${user_config.atera_api_key}"
+        "ATERA_API_KEY": "${user_config.atera_api_key}",
+        "ATERA_BASE_URL": "${user_config.atera_base_url}"
       }
     }
   },
@@ -32,6 +33,13 @@
       "title": "ATERA_API_KEY",
       "description": "Optional. Sets ATERA_API_KEY for the Atera MCP server.",
       "sensitive": true
+    },
+    "atera_base_url": {
+      "type": "string",
+      "title": "ATERA_BASE_URL",
+      "description": "Base URL of your Atera instance",
+      "required": false,
+      "default": "https://app.atera.com/api/v3"
     }
   },
   "compatibility": {

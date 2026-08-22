@@ -15,6 +15,8 @@
       "command": "${__dirname}/bin/maxio-pp-mcp",
       "args": [],
       "env": {
+        "MAXIO_API_KEY": "${user_config.maxio_api_key}",
+        "MAXIO_BASE_URL": "${user_config.maxio_base_url}",
         "MAXIO_PASSWORD": "${user_config.maxio_password}",
         "MAXIO_SITE": "${user_config.maxio_site}",
         "MAXIO_USERNAME": "${user_config.maxio_username}"
@@ -22,6 +24,19 @@
     }
   },
   "user_config": {
+    "maxio_api_key": {
+      "type": "string",
+      "title": "MAXIO_API_KEY",
+      "description": "API key issued by Maxio",
+      "sensitive": true,
+      "required": true
+    },
+    "maxio_base_url": {
+      "type": "string",
+      "title": "MAXIO_BASE_URL",
+      "description": "Base URL of your Maxio instance",
+      "required": false
+    },
     "maxio_password": {
       "type": "string",
       "title": "MAXIO_PASSWORD",

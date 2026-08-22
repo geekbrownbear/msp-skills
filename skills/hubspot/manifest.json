@@ -15,7 +15,9 @@
       "command": "${__dirname}/bin/hubspot-mcp",
       "args": [],
       "env": {
-        "HUBSPOT_ACCESS_TOKEN": "${user_config.hubspot_access_token}"
+        "HUBSPOT_ACCESS_TOKEN": "${user_config.hubspot_access_token}",
+        "HUBSPOT_BASE_URL": "${user_config.hubspot_base_url}",
+        "HUBSPOT_OWNER_EMAIL": "${user_config.hubspot_owner_email}"
       }
     }
   },
@@ -25,6 +27,19 @@
       "title": "HUBSPOT_ACCESS_TOKEN",
       "description": "Sets HUBSPOT_ACCESS_TOKEN for the HubSpot MCP server. Get a credential from https://app.hubspot.com/private-apps.",
       "sensitive": true,
+      "required": true
+    },
+    "hubspot_base_url": {
+      "type": "string",
+      "title": "HUBSPOT_BASE_URL",
+      "description": "Base URL of your HubSpot instance",
+      "required": false,
+      "default": "https://api.hubapi.com"
+    },
+    "hubspot_owner_email": {
+      "type": "string",
+      "title": "HUBSPOT_OWNER_EMAIL",
+      "description": "HUBSPOT_OWNER_EMAIL for HubSpot",
       "required": true
     }
   },

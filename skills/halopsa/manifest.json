@@ -15,17 +15,25 @@
       "command": "${__dirname}/bin/halopsa-mcp",
       "args": [],
       "env": {
+        "HALOPSA_BASE_URL": "${user_config.halopsa_base_url}",
         "HALOPSA_CLIENT_ID": "${user_config.halopsa_client_id}",
         "HALOPSA_CLIENT_SECRET": "${user_config.halopsa_client_secret}",
         "HALOPSA_DOMAIN": "${user_config.halopsa_domain}",
         "HALOPSA_OAUTH_SCOPE": "${user_config.halopsa_oauth_scope}",
         "HALOPSA_SCOPE": "${user_config.halopsa_scope}",
         "HALOPSA_TENANT": "${user_config.halopsa_tenant}",
-        "HALOPSA_TOKEN": "${user_config.halopsa_token}"
+        "HALOPSA_TOKEN": "${user_config.halopsa_token}",
+        "HALOPSA_TOKEN_URL": "${user_config.halopsa_token_url}"
       }
     }
   },
   "user_config": {
+    "halopsa_base_url": {
+      "type": "string",
+      "title": "HALOPSA_BASE_URL",
+      "description": "Base URL of your HaloPSA instance",
+      "required": false
+    },
     "halopsa_client_id": {
       "type": "string",
       "title": "HALOPSA_CLIENT_ID",
@@ -68,6 +76,12 @@
       "title": "HALOPSA_TOKEN",
       "description": "Optional. Pre-issued Bearer access token. Overrides the client_credentials flow when set.",
       "sensitive": true
+    },
+    "halopsa_token_url": {
+      "type": "string",
+      "title": "HALOPSA_TOKEN_URL",
+      "description": "OAuth2 token endpoint for HaloPSA",
+      "required": false
     }
   },
   "compatibility": {

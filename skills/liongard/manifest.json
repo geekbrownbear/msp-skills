@@ -16,6 +16,7 @@
       "args": [],
       "env": {
         "LIONGARD_API_KEY": "${user_config.liongard_api_key}",
+        "LIONGARD_BASE_URL": "${user_config.liongard_base_url}",
         "LIONGARD_INSTANCE": "${user_config.liongard_instance}"
       }
     }
@@ -27,6 +28,12 @@
       "description": "Sets LIONGARD_API_KEY for the Liongard MCP server.",
       "sensitive": true,
       "required": true
+    },
+    "liongard_base_url": {
+      "type": "string",
+      "title": "LIONGARD_BASE_URL",
+      "description": "Base URL of your Liongard instance",
+      "required": false
     },
     "liongard_instance": {
       "type": "string",

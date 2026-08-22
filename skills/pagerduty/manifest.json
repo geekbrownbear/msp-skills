@@ -15,7 +15,8 @@
       "command": "${__dirname}/bin/pagerduty-mcp",
       "args": [],
       "env": {
-        "PAGERDUTY_API_KEY": "${user_config.pagerduty_api_key}"
+        "PAGERDUTY_API_KEY": "${user_config.pagerduty_api_key}",
+        "PAGERDUTY_BASE_URL": "${user_config.pagerduty_base_url}"
       }
     }
   },
@@ -26,6 +27,13 @@
       "description": "Sets PAGERDUTY_API_KEY for the PagerDuty MCP server.",
       "sensitive": true,
       "required": true
+    },
+    "pagerduty_base_url": {
+      "type": "string",
+      "title": "PAGERDUTY_BASE_URL",
+      "description": "Base URL of your PagerDuty instance",
+      "required": false,
+      "default": "https://api.pagerduty.com"
     }
   },
   "compatibility": {

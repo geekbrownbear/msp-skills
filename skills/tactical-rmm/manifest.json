@@ -15,11 +15,18 @@
       "command": "${__dirname}/bin/tactical-rmm-mcp",
       "args": [],
       "env": {
+        "TACTICAL_RMM_BASE_URL": "${user_config.tactical_rmm_base_url}",
         "TRMM_API_KEY": "${user_config.trmm_api_key}"
       }
     }
   },
   "user_config": {
+    "tactical_rmm_base_url": {
+      "type": "string",
+      "title": "TACTICAL_RMM_BASE_URL",
+      "description": "TACTICAL_RMM_BASE_URL for Tactical RMM",
+      "required": true
+    },
     "trmm_api_key": {
       "type": "string",
       "title": "TRMM_API_KEY",

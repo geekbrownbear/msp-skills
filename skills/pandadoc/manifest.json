@@ -15,7 +15,8 @@
       "command": "${__dirname}/bin/pandadoc-mcp",
       "args": [],
       "env": {
-        "PANDADOC_API_KEY": "${user_config.pandadoc_api_key}"
+        "PANDADOC_API_KEY": "${user_config.pandadoc_api_key}",
+        "PANDADOC_BASE_URL": "${user_config.pandadoc_base_url}"
       }
     }
   },
@@ -26,6 +27,13 @@
       "description": "Sets PANDADOC_API_KEY for the PandaDoc MCP server.",
       "sensitive": true,
       "required": true
+    },
+    "pandadoc_base_url": {
+      "type": "string",
+      "title": "PANDADOC_BASE_URL",
+      "description": "Base URL of your PandaDoc instance",
+      "required": false,
+      "default": "https://api.pandadoc.com/public/v1"
     }
   },
   "compatibility": {

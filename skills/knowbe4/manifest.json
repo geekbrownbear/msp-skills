@@ -16,6 +16,7 @@
       "args": [],
       "env": {
         "KNOWBE4_API_KEY": "${user_config.knowbe4_api_key}",
+        "KNOWBE4_BASE_URL": "${user_config.knowbe4_base_url}",
         "KNOWBE4_REGION": "${user_config.knowbe4_region}"
       }
     }
@@ -27,6 +28,12 @@
       "description": "Sets KNOWBE4_API_KEY for the KnowBe4 MCP server. Get a credential from https://developer.knowbe4.com/.",
       "sensitive": true,
       "required": true
+    },
+    "knowbe4_base_url": {
+      "type": "string",
+      "title": "KNOWBE4_BASE_URL",
+      "description": "Base URL of your KnowBe4 instance",
+      "required": false
     },
     "knowbe4_region": {
       "type": "string",

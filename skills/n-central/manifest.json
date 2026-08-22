@@ -15,11 +15,19 @@
       "command": "${__dirname}/bin/n-central-mcp",
       "args": [],
       "env": {
-        "NCENTRAL_JWT": "${user_config.ncentral_jwt}"
+        "NCENTRAL_JWT": "${user_config.ncentral_jwt}",
+        "N_CENTRAL_BASE_URL": "${user_config.n_central_base_url}"
       }
     }
   },
   "user_config": {
+    "n_central_base_url": {
+      "type": "string",
+      "title": "N_CENTRAL_BASE_URL",
+      "description": "N_CENTRAL_BASE_URL for N-able N-central",
+      "required": false,
+      "default": "https://ncod.n-able.com/api"
+    },
     "ncentral_jwt": {
       "type": "string",
       "title": "NCENTRAL_JWT",

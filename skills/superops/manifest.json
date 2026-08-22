@@ -15,7 +15,10 @@
       "command": "${__dirname}/bin/superops-mcp",
       "args": [],
       "env": {
-        "SUPEROPS_API_TOKEN": "${user_config.superops_api_token}"
+        "SUPEROPS_API_TOKEN": "${user_config.superops_api_token}",
+        "SUPEROPS_BASE_URL": "${user_config.superops_base_url}",
+        "SUPEROPS_REGION": "${user_config.superops_region}",
+        "SUPEROPS_SUBDOMAIN": "${user_config.superops_subdomain}"
       }
     }
   },
@@ -25,6 +28,25 @@
       "title": "SUPEROPS_API_TOKEN",
       "description": "Sets SUPEROPS_API_TOKEN for the SuperOps MCP server.",
       "sensitive": true,
+      "required": true
+    },
+    "superops_base_url": {
+      "type": "string",
+      "title": "SUPEROPS_BASE_URL",
+      "description": "Base URL of your SuperOps instance",
+      "required": false,
+      "default": "https://api.superops.ai"
+    },
+    "superops_region": {
+      "type": "string",
+      "title": "SUPEROPS_REGION",
+      "description": "SuperOps region your credentials were issued for",
+      "required": true
+    },
+    "superops_subdomain": {
+      "type": "string",
+      "title": "SUPEROPS_SUBDOMAIN",
+      "description": "Your SuperOps subdomain",
       "required": true
     }
   },

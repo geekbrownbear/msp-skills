@@ -15,7 +15,8 @@
       "command": "${__dirname}/bin/sentinelone-mcp",
       "args": [],
       "env": {
-        "SENTINELONE_API_TOKEN": "${user_config.sentinelone_api_token}"
+        "SENTINELONE_API_TOKEN": "${user_config.sentinelone_api_token}",
+        "SENTINELONE_BASE_URL": "${user_config.sentinelone_base_url}"
       }
     }
   },
@@ -25,6 +26,12 @@
       "title": "SENTINELONE_API_TOKEN",
       "description": "Sets SENTINELONE_API_TOKEN for the SentinelOne MCP server.",
       "sensitive": true,
+      "required": true
+    },
+    "sentinelone_base_url": {
+      "type": "string",
+      "title": "SENTINELONE_BASE_URL",
+      "description": "Base URL of your SentinelOne instance",
       "required": true
     }
   },

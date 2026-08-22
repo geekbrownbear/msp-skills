@@ -15,7 +15,9 @@
       "command": "${__dirname}/bin/zammad-pp-mcp",
       "args": [],
       "env": {
-        "ZAMMAD_API_TOKEN": "${user_config.zammad_api_token}"
+        "ZAMMAD_API_TOKEN": "${user_config.zammad_api_token}",
+        "ZAMMAD_BASE_URL": "${user_config.zammad_base_url}",
+        "ZAMMAD_URL": "${user_config.zammad_url}"
       }
     }
   },
@@ -25,6 +27,18 @@
       "title": "ZAMMAD_API_TOKEN",
       "description": "Sets ZAMMAD_API_TOKEN for the Zammad MCP server.",
       "sensitive": true,
+      "required": true
+    },
+    "zammad_base_url": {
+      "type": "string",
+      "title": "ZAMMAD_BASE_URL",
+      "description": "Base URL of your Zammad instance",
+      "required": true
+    },
+    "zammad_url": {
+      "type": "string",
+      "title": "ZAMMAD_URL",
+      "description": "ZAMMAD_URL for Zammad",
       "required": true
     }
   },

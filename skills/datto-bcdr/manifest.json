@@ -15,12 +15,20 @@
       "command": "${__dirname}/bin/datto-bcdr-mcp",
       "args": [],
       "env": {
+        "DATTO_BCDR_BASE_URL": "${user_config.datto_bcdr_base_url}",
         "DATTO_BCDR_PUBLIC_KEY": "${user_config.datto_bcdr_public_key}",
         "DATTO_BCDR_SECRET_KEY": "${user_config.datto_bcdr_secret_key}"
       }
     }
   },
   "user_config": {
+    "datto_bcdr_base_url": {
+      "type": "string",
+      "title": "DATTO_BCDR_BASE_URL",
+      "description": "DATTO_BCDR_BASE_URL for Datto BCDR",
+      "required": false,
+      "default": "https://api.datto.com/v1"
+    },
     "datto_bcdr_public_key": {
       "type": "string",
       "title": "DATTO_BCDR_PUBLIC_KEY",

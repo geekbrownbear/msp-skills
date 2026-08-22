@@ -17,6 +17,9 @@
       "env": {
         "DATTO_RMM_API_KEY": "${user_config.datto_rmm_api_key}",
         "DATTO_RMM_API_SECRET_KEY": "${user_config.datto_rmm_api_secret_key}",
+        "DATTO_RMM_API_URL": "${user_config.datto_rmm_api_url}",
+        "DATTO_RMM_BASE_URL": "${user_config.datto_rmm_base_url}",
+        "DATTO_RMM_PLATFORM": "${user_config.datto_rmm_platform}",
         "DATTO_RMM_TOKEN": "${user_config.datto_rmm_token}"
       }
     }
@@ -34,6 +37,26 @@
       "title": "DATTO_RMM_API_SECRET_KEY",
       "description": "Datto RMM API secret key (password in the OAuth password grant).",
       "sensitive": true,
+      "required": true
+    },
+    "datto_rmm_api_url": {
+      "type": "string",
+      "title": "DATTO_RMM_API_URL",
+      "description": "DATTO_RMM_API_URL for Datto RMM",
+      "required": false,
+      "default": "https://merlot-api.centrastage.net/api"
+    },
+    "datto_rmm_base_url": {
+      "type": "string",
+      "title": "DATTO_RMM_BASE_URL",
+      "description": "DATTO_RMM_BASE_URL for Datto RMM",
+      "required": false,
+      "default": "https://merlot-api.centrastage.net/api"
+    },
+    "datto_rmm_platform": {
+      "type": "string",
+      "title": "DATTO_RMM_PLATFORM",
+      "description": "DATTO_RMM_PLATFORM for Datto RMM",
       "required": true
     },
     "datto_rmm_token": {

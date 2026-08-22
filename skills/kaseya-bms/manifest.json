@@ -15,12 +15,20 @@
       "command": "${__dirname}/bin/kaseya-bms-mcp",
       "args": [],
       "env": {
+        "KASEYA_BMS_BASE_URL": "${user_config.kaseya_bms_base_url}",
         "KASEYA_BMS_BEARER_AUTH": "${user_config.kaseya_bms_bearer_auth}",
         "KASEYA_BMS_TOKEN": "${user_config.kaseya_bms_token}"
       }
     }
   },
   "user_config": {
+    "kaseya_bms_base_url": {
+      "type": "string",
+      "title": "KASEYA_BMS_BASE_URL",
+      "description": "KASEYA_BMS_BASE_URL for Kaseya BMS",
+      "required": false,
+      "default": "https://api.bms.kaseya.com"
+    },
     "kaseya_bms_bearer_auth": {
       "type": "string",
       "title": "KASEYA_BMS_BEARER_AUTH",

@@ -15,7 +15,8 @@
       "command": "${__dirname}/bin/mspbots-mcp",
       "args": [],
       "env": {
-        "MSPBOTS_API_KEY": "${user_config.mspbots_api_key}"
+        "MSPBOTS_API_KEY": "${user_config.mspbots_api_key}",
+        "MSPBOTS_BASE_URL": "${user_config.mspbots_base_url}"
       }
     }
   },
@@ -26,6 +27,13 @@
       "description": "Sets MSPBOTS_API_KEY for the MSPbots MCP server.",
       "sensitive": true,
       "required": true
+    },
+    "mspbots_base_url": {
+      "type": "string",
+      "title": "MSPBOTS_BASE_URL",
+      "description": "Base URL of your MSPbots instance",
+      "required": false,
+      "default": "https://api.mspbots.ai"
     }
   },
   "compatibility": {

@@ -15,7 +15,8 @@
       "command": "${__dirname}/bin/itglue-mcp",
       "args": [],
       "env": {
-        "ITGLUE_API_KEY": "${user_config.itglue_api_key}"
+        "ITGLUE_API_KEY": "${user_config.itglue_api_key}",
+        "ITGLUE_BASE_URL": "${user_config.itglue_base_url}"
       }
     }
   },
@@ -26,6 +27,13 @@
       "description": "IT Glue API key with permissions for the requested read and write operations.",
       "sensitive": true,
       "required": true
+    },
+    "itglue_base_url": {
+      "type": "string",
+      "title": "ITGLUE_BASE_URL",
+      "description": "Base URL of your IT Glue instance",
+      "required": false,
+      "default": "https://api.itglue.com"
     }
   },
   "compatibility": {

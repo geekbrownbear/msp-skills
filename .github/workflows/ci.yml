@@ -32,6 +32,9 @@ jobs:
       - name: Skill contract (frontmatter + required files)
         run: python3 tools/maintainer/check_skill_contract.py
 
+      - name: Env schema matches source
+        run: python3 tools/maintainer/check_env_schema.py
+
       - name: Markdown local links
         run: python3 tools/maintainer/check_md_links.py
 

@@ -15,11 +15,19 @@
       "command": "${__dirname}/bin/wordpress-pp-mcp",
       "args": [],
       "env": {
+        "WORDPRESS_BASE_URL": "${user_config.wordpress_base_url}",
         "WORDPRESS_BASIC_AUTH": "${user_config.wordpress_basic_auth}"
       }
     }
   },
   "user_config": {
+    "wordpress_base_url": {
+      "type": "string",
+      "title": "WORDPRESS_BASE_URL",
+      "description": "Base URL of your WordPress instance",
+      "required": false,
+      "default": "https://wordpress.org/news/wp-json/wp/v2"
+    },
     "wordpress_basic_auth": {
       "type": "string",
       "title": "WORDPRESS_BASIC_AUTH",

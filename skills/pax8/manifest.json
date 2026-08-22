@@ -15,13 +15,29 @@
       "command": "${__dirname}/bin/pax8-mcp",
       "args": [],
       "env": {
+        "PAX8_AUDIENCE": "${user_config.pax8_audience}",
+        "PAX8_BASE_URL": "${user_config.pax8_base_url}",
         "PAX8_CLIENT_ID": "${user_config.pax8_client_id}",
         "PAX8_CLIENT_SECRET": "${user_config.pax8_client_secret}",
-        "PAX8_OAUTH_SCOPE": "${user_config.pax8_oauth_scope}"
+        "PAX8_OAUTH_SCOPE": "${user_config.pax8_oauth_scope}",
+        "PAX8_TOKEN_URL": "${user_config.pax8_token_url}"
       }
     }
   },
   "user_config": {
+    "pax8_audience": {
+      "type": "string",
+      "title": "PAX8_AUDIENCE",
+      "description": "PAX8_AUDIENCE for Pax8",
+      "required": true
+    },
+    "pax8_base_url": {
+      "type": "string",
+      "title": "PAX8_BASE_URL",
+      "description": "Base URL of your Pax8 instance",
+      "required": false,
+      "default": "https://api.pax8.com/v1"
+    },
     "pax8_client_id": {
       "type": "string",
       "title": "PAX8_CLIENT_ID",
@@ -42,6 +58,13 @@
       "description": "Sets PAX8_OAUTH_SCOPE for the Pax8 MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
       "sensitive": true,
       "required": true
+    },
+    "pax8_token_url": {
+      "type": "string",
+      "title": "PAX8_TOKEN_URL",
+      "description": "OAuth2 token endpoint for Pax8",
+      "required": false,
+      "default": "https://api.pax8.com/v1"
     }
   },
   "compatibility": {

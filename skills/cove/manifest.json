@@ -13,7 +13,13 @@
     "entry_point": "bin/cove-mcp",
     "mcp_config": {
       "command": "${__dirname}/bin/cove-mcp",
-      "args": []
+      "args": [],
+      "env": {
+        "COVE_BASE_URL": "${user_config.cove_base_url}",
+        "COVE_PARTNER": "${user_config.cove_partner}",
+        "COVE_PASSWORD": "${user_config.cove_password}",
+        "COVE_USERNAME": "${user_config.cove_username}"
+      }
     }
   },
   "compatibility": {
@@ -30,5 +36,33 @@
     "generated_at": "2026-06-13T03:29:51.000516Z",
     "spec_checksum": "sha256:228c03fdd348d2cdb1edcc3fefc17a3869a6c5208424fb7ff01c2923ed908ab6",
     "spec_format": "internal"
+  },
+  "user_config": {
+    "cove_base_url": {
+      "type": "string",
+      "title": "COVE_BASE_URL",
+      "description": "Base URL of your Cove Data Protection instance",
+      "required": false,
+      "default": "https://api.backup.management"
+    },
+    "cove_partner": {
+      "type": "string",
+      "title": "COVE_PARTNER",
+      "description": "Partner account name for Cove Data Protection",
+      "required": true
+    },
+    "cove_password": {
+      "type": "string",
+      "title": "COVE_PASSWORD",
+      "description": "Password for Cove Data Protection",
+      "sensitive": true,
+      "required": true
+    },
+    "cove_username": {
+      "type": "string",
+      "title": "COVE_USERNAME",
+      "description": "Username for Cove Data Protection",
+      "required": true
+    }
   }
 }

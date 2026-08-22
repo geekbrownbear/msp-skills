@@ -15,11 +15,19 @@
       "command": "${__dirname}/bin/microsoft-graph-mcp",
       "args": [],
       "env": {
+        "MICROSOFT_GRAPH_BASE_URL": "${user_config.microsoft_graph_base_url}",
         "MICROSOFT_GRAPH_TOKEN": "${user_config.microsoft_graph_token}"
       }
     }
   },
   "user_config": {
+    "microsoft_graph_base_url": {
+      "type": "string",
+      "title": "MICROSOFT_GRAPH_BASE_URL",
+      "description": "MICROSOFT_GRAPH_BASE_URL for Microsoft Graph",
+      "required": false,
+      "default": "https://graph.microsoft.com/v1.0"
+    },
     "microsoft_graph_token": {
       "type": "string",
       "title": "MICROSOFT_GRAPH_TOKEN",

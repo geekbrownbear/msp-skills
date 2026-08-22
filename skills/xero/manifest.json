@@ -16,7 +16,13 @@
       "args": [],
       "env": {
         "XERO_ACCESS_TOKEN": "${user_config.xero_access_token}",
-        "XERO_OAUTH2": "${user_config.xero_oauth2}"
+        "XERO_AUTHORIZATION_URL": "${user_config.xero_authorization_url}",
+        "XERO_BASE_URL": "${user_config.xero_base_url}",
+        "XERO_CLIENT_ID": "${user_config.xero_client_id}",
+        "XERO_CLIENT_SECRET": "${user_config.xero_client_secret}",
+        "XERO_OAUTH2": "${user_config.xero_oauth2}",
+        "XERO_TENANT_ID": "${user_config.xero_tenant_id}",
+        "XERO_TOKEN_URL": "${user_config.xero_token_url}"
       }
     }
   },
@@ -27,11 +33,51 @@
       "description": "Optional. Sets XERO_ACCESS_TOKEN for the Xero MCP server.",
       "sensitive": true
     },
+    "xero_authorization_url": {
+      "type": "string",
+      "title": "XERO_AUTHORIZATION_URL",
+      "description": "XERO_AUTHORIZATION_URL for Xero",
+      "required": false,
+      "default": "https://api.xero.com/api.xro/2.0"
+    },
+    "xero_base_url": {
+      "type": "string",
+      "title": "XERO_BASE_URL",
+      "description": "Base URL of your Xero instance",
+      "required": false,
+      "default": "https://api.xero.com/api.xro/2.0"
+    },
+    "xero_client_id": {
+      "type": "string",
+      "title": "XERO_CLIENT_ID",
+      "description": "OAuth2 client ID from your Xero API application",
+      "required": true
+    },
+    "xero_client_secret": {
+      "type": "string",
+      "title": "XERO_CLIENT_SECRET",
+      "description": "OAuth2 client secret from your Xero API application",
+      "sensitive": true,
+      "required": true
+    },
     "xero_oauth2": {
       "type": "string",
       "title": "XERO_OAUTH2",
       "description": "Optional. Sets XERO_OAUTH2 for the Xero MCP server.",
       "sensitive": true
+    },
+    "xero_tenant_id": {
+      "type": "string",
+      "title": "XERO_TENANT_ID",
+      "description": "Tenant ID in Xero",
+      "required": true
+    },
+    "xero_token_url": {
+      "type": "string",
+      "title": "XERO_TOKEN_URL",
+      "description": "OAuth2 token endpoint for Xero",
+      "required": false,
+      "default": "https://api.xero.com/api.xro/2.0"
     }
   },
   "compatibility": {

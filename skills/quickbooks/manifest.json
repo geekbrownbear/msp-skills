@@ -15,7 +15,14 @@
       "command": "${__dirname}/bin/quickbooks-mcp",
       "args": [],
       "env": {
-        "QUICKBOOKS_ACCESS_TOKEN": "${user_config.quickbooks_access_token}"
+        "QUICKBOOKS_ACCESS_TOKEN": "${user_config.quickbooks_access_token}",
+        "QUICKBOOKS_BASE_URL": "${user_config.quickbooks_base_url}",
+        "QUICKBOOKS_CLIENT_ID": "${user_config.quickbooks_client_id}",
+        "QUICKBOOKS_CLIENT_SECRET": "${user_config.quickbooks_client_secret}",
+        "QUICKBOOKS_ENVIRONMENT": "${user_config.quickbooks_environment}",
+        "QUICKBOOKS_REALM_ID": "${user_config.quickbooks_realm_id}",
+        "QUICKBOOKS_REFRESH_TOKEN": "${user_config.quickbooks_refresh_token}",
+        "QUICKBOOKS_TOKEN_URL": "${user_config.quickbooks_token_url}"
       }
     }
   },
@@ -25,6 +32,50 @@
       "title": "QUICKBOOKS_ACCESS_TOKEN",
       "description": "OAuth 2.0 bearer access token sent as `Authorization: Bearer <token>`. Obtain one\nfrom the Intuit OAuth 2.0 Playground or mint it from a refresh token. Also set the\ncompany scope via QUICKBOOKS_REALM_ID (+ QUICKBOOKS_ENVIRONMENT=production|sandbox)\nor the full QUICKBOOKS_BASE_URL. Required scope: com.intuit.quickbooks.accounting.",
       "sensitive": true,
+      "required": true
+    },
+    "quickbooks_base_url": {
+      "type": "string",
+      "title": "QUICKBOOKS_BASE_URL",
+      "description": "Base URL of your QuickBooks Online instance",
+      "required": true
+    },
+    "quickbooks_client_id": {
+      "type": "string",
+      "title": "QUICKBOOKS_CLIENT_ID",
+      "description": "OAuth2 client ID from your QuickBooks Online API application",
+      "required": true
+    },
+    "quickbooks_client_secret": {
+      "type": "string",
+      "title": "QUICKBOOKS_CLIENT_SECRET",
+      "description": "OAuth2 client secret from your QuickBooks Online API application",
+      "sensitive": true,
+      "required": true
+    },
+    "quickbooks_environment": {
+      "type": "string",
+      "title": "QUICKBOOKS_ENVIRONMENT",
+      "description": "QuickBooks Online environment (e.g. sandbox or production)",
+      "required": true
+    },
+    "quickbooks_realm_id": {
+      "type": "string",
+      "title": "QUICKBOOKS_REALM_ID",
+      "description": "Realm (company) ID in QuickBooks Online",
+      "required": true
+    },
+    "quickbooks_refresh_token": {
+      "type": "string",
+      "title": "QUICKBOOKS_REFRESH_TOKEN",
+      "description": "OAuth2 refresh token for QuickBooks Online",
+      "sensitive": true,
+      "required": true
+    },
+    "quickbooks_token_url": {
+      "type": "string",
+      "title": "QUICKBOOKS_TOKEN_URL",
+      "description": "OAuth2 token endpoint for QuickBooks Online",
       "required": true
     }
   },

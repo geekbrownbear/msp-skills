@@ -15,12 +15,20 @@
       "command": "${__dirname}/bin/resourceguru-mcp",
       "args": [],
       "env": {
+        "RESOURCEGURU_BASE_URL": "${user_config.resourceguru_base_url}",
         "RESOURCEGURU_EMAIL": "${user_config.resourceguru_email}",
         "RESOURCEGURU_PASSWORD": "${user_config.resourceguru_password}"
       }
     }
   },
   "user_config": {
+    "resourceguru_base_url": {
+      "type": "string",
+      "title": "RESOURCEGURU_BASE_URL",
+      "description": "Base URL of your Resource Guru instance",
+      "required": false,
+      "default": "https://api.resourceguruapp.com"
+    },
     "resourceguru_email": {
       "type": "string",
       "title": "RESOURCEGURU_EMAIL",

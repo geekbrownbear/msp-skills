@@ -16,7 +16,8 @@
       "args": [],
       "env": {
         "ROOTLY_API_KEY": "${user_config.rootly_api_key}",
-        "ROOTLY_API_TOKEN": "${user_config.rootly_api_token}"
+        "ROOTLY_API_TOKEN": "${user_config.rootly_api_token}",
+        "ROOTLY_BASE_URL": "${user_config.rootly_base_url}"
       }
     }
   },
@@ -33,6 +34,13 @@
       "title": "ROOTLY_API_TOKEN",
       "description": "Optional. Accepted as an alias for ROOTLY_API_KEY (the variable the Rootly MCP server uses).",
       "sensitive": true
+    },
+    "rootly_base_url": {
+      "type": "string",
+      "title": "ROOTLY_BASE_URL",
+      "description": "Base URL of your Rootly instance",
+      "required": false,
+      "default": "https://api.rootly.com"
     }
   },
   "compatibility": {

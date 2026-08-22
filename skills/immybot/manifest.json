@@ -15,23 +15,22 @@
       "command": "${__dirname}/bin/immybot-mcp",
       "args": [],
       "env": {
+        "IMMYBOT_BASE_URL": "${user_config.immybot_base_url}",
+        "IMMYBOT_CLIENT_ID": "${user_config.immybot_client_id}",
+        "IMMYBOT_CLIENT_SECRET": "${user_config.immybot_client_secret}",
+        "IMMYBOT_OAUTH_SCOPE": "${user_config.immybot_oauth_scope}",
         "IMMYBOT_SUBDOMAIN": "${user_config.immybot_subdomain}",
         "IMMYBOT_TENANT_ID": "${user_config.immybot_tenant_id}",
-        "IMMYBOT_CLIENT_ID": "${user_config.immybot_client_id}",
-        "IMMYBOT_CLIENT_SECRET": "${user_config.immybot_client_secret}"
+        "IMMYBOT_TOKEN_URL": "${user_config.immybot_token_url}"
       }
     }
   },
   "user_config": {
-    "immybot_subdomain": {
+    "immybot_base_url": {
       "type": "string",
-      "title": "IMMYBOT_SUBDOMAIN",
-      "description": "Your ImmyBot instance subdomain - the \"acme\" in acme.immy.bot. Required: it derives the OAuth scope, and without it the token request falls back to a scope naming your own app registration and Entra rejects it."
-    },
-    "immybot_tenant_id": {
-      "type": "string",
-      "title": "IMMYBOT_TENANT_ID",
-      "description": "Directory (tenant) ID of the Microsoft Entra tenant your ImmyBot instance trusts."
+      "title": "IMMYBOT_BASE_URL",
+      "description": "Base URL of your ImmyBot instance",
+      "required": false
     },
     "immybot_client_id": {
       "type": "string",
@@ -44,6 +43,28 @@
       "title": "IMMYBOT_CLIENT_SECRET",
       "description": "Client secret paired with IMMYBOT_CLIENT_ID, from the Entra app registration.",
       "sensitive": true
+    },
+    "immybot_oauth_scope": {
+      "type": "string",
+      "title": "IMMYBOT_OAUTH_SCOPE",
+      "description": "IMMYBOT_OAUTH_SCOPE for ImmyBot",
+      "required": true
+    },
+    "immybot_subdomain": {
+      "type": "string",
+      "title": "IMMYBOT_SUBDOMAIN",
+      "description": "Your ImmyBot instance subdomain - the \"acme\" in acme.immy.bot. Required: it derives the OAuth scope, and without it the token request falls back to a scope naming your own app registration and Entra rejects it."
+    },
+    "immybot_tenant_id": {
+      "type": "string",
+      "title": "IMMYBOT_TENANT_ID",
+      "description": "Directory (tenant) ID of the Microsoft Entra tenant your ImmyBot instance trusts."
+    },
+    "immybot_token_url": {
+      "type": "string",
+      "title": "IMMYBOT_TOKEN_URL",
+      "description": "OAuth2 token endpoint for ImmyBot",
+      "required": false
     }
   },
   "compatibility": {

@@ -16,6 +16,7 @@
       "args": [],
       "env": {
         "SYNCRO_API_KEY": "${user_config.syncro_api_key}",
+        "SYNCRO_BASE_URL": "${user_config.syncro_base_url}",
         "SYNCRO_SUBDOMAIN": "${user_config.syncro_subdomain}"
       }
     }
@@ -27,6 +28,12 @@
       "description": "Sets SYNCRO_API_KEY for the Syncro MCP server. Get a credential from https://syncromsp.com.",
       "sensitive": true,
       "required": true
+    },
+    "syncro_base_url": {
+      "type": "string",
+      "title": "SYNCRO_BASE_URL",
+      "description": "Base URL of your Syncro instance",
+      "required": false
     },
     "syncro_subdomain": {
       "type": "string",

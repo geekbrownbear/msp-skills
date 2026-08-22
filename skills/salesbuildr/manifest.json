@@ -16,6 +16,7 @@
       "args": [],
       "env": {
         "SALESBUILDR_API_KEY": "${user_config.salesbuildr_api_key}",
+        "SALESBUILDR_BASE_URL": "${user_config.salesbuildr_base_url}",
         "SALESBUILDR_TENANT": "${user_config.salesbuildr_tenant}"
       }
     }
@@ -27,6 +28,12 @@
       "description": "Sets SALESBUILDR_API_KEY for the Salesbuildr MCP server.",
       "sensitive": true,
       "required": true
+    },
+    "salesbuildr_base_url": {
+      "type": "string",
+      "title": "SALESBUILDR_BASE_URL",
+      "description": "Base URL of your Salesbuildr instance",
+      "required": false
     },
     "salesbuildr_tenant": {
       "type": "string",

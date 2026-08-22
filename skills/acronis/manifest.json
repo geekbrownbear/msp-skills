@@ -15,16 +15,38 @@
       "command": "${__dirname}/bin/acronis-pp-mcp",
       "args": [],
       "env": {
+        "ACRONIS_BASE_URL": "${user_config.acronis_base_url}",
         "ACRONIS_BEARER_AUTH": "${user_config.acronis_bearer_auth}",
+        "ACRONIS_CLIENT_ID": "${user_config.acronis_client_id}",
+        "ACRONIS_CLIENT_SECRET": "${user_config.acronis_client_secret}",
         "ACRONIS_DATACENTER": "${user_config.acronis_datacenter}"
       }
     }
   },
   "user_config": {
+    "acronis_base_url": {
+      "type": "string",
+      "title": "ACRONIS_BASE_URL",
+      "description": "Base URL of your Acronis Cyber Protect Cloud instance",
+      "required": false
+    },
     "acronis_bearer_auth": {
       "type": "string",
       "title": "ACRONIS_BEARER_AUTH",
       "description": "Sets ACRONIS_BEARER_AUTH for the Acronis Cyber Protect Cloud MCP server.",
+      "sensitive": true,
+      "required": true
+    },
+    "acronis_client_id": {
+      "type": "string",
+      "title": "ACRONIS_CLIENT_ID",
+      "description": "OAuth2 client ID from your Acronis Cyber Protect Cloud API application",
+      "required": true
+    },
+    "acronis_client_secret": {
+      "type": "string",
+      "title": "ACRONIS_CLIENT_SECRET",
+      "description": "OAuth2 client secret from your Acronis Cyber Protect Cloud API application",
       "sensitive": true,
       "required": true
     },

@@ -13,7 +13,10 @@
     "entry_point": "bin/aws-billing-pp-mcp",
     "mcp_config": {
       "command": "${__dirname}/bin/aws-billing-pp-mcp",
-      "args": []
+      "args": [],
+      "env": {
+        "AWS_BILLING_BASE_URL": "${user_config.aws_billing_base_url}"
+      }
     }
   },
   "compatibility": {
@@ -30,5 +33,14 @@
     "generated_at": "2026-05-29T13:31:43.609978Z",
     "spec_checksum": "sha256:af1aceb7a81137cfe09c8ee210dd8c119885063f62621544bd7dc82398fffb98",
     "spec_format": "internal"
+  },
+  "user_config": {
+    "aws_billing_base_url": {
+      "type": "string",
+      "title": "AWS_BILLING_BASE_URL",
+      "description": "AWS_BILLING_BASE_URL for AWS",
+      "required": false,
+      "default": "https://ce.us-east-1.amazonaws.com"
+    }
   }
 }

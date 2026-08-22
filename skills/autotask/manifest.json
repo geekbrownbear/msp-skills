@@ -16,6 +16,7 @@
       "args": [],
       "env": {
         "AUTOTASK_API_INTEGRATION_CODE": "${user_config.autotask_api_integration_code}",
+        "AUTOTASK_BASE_URL": "${user_config.autotask_base_url}",
         "AUTOTASK_PSA_SECRET": "${user_config.autotask_psa_secret}",
         "AUTOTASK_PSA_USER_NAME": "${user_config.autotask_psa_user_name}"
       }
@@ -28,6 +29,13 @@
       "description": "Sets AUTOTASK_API_INTEGRATION_CODE for the Autotask PSA MCP server.",
       "sensitive": true,
       "required": true
+    },
+    "autotask_base_url": {
+      "type": "string",
+      "title": "AUTOTASK_BASE_URL",
+      "description": "Base URL of your Autotask PSA instance",
+      "required": false,
+      "default": "https://webservices5.autotask.net/atservicesrest/V1.0"
     },
     "autotask_psa_secret": {
       "type": "string",

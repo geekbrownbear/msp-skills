@@ -16,7 +16,10 @@
       "args": [],
       "env": {
         "UNIFI_API_KEY": "${user_config.unifi_api_key}",
-        "UNIFI_GATEWAY_HOST": "${user_config.unifi_gateway_host}"
+        "UNIFI_BASE_PATH": "${user_config.unifi_base_path}",
+        "UNIFI_BASE_URL": "${user_config.unifi_base_url}",
+        "UNIFI_GATEWAY_HOST": "${user_config.unifi_gateway_host}",
+        "UNIFI_INSECURE_SKIP_VERIFY": "${user_config.unifi_insecure_skip_verify}"
       }
     }
   },
@@ -28,11 +31,29 @@
       "required": true,
       "description": "Local API key from the gateway UI: Settings > Control Plane > Integrations > Create API Key."
     },
+    "unifi_base_path": {
+      "type": "string",
+      "title": "UNIFI_BASE_PATH",
+      "description": "UNIFI_BASE_PATH for UniFi Network",
+      "required": true
+    },
+    "unifi_base_url": {
+      "type": "string",
+      "title": "UNIFI_BASE_URL",
+      "description": "Base URL of your UniFi Network instance",
+      "required": true
+    },
     "unifi_gateway_host": {
       "type": "string",
       "title": "Gateway host",
       "required": true,
       "description": "Hostname or IP of the UniFi OS gateway on your network, e.g. 10.0.0.1 (the CLI adds the /proxy/network prefix)."
+    },
+    "unifi_insecure_skip_verify": {
+      "type": "string",
+      "title": "UNIFI_INSECURE_SKIP_VERIFY",
+      "description": "UNIFI_INSECURE_SKIP_VERIFY for UniFi Network",
+      "required": true
     }
   },
   "compatibility": {

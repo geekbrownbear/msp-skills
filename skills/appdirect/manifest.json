@@ -15,13 +15,22 @@
       "command": "${__dirname}/bin/appdirect-mcp",
       "args": [],
       "env": {
+        "APPDIRECT_BASE_URL": "${user_config.appdirect_base_url}",
         "APPDIRECT_CLIENT_ID": "${user_config.appdirect_client_id}",
         "APPDIRECT_CLIENT_SECRET": "${user_config.appdirect_client_secret}",
-        "APPDIRECT_OAUTH_SCOPE": "${user_config.appdirect_oauth_scope}"
+        "APPDIRECT_OAUTH_SCOPE": "${user_config.appdirect_oauth_scope}",
+        "APPDIRECT_TOKEN_URL": "${user_config.appdirect_token_url}"
       }
     }
   },
   "user_config": {
+    "appdirect_base_url": {
+      "type": "string",
+      "title": "APPDIRECT_BASE_URL",
+      "description": "Base URL of your AppDirect instance",
+      "required": false,
+      "default": "https://marketplace.appdirect.com/api"
+    },
     "appdirect_client_id": {
       "type": "string",
       "title": "APPDIRECT_CLIENT_ID",
@@ -42,6 +51,13 @@
       "description": "Sets APPDIRECT_OAUTH_SCOPE for the AppDirect MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
       "sensitive": true,
       "required": true
+    },
+    "appdirect_token_url": {
+      "type": "string",
+      "title": "APPDIRECT_TOKEN_URL",
+      "description": "OAuth2 token endpoint for AppDirect",
+      "required": false,
+      "default": "https://marketplace.appdirect.com/api"
     }
   },
   "compatibility": {

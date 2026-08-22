@@ -15,13 +15,22 @@
       "command": "${__dirname}/bin/action1-mcp",
       "args": [],
       "env": {
+        "ACTION1_BASE_URL": "${user_config.action1_base_url}",
         "ACTION1_CLIENT_ID": "${user_config.action1_client_id}",
         "ACTION1_CLIENT_SECRET": "${user_config.action1_client_secret}",
-        "ACTION1_REGION": "${user_config.action1_region}"
+        "ACTION1_OAUTH2": "${user_config.action1_oauth2}",
+        "ACTION1_ORG_ID": "${user_config.action1_org_id}"
       }
     }
   },
   "user_config": {
+    "action1_base_url": {
+      "type": "string",
+      "title": "ACTION1_BASE_URL",
+      "description": "Base URL of your Action1 instance",
+      "required": false,
+      "default": "https://app.action1.com/api/3.0"
+    },
     "action1_client_id": {
       "type": "string",
       "title": "ACTION1_CLIENT_ID",
@@ -34,11 +43,17 @@
       "description": "Client Secret paired with ACTION1_CLIENT_ID, from the Action1 console's API Credentials page.",
       "sensitive": true
     },
-    "action1_region": {
+    "action1_oauth2": {
       "type": "string",
-      "title": "ACTION1_REGION",
-      "description": "Data-center shortcut: us (default), eu, or au. Match the region of your Action1 console URL.",
-      "default": "us"
+      "title": "ACTION1_OAUTH2",
+      "description": "ACTION1_OAUTH2 for Action1",
+      "required": true
+    },
+    "action1_org_id": {
+      "type": "string",
+      "title": "ACTION1_ORG_ID",
+      "description": "Organization ID in Action1",
+      "required": true
     }
   },
   "compatibility": {

@@ -16,6 +16,7 @@
       "args": [],
       "env": {
         "PROOFPOINT_API_SECRET": "${user_config.proofpoint_api_secret}",
+        "PROOFPOINT_BASE_URL": "${user_config.proofpoint_base_url}",
         "PROOFPOINT_SERVICE_PRINCIPAL": "${user_config.proofpoint_service_principal}"
       }
     }
@@ -27,6 +28,13 @@
       "description": "Sets PROOFPOINT_API_SECRET for the Proofpoint TAP MCP server.",
       "sensitive": true,
       "required": true
+    },
+    "proofpoint_base_url": {
+      "type": "string",
+      "title": "PROOFPOINT_BASE_URL",
+      "description": "Base URL of your Proofpoint TAP instance",
+      "required": false,
+      "default": "https://tap-api-v2.proofpoint.com/v2"
     },
     "proofpoint_service_principal": {
       "type": "string",

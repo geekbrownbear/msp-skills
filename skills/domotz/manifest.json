@@ -16,6 +16,7 @@
       "args": [],
       "env": {
         "DOMOTZ_API_KEY": "${user_config.domotz_api_key}",
+        "DOMOTZ_BASE_URL": "${user_config.domotz_base_url}",
         "DOMOTZ_REGION": "${user_config.domotz_region}"
       }
     }
@@ -27,6 +28,12 @@
       "description": "Sets DOMOTZ_API_KEY for the Domotz MCP server. Get a credential from https://portal.domotz.com/portal/settings/services?selected_menu=api_keys.",
       "sensitive": true,
       "required": true
+    },
+    "domotz_base_url": {
+      "type": "string",
+      "title": "DOMOTZ_BASE_URL",
+      "description": "Base URL of your Domotz instance",
+      "required": false
     },
     "domotz_region": {
       "type": "string",

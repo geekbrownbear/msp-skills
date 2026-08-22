@@ -15,7 +15,8 @@
       "command": "${__dirname}/bin/cork-mcp",
       "args": [],
       "env": {
-        "CORK_API_KEY": "${user_config.cork_api_key}"
+        "CORK_API_KEY": "${user_config.cork_api_key}",
+        "CORK_BASE_URL": "${user_config.cork_base_url}"
       }
     }
   },
@@ -26,6 +27,13 @@
       "description": "Sets CORK_API_KEY for the Cork MCP server.",
       "sensitive": true,
       "required": true
+    },
+    "cork_base_url": {
+      "type": "string",
+      "title": "CORK_BASE_URL",
+      "description": "Base URL of your Cork instance",
+      "required": false,
+      "default": "https://api.corkinc.com/api/v1"
     }
   },
   "compatibility": {

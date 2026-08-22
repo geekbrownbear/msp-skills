@@ -15,11 +15,26 @@
       "command": "${__dirname}/bin/servosity-mcp",
       "args": [],
       "env": {
+        "SERVOSITY_MSP_BASE_URL": "${user_config.servosity_msp_base_url}",
+        "SERVOSITY_MSP_RESELLER_ID": "${user_config.servosity_msp_reseller_id}",
         "SERVOSITY_MSP_TOKEN": "${user_config.servosity_msp_token}"
       }
     }
   },
   "user_config": {
+    "servosity_msp_base_url": {
+      "type": "string",
+      "title": "SERVOSITY_MSP_BASE_URL",
+      "description": "SERVOSITY_MSP_BASE_URL for Servosity",
+      "required": false,
+      "default": "https://api.servosity.com/api/v1"
+    },
+    "servosity_msp_reseller_id": {
+      "type": "string",
+      "title": "SERVOSITY_MSP_RESELLER_ID",
+      "description": "SERVOSITY_MSP_RESELLER_ID for Servosity",
+      "required": true
+    },
     "servosity_msp_token": {
       "type": "string",
       "title": "SERVOSITY_MSP_TOKEN",

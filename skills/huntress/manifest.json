@@ -16,7 +16,8 @@
       "args": [],
       "env": {
         "HUNTRESS_API_KEY": "${user_config.huntress_api_key}",
-        "HUNTRESS_API_SECRET": "${user_config.huntress_api_secret}"
+        "HUNTRESS_API_SECRET": "${user_config.huntress_api_secret}",
+        "HUNTRESS_BASE_URL": "${user_config.huntress_base_url}"
       }
     }
   },
@@ -34,6 +35,13 @@
       "description": "Sets HUNTRESS_API_SECRET for the Huntress MCP server. Get a credential from https://www.huntress.com/terms-of-service.",
       "sensitive": true,
       "required": true
+    },
+    "huntress_base_url": {
+      "type": "string",
+      "title": "HUNTRESS_BASE_URL",
+      "description": "Base URL of your Huntress instance",
+      "required": false,
+      "default": "https://api.huntress.io"
     }
   },
   "compatibility": {

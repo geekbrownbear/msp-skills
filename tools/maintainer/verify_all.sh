@@ -49,6 +49,7 @@ if run python3 tools/maintainer/check_cli_claims.py --warn; then pass "CLI claim
 echo "== Repo gates =="
 if run python3 tools/maintainer/check_registry_state.py;  then pass "registry state";      else fail "registry state";      fi
 if run python3 tools/maintainer/check_skill_contract.py;  then pass "skill contract";      else fail "skill contract";      fi
+if run python3 tools/maintainer/check_env_schema.py;      then pass "env schema";           else fail "env schema";           fi
 if run python3 tools/maintainer/check_md_links.py;        then pass "markdown links";      else fail "markdown links";      fi
 if run python3 tools/maintainer/check_release_contract.py; then pass "release contract";   else fail "release contract";    fi
 if run python3 tools/maintainer/check_social_assets.py;   then pass "social assets";       else fail "social assets";       fi

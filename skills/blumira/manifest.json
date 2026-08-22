@@ -16,6 +16,7 @@
       "args": [],
       "env": {
         "BLUMIRA_API_TOKEN": "${user_config.blumira_api_token}",
+        "BLUMIRA_BASE_URL": "${user_config.blumira_base_url}",
         "BLUMIRA_CLIENT_ID": "${user_config.blumira_client_id}",
         "BLUMIRA_CLIENT_SECRET": "${user_config.blumira_client_secret}"
       }
@@ -27,6 +28,13 @@
       "title": "BLUMIRA_API_TOKEN",
       "description": "Optional. Blumira JWT bearer token. Minted+cached by `auth login`, or set directly. Set this OR BLUMIRA_CLIENT_ID + BLUMIRA_CLIENT_SECRET.",
       "sensitive": true
+    },
+    "blumira_base_url": {
+      "type": "string",
+      "title": "BLUMIRA_BASE_URL",
+      "description": "Base URL of your Blumira instance",
+      "required": false,
+      "default": "https://api.blumira.com/public-api/v1"
     },
     "blumira_client_id": {
       "type": "string",

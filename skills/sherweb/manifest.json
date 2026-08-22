@@ -15,14 +15,23 @@
       "command": "${__dirname}/bin/sherweb-mcp",
       "args": [],
       "env": {
+        "SHERWEB_BASE_URL": "${user_config.sherweb_base_url}",
         "SHERWEB_CLIENT_ID": "${user_config.sherweb_client_id}",
         "SHERWEB_CLIENT_SECRET": "${user_config.sherweb_client_secret}",
         "SHERWEB_OAUTH_SCOPE": "${user_config.sherweb_oauth_scope}",
-        "SHERWEB_SUBSCRIPTION_KEY": "${user_config.sherweb_subscription_key}"
+        "SHERWEB_SUBSCRIPTION_KEY": "${user_config.sherweb_subscription_key}",
+        "SHERWEB_TOKEN_URL": "${user_config.sherweb_token_url}"
       }
     }
   },
   "user_config": {
+    "sherweb_base_url": {
+      "type": "string",
+      "title": "SHERWEB_BASE_URL",
+      "description": "Base URL of your Sherweb instance",
+      "required": false,
+      "default": "https://api.sherweb.com"
+    },
     "sherweb_client_id": {
       "type": "string",
       "title": "SHERWEB_CLIENT_ID",
@@ -50,6 +59,13 @@
       "description": "APIM gateway subscription key from cumulus.sherweb.com Security > APIs.",
       "sensitive": true,
       "required": true
+    },
+    "sherweb_token_url": {
+      "type": "string",
+      "title": "SHERWEB_TOKEN_URL",
+      "description": "OAuth2 token endpoint for Sherweb",
+      "required": false,
+      "default": "https://api.sherweb.com"
     }
   },
   "compatibility": {
