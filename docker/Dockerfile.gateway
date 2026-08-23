@@ -1,0 +1,22 @@
+# The gateway: the only service in this deployment that publishes a port.
+# Hand-authored. Build context is tools/mcp-gateway, a stdlib-only Go module.
+
+ARG GO_VERSION=1.26
+ARG ALPINE_VERSION=3.20
+
+FROM golang:${GO_VERSION}-alpine AS build
+WORKDIR /src
+COPY . .
+ENV CGO_ENABLED=0
+RUN go build -trimpath -ldflags "-s -w" -o /out/msp-mcp-gateway .
+
+FROM alpine:${ALPINE_VERSION}
+RUN apk add --no-cache ca-certificates tzdata \
+ && addgroup -g 10002 -S gw \
+ && adduser -u 10002 -S -G gw -h /var/lib/msp-mcp-gateway gw \
+ && mkdir -p /var/lib/msp-mcp-gateway \
+ && chown -R 10002:10002 /var/lib/msp-mcp-gateway
+COPY --from=build /out/msp-mcp-gateway /usr/local/bin/msp-mcp-gateway
+USER 10002:10002
+ENTRYPOINT ["/usr/local/bin/msp-mcp-gateway"]
+CMD ["-config", "/etc/msp-mcp-gateway/gateway.json"]

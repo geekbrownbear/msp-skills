@@ -1,0 +1,42 @@
+# GATEWAY overlay. Hand-authored, not generated.
+#
+# This is the only service that publishes a port, and it is why the connectors
+# do not have to. Bind it to a specific LAN address in docker/.env:
+#
+#   MSP_GATEWAY_BIND=10.0.0.5
+#   MSP_GATEWAY_PORT=8080
+#
+# Never 0.0.0.0. Docker publishes ports ahead of ufw and firewalld, so a
+# wildcard bind can expose this on interfaces you believe are firewalled.
+# The gateway itself refuses to start on a wildcard bind.
+
+services:
+  gateway:
+    profiles: [gateway]
+    build:
+      context: ../tools/mcp-gateway
+      dockerfile: ../../docker/Dockerfile.gateway
+    container_name: msp-gateway
+    ports:
+      - "${MSP_GATEWAY_BIND:?set MSP_GATEWAY_BIND to a specific LAN address}:${MSP_GATEWAY_PORT:-8080}:8080"
+    volumes:
+      - ${MSP_GATEWAY_CONFIG:?set MSP_GATEWAY_CONFIG to your gateway.json}:/etc/msp-mcp-gateway/gateway.json:ro
+      - msp-gateway-audit:/var/lib/msp-mcp-gateway
+    environment:
+      # Correct inside a container: the namespace is the boundary and the
+      # ports mapping above restricts the host side to one address.
+      MSP_GATEWAY_ALLOW_WILDCARD_BIND: "1"
+    networks: [msp-internal]
+    read_only: true
+    tmpfs:
+      - /tmp
+    restart: unless-stopped
+    mem_limit: 256m
+    pids_limit: 128
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+volumes:
+  msp-gateway-audit:
