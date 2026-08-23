@@ -224,6 +224,25 @@
           "min_count": 1
         }
       ]
+    },
+    {
+      "id": "immybot-doctor-counts-mintable-credentials",
+      "summary": "doctor reports auth configured when client credentials are present but no token has been minted yet",
+      "why": "doctor keyed on AuthHeader(), which is empty until a token exists, while the client mints one lazily on the first request. An operator with every credential correctly set was told auth was \"not configured\". Found running containerized against a live tenant: doctor reported not configured and the very next live read succeeded, so the connector was working and only the diagnostic was wrong. That is the worst shape for a health check, because it sends someone to re-do configuration that was already right. Fixed centrally in Config.CredentialConfigured() rather than in doctor, so every caller of it agrees.",
+      "status": "active",
+      "spec_encode_followup": "Teach the press doctor template that lazily-minted client credentials count as configured, and audit which other connectors key their auth check on a cached token.",
+      "asserts": [
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "func (c *Config) CanMintToken()",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "return c.CanMintToken()",
+          "min_count": 1
+        }
+      ]
     }
   ]
 }

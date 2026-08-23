@@ -409,7 +409,26 @@ func (c *Config) CredentialConfigured() bool {
 	if c == nil {
 		return false
 	}
-	return c.AuthHeader() != ""
+	if c.AuthHeader() != "" {
+		return true
+	}
+	// Client credentials count as configured even before the first mint.
+	// AuthHeader() is empty until a token exists, and the client mints one
+	// lazily on the first request, so keying only on the header told an
+	// operator who had set all four IMMYBOT_* variables that auth was "not
+	// configured" while the connector was in fact about to work. Confirmed
+	// against a live tenant: doctor reported not configured and the very next
+	// live read returned 25 records.
+	return c.CanMintToken()
+}
+
+// CanMintToken reports whether the client-credentials inputs are all present,
+// whatever their source.
+func (c *Config) CanMintToken() bool {
+	if c == nil {
+		return false
+	}
+	return c.ClientID != "" && c.ClientSecret != "" && c.ImmybotTenantId != ""
 }
 
 func applyAuthFormat(format string, replacements map[string]string) string {

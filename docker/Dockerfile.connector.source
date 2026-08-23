@@ -53,8 +53,9 @@ COPY --from=build /out/${CLI_BINARY} /usr/local/bin/${CLI_BINARY}
 COPY --from=build /out/${MCP_BINARY} /usr/local/bin/${MCP_BINARY}
 COPY --from=build /src/docker-entrypoint.sh /usr/local/bin/entrypoint.sh
 
-RUN ln -s "/usr/local/bin/${CLI_BINARY}" /usr/local/bin/cli \
- && ln -s "/usr/local/bin/${MCP_BINARY}" /usr/local/bin/mcp \
+RUN printf '#!/bin/sh\nexec /usr/local/bin/entrypoint.sh cli "$@"\n' > /usr/local/bin/cli \
+ && printf '#!/bin/sh\nexec /usr/local/bin/entrypoint.sh mcp "$@"\n' > /usr/local/bin/mcp \
+ && chmod 0755 /usr/local/bin/cli /usr/local/bin/mcp \
  && addgroup -g 10001 -S msp \
  && adduser -u 10001 -S -G msp -h /data msp \
  && mkdir -p /data \

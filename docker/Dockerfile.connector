@@ -85,8 +85,18 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 # `docker compose exec <slug> cli sync --full`, fails with "executable file not
 # found". They also make the operator command identical across all 64
 # connectors instead of requiring the right <slug>-cli name each time.
-RUN ln -s "/usr/local/bin/${CLI_BINARY}" /usr/local/bin/cli \
- && ln -s "/usr/local/bin/${MCP_BINARY}" /usr/local/bin/mcp
+# Wrappers, not symlinks. `docker exec` does not run ENTRYPOINT, so a bare
+# symlink to the CLI would skip the credential setup entirely: FOO_FILE
+# expansion and MSP_CREDENTIAL_PROVIDER would never run, and
+# `docker compose exec <slug> cli sync --full` would authenticate as nobody
+# while the MCP server beside it was perfectly configured. Verified: PID 1 had
+# all four IMMYBOT_* variables and an exec'd process had none.
+#
+# Re-entering the entrypoint gives exec'd commands the same environment the
+# server gets, from one implementation.
+RUN printf '#!/bin/sh\nexec /usr/local/bin/entrypoint.sh cli "$@"\n' > /usr/local/bin/cli \
+ && printf '#!/bin/sh\nexec /usr/local/bin/entrypoint.sh mcp "$@"\n' > /usr/local/bin/mcp \
+ && chmod 0755 /usr/local/bin/cli /usr/local/bin/mcp
 
 RUN addgroup -g 10001 -S msp \
  && adduser -u 10001 -S -G msp -h /data msp \

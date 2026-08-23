@@ -183,7 +183,13 @@ def render_service(slug, skills, http, ncw_var):
     lines.append(f'        VERSION: "${{{version_var}:-{version}}}"')
     lines.append(f"    container_name: msp-{slug}")
     lines.append("    env_file:")
-    lines.append(f"      - env/{slug}.env")
+    # required:false because credentials can legitimately arrive another way
+    # (compose.secrets.yml, a secret store, plain environment). Compose treats a
+    # missing env_file as a hard error by default, which would refuse to start a
+    # correctly configured connector. `<slug>-cli doctor` is the real check for
+    # whether credentials arrived, and it reports their source.
+    lines.append(f"      - path: env/{slug}.env")
+    lines.append("        required: false")
     lines.append("    environment:")
     # HOME is the one lever that relocates storage for all 64 connectors: 54 of
     # them build their paths from os.UserHomeDir() and never consult XDG.
@@ -211,6 +217,54 @@ def render_service(slug, skills, http, ncw_var):
     lines.append("    cap_drop:")
     lines.append("      - ALL")
     return "\n".join(lines)
+
+
+def render_secrets_overlay(slugs):
+    """docker/compose.secrets.yml: read credentials from files on the Docker host.
+
+    Compose reads env_file on the machine running the CLI, which is not
+    necessarily the machine running the daemon. For a remote daemon that means
+    credentials must sit on the operator's workstation, which is exactly where
+    an MSP does not want them.
+
+    This overlay bind-mounts one file per connector from the Docker host and
+    feeds it through MSP_CREDENTIAL_PROVIDER, which the entrypoint already
+    supports. Nothing new is needed in the image.
+    """
+    out = [
+        GENERATED_BANNER,
+        "# OPTIONAL overlay: credentials live on the Docker host, not here.",
+        "#",
+        "# Set MSP_SECRETS_DIR in docker/.env to a directory ON THE DOCKER HOST",
+        "# holding one <slug>.env per connector, then:",
+        "#",
+        "# Each file must be readable by uid 10001, which is what the containers",
+        "# run as. The host file's own owner and mode apply inside the container,",
+        "# so a file owned by your login account at 0600 gives Permission denied:",
+        "#",
+        "#   chown 10001:10001 <dir>/*.env && chmod 0400 <dir>/*.env",
+        "#",
+        "# Keep the directory itself 0700 so other host accounts cannot reach in.",
+        "#",
+        "#",
+        "#   docker compose -f compose.yml -f compose.secrets.yml --profile <slug> up -d",
+        "#",
+        "# The files are mounted read-only and never leave that host. They are",
+        "# still visible to anyone with daemon access there, which is the same",
+        "# trust boundary the rest of this deployment already assumes.",
+        "",
+        "services:",
+    ]
+    for slug in slugs:
+        out.append(f"  {slug}:")
+        out.append("    volumes:")
+        out.append(
+            f"      - ${{MSP_SECRETS_DIR:?set MSP_SECRETS_DIR in docker/.env}}/{slug}.env:/run/secrets/connector.env:ro"
+        )
+        out.append("    environment:")
+        out.append('      MSP_CREDENTIAL_PROVIDER: "cat /run/secrets/connector.env"')
+    out.append("")
+    return "\n".join(out)
 
 
 def render_root_env(slugs, skills):
@@ -310,9 +364,11 @@ def main(out_dir=None):
         )
 
     (docker / ".env.example").write_text(render_root_env(slugs, skills))
+    (docker / "compose.secrets.yml").write_text(render_secrets_overlay(slugs))
 
     print(f"wrote docker/compose.yml ({len(slugs)} connector services)")
     print("wrote docker/.env.example")
+    print("wrote docker/compose.secrets.yml")
     print(f"wrote docker/env/<slug>.env.example ({len(slugs)} files)")
     if stdio_only:
         print(

@@ -98,7 +98,16 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 			authConfigured := false
 			if cfg != nil {
 				header := cfg.AuthHeader()
-				if header == "" {
+				// A token is minted lazily on the first request, so an empty
+				// header with client credentials present is "ready", not
+				// "unconfigured". Reporting otherwise tells a correctly
+				// configured operator their setup is broken.
+				if header == "" && cfg.CanMintToken() {
+					report["auth"] = "configured"
+					report["auth_source"] = cfg.AuthSource
+					report["auth_detail"] = "client credentials present; a token is minted on first request"
+					authConfigured = true
+				} else if header == "" {
 					report["auth"] = "not configured"
 					// issue #277: this CLI ships auth login/status/set-token/logout and no
 					// `auth setup`. Cobra does not error on an unknown subcommand of a

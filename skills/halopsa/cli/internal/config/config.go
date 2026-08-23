@@ -210,6 +210,18 @@ func (c *Config) AuthHeader() string {
 	return ""
 }
 
+// CanMintToken reports whether the client-credentials inputs are present.
+//
+// Mirrors the condition Client.authHeader already uses to decide whether to
+// mint (both clientID and clientSecret non-empty), so doctor and the request
+// path agree on what "configured" means.
+func (c *Config) CanMintToken() bool {
+	if c == nil {
+		return false
+	}
+	return c.ClientID != "" && c.ClientSecret != ""
+}
+
 func applyAuthFormat(format string, replacements map[string]string) string {
 	if format == "" {
 		return ""

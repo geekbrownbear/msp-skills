@@ -44,7 +44,21 @@ expand_file_vars() {
 run_credential_provider() {
     [ -n "${MSP_CREDENTIAL_PROVIDER:-}" ] || return 0
     log "running credential provider: ${MSP_CREDENTIAL_PROVIDER}"
-    output=$(sh -c "${MSP_CREDENTIAL_PROVIDER}") || die "credential provider failed"
+    if ! output=$(sh -c "${MSP_CREDENTIAL_PROVIDER}" 2>&1); then
+        log "ERROR: credential provider failed: ${output}"
+        case "${output}" in
+            *"Permission denied"*)
+                log ""
+                log "       This container runs as uid $(id -u). A bind-mounted secret"
+                log "       file must be readable by that uid: the host file's own mode"
+                log "       and owner apply inside the container, and a file owned by"
+                log "       your login account at mode 0600 is not readable here."
+                log ""
+                log "       On the Docker host:  chown 10001:10001 <file> && chmod 0400 <file>"
+                ;;
+        esac
+        exit 1
+    fi
     echo "${output}" | while IFS= read -r line; do
         case "${line}" in
             ''|'#'*) continue ;;
@@ -118,8 +132,6 @@ mcp_args() {
     fi
 }
 
-assert_http_capable
-
 case "${1:-}" in
     cli)
         shift
@@ -127,10 +139,12 @@ case "${1:-}" in
         ;;
     mcp)
         shift
+        assert_http_capable
         # shellcheck disable=SC2046
         exec "${mcp}" $(mcp_args) "$@"
         ;;
     '')
+        assert_http_capable
         # shellcheck disable=SC2046
         exec "${mcp}" $(mcp_args)
         ;;
