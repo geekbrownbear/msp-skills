@@ -518,6 +518,10 @@ func (c *Config) applyCredentials(creds *cliutil.Credentials) {
 }
 
 func (c *Config) saveCredentialsFirst() error {
+	if c.PersistenceDisabled() {
+		c.CredentialSource = "environment (persistence disabled)"
+		return nil
+	}
 	if c.AgentcookieManagedByExternalStore() {
 		c.markAgentcookieManaged()
 		return nil
@@ -675,8 +679,41 @@ func (c *Config) updateFileConfigField(field string) {
 	}
 }
 
+// PersistenceDisabled reports whether the operator has asked that nothing be
+// written to disk, via IMMYBOT_NO_CONFIG_WRITE.
+//
+// #268 already stopped env-supplied client credentials from reaching the file.
+// What remained was the minted access and refresh token, which SaveTokens
+// deliberately persists because those values originate in that call. That is
+// the right default for a laptop, where re-minting on every invocation is
+// wasteful. It is the wrong default for two cases raised in #270 and #282:
+//
+//   - an operator whose credentials live in an OS keychain and who does not
+//     want a plaintext token cache alongside them, and
+//   - a container whose data directory is the thing being backed up, where a
+//     persisted token means a restored snapshot carries live tenant
+//     credentials with it.
+//
+// The cost is one token mint per process. A long-lived MCP server pays it once
+// and keeps the token in memory for its lifetime, so the common remote case is
+// cheaper than the laptop case, not dearer.
+func (c *Config) PersistenceDisabled() bool {
+	v := strings.TrimSpace(os.Getenv("IMMYBOT_NO_CONFIG_WRITE"))
+	return v != "" && v != "0" && !strings.EqualFold(v, "false")
+}
+
 func (c *Config) save() error {
 	persisted := c.configForSave()
+	if c.PersistenceDisabled() {
+		// Keep the in-memory snapshot coherent so this process behaves exactly
+		// as it would have; only the write is skipped.
+		c.fileConfig = &persisted
+		c.fileConfig.envOverrides = nil
+		c.fileConfig.fileConfig = nil
+		c.fileConfig.Headers = cloneStringMap(c.fileConfig.Headers)
+		c.fileConfig.TemplateVars = cloneStringMap(c.fileConfig.TemplateVars)
+		return nil
+	}
 	var persist any = persisted
 	if !c.AgentcookieManagedByExternalStore() {
 		persist = persisted.persisted()

@@ -709,7 +709,7 @@
       "category": "RMM",
       "display_name": "ImmyBot",
       "tagline": "Triage a night of failed maintenance by root cause, and rank one title across every tenant.",
-      "cli_hash": "sha256:f7a3c20983dede2bc9e2ecabf292b8e5205c25509e53cb63f719dfc0b9eca7aa",
+      "cli_hash": "sha256:f24472d08acd46a4eb4c693c88f0172c12c263f8488f6f28e28d90ce584fafc0",
       "template_version": 3,
       "version": "0.1.0",
       "cli_hash_at_release": "sha256:f7a3c20983dede2bc9e2ecabf292b8e5205c25509e53cb63f719dfc0b9eca7aa",

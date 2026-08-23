@@ -293,13 +293,25 @@ func newAuthSetTokenCmd(flags *rootFlags) *cobra.Command {
 			// JSON envelope: {saved, config_path, credentials_path}.
 			if flags.asJSON {
 				out := map[string]any{
-					"saved":       true,
+					"saved":       !cfg.PersistenceDisabled(),
 					"config_path": cfg.Path,
 				}
-				if !cfg.AgentcookieManagedByExternalStore() {
+				if cfg.PersistenceDisabled() {
+					out["persistence_disabled"] = true
+					out["note"] = "IMMYBOT_NO_CONFIG_WRITE is set; the token is held in memory for this process only and was not written to disk"
+				}
+				if !cfg.AgentcookieManagedByExternalStore() && !cfg.PersistenceDisabled() {
 					out["credentials_path"] = savePath
 				}
 				return printJSONFiltered(cmd.OutOrStdout(), out, flags)
+			}
+			if cfg.PersistenceDisabled() {
+				// Saying "saved" here would be the same false-success shape as
+				// reporting resources synced when every one of them failed.
+				fmt.Fprintf(cmd.OutOrStdout(),
+					"Token accepted and held in memory for this process only.\n"+
+						"Nothing was written to disk because IMMYBOT_NO_CONFIG_WRITE is set.\n")
+				return nil
 			}
 			fmt.Fprintf(cmd.OutOrStdout(), "Token saved to %s\n", savePath)
 			return nil

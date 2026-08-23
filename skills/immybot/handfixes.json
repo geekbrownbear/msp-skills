@@ -224,6 +224,59 @@
           "min_count": 1
         }
       ]
+    },
+    {
+      "id": "no-config-write-env",
+      "summary": "IMMYBOT_NO_CONFIG_WRITE=1 makes every config and credentials write a no-op, and auth stops claiming it saved",
+      "why": "#268 stopped env-supplied client credentials reaching the file, but SaveTokens still persists the minted access and refresh token by design. That is right for a laptop and wrong for two cases: an operator whose credentials live in an OS keychain and does not want a plaintext token cache (Servosity/msp-skills#270), and a container whose data directory is the backup target, where a persisted token means a restored snapshot carries live tenant credentials. save() and saveCredentialsFirst() now return early when the var is set, while still refreshing the in-memory snapshot so the running process is unchanged. auth set-token previously printed 'Token saved to <path>' and returned saved:true even when nothing was written, which is the same false-success shape as reporting resources synced when every one failed; both surfaces now report the truth. Verified: without the flag 2 files land and the secret is on disk; with it, 0 files and the secret is nowhere.",
+      "status": "active",
+      "spec_encode_followup": "Add <PREFIX>_NO_CONFIG_WRITE to the press config template so every connector gets it, and make newMCPClient honour the same switch (Servosity/msp-skills#270 notes mcp/tools.go hardcodes the config path).",
+      "asserts": [
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "func (c *Config) PersistenceDisabled()",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "IMMYBOT_NO_CONFIG_WRITE",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/auth.go",
+          "contains": "held in memory for this process only",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "id": "mcp-readonly-enforcement",
+      "summary": "PP_MCP_READONLY=1 refuses tools not annotated read-only, and the code-orch executor refuses non-GET endpoint ids",
+      "why": "mcp:read-only is a hint hosts use to decide what to auto-approve; nothing enforces it, and Servosity/msp-skills#275 finding 4 documents two tools annotated read-only that write (upstream wontfix, mvanhorn/cli-printing-press#3555). Worse, a policy layer outside the process cannot work at all here: immybot_execute is one tool name dispatching to every endpoint in the registry, so allowing that name allows every write the vendor exposes. The method is known inside the handler and nowhere else. installReadOnlyGate is a SEPARATE middleware from installFreshTenantGate on purpose: the tenant gate exempts tools carrying pp:tenant-gate=child-cli, which is every Cobra mirror and the overwhelming majority of the surface, so a policy middleware inheriting that exemption would pass its own tests and enforce nothing. Self-policing tools are exempt from the blanket gate and defer to their own per-endpoint check; the first version lacked that and refused immybot_execute wholesale, which both removed the most useful tool and left its method guard unreachable. Verified over a live MCP handshake in all four directions.",
+      "status": "active",
+      "spec_encode_followup": "Land PP_MCP_READONLY in the press MCP template so every connector can be run enforceably read-only, and apply the same per-endpoint method guard wherever code_orch is emitted (Servosity/msp-skills#282 question 2).",
+      "asserts": [
+        {
+          "file": "cli/internal/mcp/readonly_gate.go",
+          "contains": "func installReadOnlyGate(",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/mcp/readonly_gate.go",
+          "contains": "selfPolicingTools",
+          "min_count": 2
+        },
+        {
+          "file": "cli/internal/mcp/tools.go",
+          "contains": "installReadOnlyGate(s)",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/mcp/code_orch.go",
+          "contains": "PP_MCP_READONLY",
+          "min_count": 1
+        }
+      ]
     }
   ]
 }

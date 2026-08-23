@@ -57,7 +57,7 @@ func RegisterCodeOrchestrationTools(s *server.MCPServer) {
 	)
 
 	s.AddTool(
-		mcplib.NewTool("immybot_execute",
+		mcplib.NewTool(registerSelfPolicing("immybot_execute"),
 			mcplib.WithDescription("Execute one immybot API endpoint by its endpoint_id (from immybot_search). Params are passed as a JSON object; path placeholders and query strings are resolved automatically."),
 			mcplib.WithString("endpoint_id", mcplib.Required(), mcplib.Description("Endpoint identifier returned by immybot_search (e.g., \"users.list\").")),
 			mcplib.WithObject("params", mcplib.Description("Parameters for the endpoint. Path placeholders match by name; remaining entries become query string on GET/DELETE or JSON body on POST/PUT/PATCH.")),
@@ -6925,6 +6925,17 @@ func handleCodeOrchExecute(ctx context.Context, req mcplib.CallToolRequest) (*mc
 	// strings; write methods split spec-declared query params from the
 	// remaining params used as the request body below.
 	query := map[string]string{}
+	if readOnlyEnforced() && ep.Method != "GET" {
+		// The annotation layer cannot reach this: immybot_execute is one tool
+		// name that dispatches to every endpoint in the registry, so a policy
+		// keyed on tool name either allows every write this vendor exposes or
+		// removes the connector's most useful tool. The method is known here
+		// and nowhere outside the process, which is why the check has to live
+		// in the binary. See Servosity/msp-skills#282.
+		return mcplib.NewToolResultError(fmt.Sprintf(
+			"endpoint_id %q is %s, and this server runs with PP_MCP_READONLY set; only GET endpoints are permitted",
+			id, ep.Method)), nil
+	}
 	if ep.Method == "GET" || ep.Method == "DELETE" {
 		path = codeOrchSplitQuery(path, ep.QueryParams, params)
 		for k, v := range params {
@@ -7071,5 +7082,13 @@ func codeOrchWireQueryName(queryParams []codeOrchParamBinding, name string) stri
 			return q.WireName
 		}
 	}
+	return name
+}
+
+// registerSelfPolicing marks the code-orchestration executor as enforcing
+// read-only per endpoint id, so the blanket PP_MCP_READONLY gate defers to the
+// method check inside its handler rather than refusing the tool outright.
+func registerSelfPolicing(name string) string {
+	registerSelfPolicingTool(name)
 	return name
 }
