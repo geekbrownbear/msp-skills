@@ -1,0 +1,102 @@
+# One image per connector, parameterized by build args. Hand-authored.
+#
+# Downloads the released binaries rather than compiling, so a build costs a
+# fetch and a checksum verify. The .sha256 files already ship beside every
+# release asset and install.sh has never checked them, so verifying here closes
+# a real gap rather than inventing a new one.
+#
+# Note honestly what this does and does not prove: sha256 confirms the bytes
+# match the published checksum, but the checksum comes from the same workflow
+# as the binary. It is integrity, not provenance. Nothing is signed today.
+
+ARG ALPINE_VERSION=3.20
+
+FROM alpine:${ALPINE_VERSION} AS fetch
+
+ARG SLUG
+ARG CLI_BINARY
+ARG MCP_BINARY
+ARG VERSION
+# Set automatically by BuildKit. Release assets are published per GOARCH.
+ARG TARGETARCH
+
+RUN apk add --no-cache curl ca-certificates
+
+WORKDIR /out
+
+# Fail loudly on a missing arg rather than building a subtly wrong image.
+RUN set -eu; \
+    for required in SLUG CLI_BINARY MCP_BINARY VERSION; do \
+      eval "value=\${$required:-}"; \
+      if [ -z "$value" ]; then \
+        echo "build arg $required is required" >&2; \
+        exit 2; \
+      fi; \
+    done
+
+RUN set -eu; \
+    base="https://github.com/Servosity/msp-skills/releases/download/${SLUG}-v${VERSION}"; \
+    for binary in "${CLI_BINARY}" "${MCP_BINARY}"; do \
+      asset="${binary}-linux-${TARGETARCH}"; \
+      echo "fetching ${asset}"; \
+      curl -fsSL --retry 3 --retry-delay 2 -o "${asset}" "${base}/${asset}"; \
+      curl -fsSL --retry 3 --retry-delay 2 -o "${asset}.sha256" "${base}/${asset}.sha256"; \
+      sha256sum -c "${asset}.sha256"; \
+      mv "${asset}" "${binary}"; \
+      rm -f "${asset}.sha256"; \
+      chmod 0755 "${binary}"; \
+    done
+
+FROM alpine:${ALPINE_VERSION}
+
+ARG SLUG
+ARG CLI_BINARY
+ARG MCP_BINARY
+ARG VERSION
+
+# ca-certificates is not optional: every connector talks to a vendor API over
+# HTTPS. tzdata keeps timestamps sane in audit output.
+RUN apk add --no-cache ca-certificates tzdata
+
+# The MCP server shells out to its companion CLI through cobratree, resolving
+# it sibling-of-executable first, so both binaries must live in the same
+# directory. A wrong layout degrades silently: the server starts and every
+# mirror tool fails at call time.
+COPY --from=fetch /out/${CLI_BINARY} /usr/local/bin/${CLI_BINARY}
+COPY --from=fetch /out/${MCP_BINARY} /usr/local/bin/${MCP_BINARY}
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
+# uid 10001 matches the compose `user:` line. Named volumes inherit ownership
+# from the image, so /data must exist and be owned here. Bind mounts do NOT
+# inherit it and need a manual chown on the host.
+# `docker exec` does not go through ENTRYPOINT, so the entrypoint's `cli`
+# dispatch is invisible to it. Without these symlinks the documented first step,
+# `docker compose exec <slug> cli sync --full`, fails with "executable file not
+# found". They also make the operator command identical across all 64
+# connectors instead of requiring the right <slug>-cli name each time.
+RUN ln -s "/usr/local/bin/${CLI_BINARY}" /usr/local/bin/cli \
+ && ln -s "/usr/local/bin/${MCP_BINARY}" /usr/local/bin/mcp
+
+RUN addgroup -g 10001 -S msp \
+ && adduser -u 10001 -S -G msp -h /data msp \
+ && mkdir -p /data \
+ && chown -R 10001:10001 /data \
+ && chmod 0755 /usr/local/bin/entrypoint.sh
+
+ENV MSP_CLI_BINARY=${CLI_BINARY} \
+    MSP_MCP_BINARY=${MCP_BINARY} \
+    MSP_SLUG=${SLUG} \
+    HOME=/data \
+    PP_MCP_TRANSPORT=http \
+    PP_MCP_ADDR=0.0.0.0:7777
+
+USER 10001:10001
+WORKDIR /data
+
+EXPOSE 7777
+
+LABEL org.opencontainers.image.title="msp-skills ${SLUG} connector" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.source="https://github.com/Servosity/msp-skills"
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

@@ -17,8 +17,8 @@ services:
     profiles: [abnormal]
     image: "${MSP_IMAGE_REPO:-msp-skills}/abnormal:${ABNORMAL_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: abnormal
         CLI_BINARY: abnormal-cli
@@ -49,8 +49,8 @@ services:
     profiles: [acronis]
     image: "${MSP_IMAGE_REPO:-msp-skills}/acronis:${ACRONIS_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: acronis
         CLI_BINARY: acronis-cli
@@ -81,8 +81,8 @@ services:
     profiles: [action1]
     image: "${MSP_IMAGE_REPO:-msp-skills}/action1:${ACTION1_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: action1
         CLI_BINARY: action1-cli
@@ -113,8 +113,8 @@ services:
     profiles: [afi]
     image: "${MSP_IMAGE_REPO:-msp-skills}/afi:${AFI_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: afi
         CLI_BINARY: afi-cli
@@ -145,8 +145,8 @@ services:
     profiles: [appdirect]
     image: "${MSP_IMAGE_REPO:-msp-skills}/appdirect:${APPDIRECT_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: appdirect
         CLI_BINARY: appdirect-cli
@@ -177,8 +177,8 @@ services:
     profiles: [atera]
     image: "${MSP_IMAGE_REPO:-msp-skills}/atera:${ATERA_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: atera
         CLI_BINARY: atera-cli
@@ -209,8 +209,8 @@ services:
     profiles: [autotask]
     image: "${MSP_IMAGE_REPO:-msp-skills}/autotask:${AUTOTASK_VERSION:-0.1.2}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: autotask
         CLI_BINARY: autotask-cli
@@ -241,8 +241,8 @@ services:
     profiles: [auvik]
     image: "${MSP_IMAGE_REPO:-msp-skills}/auvik:${AUVIK_VERSION:-0.2.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: auvik
         CLI_BINARY: auvik-cli
@@ -273,8 +273,8 @@ services:
     profiles: [aws-billing]
     image: "${MSP_IMAGE_REPO:-msp-skills}/aws-billing:${AWS_BILLING_VERSION:-0.1.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: aws-billing
         CLI_BINARY: aws-billing-cli
@@ -305,8 +305,8 @@ services:
     profiles: [axcient]
     image: "${MSP_IMAGE_REPO:-msp-skills}/axcient:${AXCIENT_VERSION:-0.2.9}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: axcient
         CLI_BINARY: axcient-cli
@@ -337,8 +337,8 @@ services:
     profiles: [betterstack]
     image: "${MSP_IMAGE_REPO:-msp-skills}/betterstack:${BETTERSTACK_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: betterstack
         CLI_BINARY: betterstack-cli
@@ -369,8 +369,8 @@ services:
     profiles: [blumira]
     image: "${MSP_IMAGE_REPO:-msp-skills}/blumira:${BLUMIRA_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: blumira
         CLI_BINARY: blumira-cli
@@ -400,8 +400,8 @@ services:
     profiles: [cipp]
     image: "${MSP_IMAGE_REPO:-msp-skills}/cipp:${CIPP_VERSION:-0.1.2}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: cipp
         CLI_BINARY: cipp-cli
@@ -432,8 +432,8 @@ services:
     profiles: [connectwise-automate]
     image: "${MSP_IMAGE_REPO:-msp-skills}/connectwise-automate:${CONNECTWISE_AUTOMATE_VERSION:-0.1.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: connectwise-automate
         CLI_BINARY: connectwise-automate-cli
@@ -463,8 +463,8 @@ services:
     profiles: [connectwise-control]
     image: "${MSP_IMAGE_REPO:-msp-skills}/connectwise-control:${CONNECTWISE_CONTROL_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: connectwise-control
         CLI_BINARY: connectwise-control-cli
@@ -495,8 +495,8 @@ services:
     profiles: [connectwise-manage]
     image: "${MSP_IMAGE_REPO:-msp-skills}/connectwise-manage:${CONNECTWISE_MANAGE_VERSION:-0.1.4}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: connectwise-manage
         CLI_BINARY: connectwise-manage-cli
@@ -527,8 +527,8 @@ services:
     profiles: [cork]
     image: "${MSP_IMAGE_REPO:-msp-skills}/cork:${CORK_VERSION:-0.1.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: cork
         CLI_BINARY: cork-cli
@@ -558,8 +558,8 @@ services:
     profiles: [cove]
     image: "${MSP_IMAGE_REPO:-msp-skills}/cove:${COVE_VERSION:-0.1.4}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: cove
         CLI_BINARY: cove-cli
@@ -590,8 +590,8 @@ services:
     profiles: [crowdstrike]
     image: "${MSP_IMAGE_REPO:-msp-skills}/crowdstrike:${CROWDSTRIKE_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: crowdstrike
         CLI_BINARY: crowdstrike-cli
@@ -622,8 +622,8 @@ services:
     profiles: [datto-bcdr]
     image: "${MSP_IMAGE_REPO:-msp-skills}/datto-bcdr:${DATTO_BCDR_VERSION:-0.1.2}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: datto-bcdr
         CLI_BINARY: datto-bcdr-cli
@@ -654,8 +654,8 @@ services:
     profiles: [datto-rmm]
     image: "${MSP_IMAGE_REPO:-msp-skills}/datto-rmm:${DATTO_RMM_VERSION:-0.1.2}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: datto-rmm
         CLI_BINARY: datto-rmm-cli
@@ -686,8 +686,8 @@ services:
     profiles: [domotz]
     image: "${MSP_IMAGE_REPO:-msp-skills}/domotz:${DOMOTZ_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: domotz
         CLI_BINARY: domotz-cli
@@ -718,8 +718,8 @@ services:
     profiles: [gradient]
     image: "${MSP_IMAGE_REPO:-msp-skills}/gradient:${GRADIENT_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: gradient
         CLI_BINARY: gradient-cli
@@ -750,8 +750,8 @@ services:
     profiles: [halopsa]
     image: "${MSP_IMAGE_REPO:-msp-skills}/halopsa:${HALOPSA_VERSION:-0.2.12}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: halopsa
         CLI_BINARY: halopsa-cli
@@ -782,8 +782,8 @@ services:
     profiles: [hubspot]
     image: "${MSP_IMAGE_REPO:-msp-skills}/hubspot:${HUBSPOT_VERSION:-0.1.3}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: hubspot
         CLI_BINARY: hubspot-cli
@@ -814,8 +814,8 @@ services:
     profiles: [hudu]
     image: "${MSP_IMAGE_REPO:-msp-skills}/hudu:${HUDU_VERSION:-0.1.6}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: hudu
         CLI_BINARY: hudu-cli
@@ -846,8 +846,8 @@ services:
     profiles: [huntress]
     image: "${MSP_IMAGE_REPO:-msp-skills}/huntress:${HUNTRESS_VERSION:-0.1.2}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: huntress
         CLI_BINARY: huntress-cli
@@ -878,8 +878,8 @@ services:
     profiles: [immybot]
     image: "${MSP_IMAGE_REPO:-msp-skills}/immybot:${IMMYBOT_VERSION:-0.1.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: immybot
         CLI_BINARY: immybot-cli
@@ -910,8 +910,8 @@ services:
     profiles: [itglue]
     image: "${MSP_IMAGE_REPO:-msp-skills}/itglue:${ITGLUE_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: itglue
         CLI_BINARY: itglue-cli
@@ -942,8 +942,8 @@ services:
     profiles: [kaseya-bms]
     image: "${MSP_IMAGE_REPO:-msp-skills}/kaseya-bms:${KASEYA_BMS_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: kaseya-bms
         CLI_BINARY: kaseya-bms-cli
@@ -974,8 +974,8 @@ services:
     profiles: [knowbe4]
     image: "${MSP_IMAGE_REPO:-msp-skills}/knowbe4:${KNOWBE4_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: knowbe4
         CLI_BINARY: knowbe4-cli
@@ -1006,8 +1006,8 @@ services:
     profiles: [levelio]
     image: "${MSP_IMAGE_REPO:-msp-skills}/levelio:${LEVELIO_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: levelio
         CLI_BINARY: levelio-cli
@@ -1037,8 +1037,8 @@ services:
     profiles: [liongard]
     image: "${MSP_IMAGE_REPO:-msp-skills}/liongard:${LIONGARD_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: liongard
         CLI_BINARY: liongard-cli
@@ -1069,8 +1069,8 @@ services:
     profiles: [maxio]
     image: "${MSP_IMAGE_REPO:-msp-skills}/maxio:${MAXIO_VERSION:-0.1.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: maxio
         CLI_BINARY: maxio-cli
@@ -1101,8 +1101,8 @@ services:
     profiles: [microsoft-graph]
     image: "${MSP_IMAGE_REPO:-msp-skills}/microsoft-graph:${MICROSOFT_GRAPH_VERSION:-0.2.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: microsoft-graph
         CLI_BINARY: microsoft-graph-cli
@@ -1133,8 +1133,8 @@ services:
     profiles: [mspbots]
     image: "${MSP_IMAGE_REPO:-msp-skills}/mspbots:${MSPBOTS_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: mspbots
         CLI_BINARY: mspbots-cli
@@ -1165,8 +1165,8 @@ services:
     profiles: [n-central]
     image: "${MSP_IMAGE_REPO:-msp-skills}/n-central:${N_CENTRAL_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: n-central
         CLI_BINARY: n-central-cli
@@ -1196,8 +1196,8 @@ services:
     profiles: [nerdio]
     image: "${MSP_IMAGE_REPO:-msp-skills}/nerdio:${NERDIO_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: nerdio
         CLI_BINARY: nerdio-cli
@@ -1228,8 +1228,8 @@ services:
     profiles: [ninjaone]
     image: "${MSP_IMAGE_REPO:-msp-skills}/ninjaone:${NINJAONE_VERSION:-0.1.9}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: ninjaone
         CLI_BINARY: ninjaone-cli
@@ -1260,8 +1260,8 @@ services:
     profiles: [pagerduty]
     image: "${MSP_IMAGE_REPO:-msp-skills}/pagerduty:${PAGERDUTY_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: pagerduty
         CLI_BINARY: pagerduty-cli
@@ -1292,8 +1292,8 @@ services:
     profiles: [pandadoc]
     image: "${MSP_IMAGE_REPO:-msp-skills}/pandadoc:${PANDADOC_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: pandadoc
         CLI_BINARY: pandadoc-cli
@@ -1324,8 +1324,8 @@ services:
     profiles: [pax8]
     image: "${MSP_IMAGE_REPO:-msp-skills}/pax8:${PAX8_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: pax8
         CLI_BINARY: pax8-cli
@@ -1356,8 +1356,8 @@ services:
     profiles: [pipedrive]
     image: "${MSP_IMAGE_REPO:-msp-skills}/pipedrive:${PIPEDRIVE_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: pipedrive
         CLI_BINARY: pipedrive-cli
@@ -1388,8 +1388,8 @@ services:
     profiles: [proofpoint]
     image: "${MSP_IMAGE_REPO:-msp-skills}/proofpoint:${PROOFPOINT_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: proofpoint
         CLI_BINARY: proofpoint-cli
@@ -1420,8 +1420,8 @@ services:
     profiles: [quickbooks]
     image: "${MSP_IMAGE_REPO:-msp-skills}/quickbooks:${QUICKBOOKS_VERSION:-0.1.5}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: quickbooks
         CLI_BINARY: quickbooks-cli
@@ -1452,8 +1452,8 @@ services:
     profiles: [resourceguru]
     image: "${MSP_IMAGE_REPO:-msp-skills}/resourceguru:${RESOURCEGURU_VERSION:-0.1.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: resourceguru
         CLI_BINARY: resourceguru-cli
@@ -1484,8 +1484,8 @@ services:
     profiles: [rewst]
     image: "${MSP_IMAGE_REPO:-msp-skills}/rewst:${REWST_VERSION:-0.1.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: rewst
         CLI_BINARY: rewst-cli
@@ -1516,8 +1516,8 @@ services:
     profiles: [rocketcyber]
     image: "${MSP_IMAGE_REPO:-msp-skills}/rocketcyber:${ROCKETCYBER_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: rocketcyber
         CLI_BINARY: rocketcyber-cli
@@ -1548,8 +1548,8 @@ services:
     profiles: [rootly]
     image: "${MSP_IMAGE_REPO:-msp-skills}/rootly:${ROOTLY_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: rootly
         CLI_BINARY: rootly-cli
@@ -1580,8 +1580,8 @@ services:
     profiles: [runzero]
     image: "${MSP_IMAGE_REPO:-msp-skills}/runzero:${RUNZERO_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: runzero
         CLI_BINARY: runzero-cli
@@ -1612,8 +1612,8 @@ services:
     profiles: [salesbuildr]
     image: "${MSP_IMAGE_REPO:-msp-skills}/salesbuildr:${SALESBUILDR_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: salesbuildr
         CLI_BINARY: salesbuildr-cli
@@ -1644,8 +1644,8 @@ services:
     profiles: [sentinelone]
     image: "${MSP_IMAGE_REPO:-msp-skills}/sentinelone:${SENTINELONE_VERSION:-0.1.2}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: sentinelone
         CLI_BINARY: sentinelone-cli
@@ -1676,8 +1676,8 @@ services:
     profiles: [servosity]
     image: "${MSP_IMAGE_REPO:-msp-skills}/servosity:${SERVOSITY_VERSION:-0.5.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: servosity
         CLI_BINARY: servosity-cli
@@ -1708,8 +1708,8 @@ services:
     profiles: [sherweb]
     image: "${MSP_IMAGE_REPO:-msp-skills}/sherweb:${SHERWEB_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: sherweb
         CLI_BINARY: sherweb-cli
@@ -1740,8 +1740,8 @@ services:
     profiles: [skykick]
     image: "${MSP_IMAGE_REPO:-msp-skills}/skykick:${SKYKICK_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: skykick
         CLI_BINARY: skykick-cli
@@ -1772,8 +1772,8 @@ services:
     profiles: [superops]
     image: "${MSP_IMAGE_REPO:-msp-skills}/superops:${SUPEROPS_VERSION:-0.1.4}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: superops
         CLI_BINARY: superops-cli
@@ -1804,8 +1804,8 @@ services:
     profiles: [syncro]
     image: "${MSP_IMAGE_REPO:-msp-skills}/syncro:${SYNCRO_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: syncro
         CLI_BINARY: syncro-cli
@@ -1836,8 +1836,8 @@ services:
     profiles: [tactical-rmm]
     image: "${MSP_IMAGE_REPO:-msp-skills}/tactical-rmm:${TACTICAL_RMM_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: tactical-rmm
         CLI_BINARY: tactical-rmm-cli
@@ -1868,8 +1868,8 @@ services:
     profiles: [threatlocker]
     image: "${MSP_IMAGE_REPO:-msp-skills}/threatlocker:${THREATLOCKER_VERSION:-0.3.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: threatlocker
         CLI_BINARY: threatlocker-cli
@@ -1900,8 +1900,8 @@ services:
     profiles: [unifi-network]
     image: "${MSP_IMAGE_REPO:-msp-skills}/unifi-network:${UNIFI_NETWORK_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: unifi-network
         CLI_BINARY: unifi-network-cli
@@ -1932,8 +1932,8 @@ services:
     profiles: [veeam]
     image: "${MSP_IMAGE_REPO:-msp-skills}/veeam:${VEEAM_VERSION:-0.1.0}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: veeam
         CLI_BINARY: veeam-cli
@@ -1964,8 +1964,8 @@ services:
     profiles: [wordpress]
     image: "${MSP_IMAGE_REPO:-msp-skills}/wordpress:${WORDPRESS_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: wordpress
         CLI_BINARY: wordpress-cli
@@ -1996,8 +1996,8 @@ services:
     profiles: [xero]
     image: "${MSP_IMAGE_REPO:-msp-skills}/xero:${XERO_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: xero
         CLI_BINARY: xero-cli
@@ -2028,8 +2028,8 @@ services:
     profiles: [zammad]
     image: "${MSP_IMAGE_REPO:-msp-skills}/zammad:${ZAMMAD_VERSION:-0.1.1}"
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.connector
+      context: .
+      dockerfile: Dockerfile.connector
       args:
         SLUG: zammad
         CLI_BINARY: zammad-cli

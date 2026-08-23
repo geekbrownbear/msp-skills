@@ -170,8 +170,12 @@ def render_service(slug, skills, http, ncw_var):
         f'    image: "${{MSP_IMAGE_REPO:-msp-skills}}/{slug}:${{{version_var}:-{version}}}"'
     )
     lines.append("    build:")
-    lines.append("      context: ..")
-    lines.append("      dockerfile: docker/Dockerfile.connector")
+    # Context is docker/ (328K), not the repo root (871M, of which .git is
+    # 371M). The image downloads released binaries, so entrypoint.sh is the
+    # only thing it needs from the tree. Building from source instead needs a
+    # wider context and belongs in its own Dockerfile.
+    lines.append("      context: .")
+    lines.append("      dockerfile: Dockerfile.connector")
     lines.append("      args:")
     lines.append(f"        SLUG: {slug}")
     lines.append(f"        CLI_BINARY: {cli_binary}")
