@@ -393,6 +393,7 @@ services:
         required: false
     environment:
       HOME: /data
+      PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
       - msp-blumira-data:/data
@@ -458,6 +459,7 @@ services:
         required: false
     environment:
       HOME: /data
+      PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
       - msp-connectwise-automate-data:/data
@@ -556,6 +558,7 @@ services:
         required: false
     environment:
       HOME: /data
+      PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
       - msp-cork-data:/data
@@ -1050,6 +1053,7 @@ services:
         required: false
     environment:
       HOME: /data
+      PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
       - msp-levelio-data:/data
@@ -1214,6 +1218,7 @@ services:
         required: false
     environment:
       HOME: /data
+      PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
       - msp-n-central-data:/data

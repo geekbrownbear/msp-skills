@@ -50,6 +50,22 @@ run_credential_provider() {
     if ! output=$(sh -c "${MSP_CREDENTIAL_PROVIDER}" 2>&1); then
         log "ERROR: credential provider failed: ${output}"
         case "${output}" in
+            *"Is a directory"*)
+                log ""
+                log "       The secret file did not exist on the Docker host when this"
+                log "       container was created, so Docker manufactured a DIRECTORY at"
+                log "       that path. Docker does this for any bind-mounted file whose"
+                log "       host path is missing."
+                log ""
+                log "       On the Docker host:"
+                log "         1. remove the junk directory:  rmdir <secrets-dir>/<slug>.env"
+                log "         2. create the real file (an empty file is fine for a"
+                log "            connector you have no credentials for yet):"
+                log "              touch <secrets-dir>/<slug>.env"
+                log "              chown 10001:10001 <secrets-dir>/<slug>.env"
+                log "              chmod 0400 <secrets-dir>/<slug>.env"
+                log "         3. recreate this container so the mount picks up the file"
+                ;;
             *"Permission denied"*)
                 log ""
                 log "       This container runs as uid $(id -u). A bind-mounted secret"
