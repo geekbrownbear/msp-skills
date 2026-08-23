@@ -43,7 +43,10 @@ expand_file_vars() {
 # to anything else in the deployment.
 run_credential_provider() {
     [ -n "${MSP_CREDENTIAL_PROVIDER:-}" ] || return 0
-    log "running credential provider: ${MSP_CREDENTIAL_PROVIDER}"
+    # Quiet by default. Now that `cli` re-enters the entrypoint, this ran on
+    # every `docker compose exec`, prefixing real command output with a line
+    # about plumbing. Failures below are still always reported.
+    [ -n "${MSP_DEBUG:-}" ] && log "running credential provider: ${MSP_CREDENTIAL_PROVIDER}"
     if ! output=$(sh -c "${MSP_CREDENTIAL_PROVIDER}" 2>&1); then
         log "ERROR: credential provider failed: ${output}"
         case "${output}" in

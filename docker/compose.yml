@@ -39,7 +39,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -72,7 +72,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -105,7 +105,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -138,7 +138,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -171,7 +171,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -204,7 +204,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -237,7 +237,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -270,7 +270,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -303,7 +303,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -336,7 +336,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -369,7 +369,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -401,7 +401,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -434,7 +434,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -466,7 +466,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -499,7 +499,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -532,7 +532,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -564,7 +564,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -597,7 +597,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -630,7 +630,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -663,7 +663,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -696,7 +696,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -729,7 +729,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -762,7 +762,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -795,7 +795,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -828,7 +828,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -861,7 +861,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -894,7 +894,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -927,7 +927,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -960,7 +960,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -993,7 +993,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1026,7 +1026,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1058,7 +1058,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1091,7 +1091,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1124,7 +1124,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1157,7 +1157,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1190,7 +1190,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1222,7 +1222,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1255,7 +1255,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1288,7 +1288,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1321,7 +1321,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1354,7 +1354,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1387,7 +1387,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1420,7 +1420,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1453,7 +1453,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1486,7 +1486,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1519,7 +1519,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1552,7 +1552,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1585,7 +1585,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1618,7 +1618,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1651,7 +1651,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1684,7 +1684,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1717,7 +1717,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1750,7 +1750,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1783,7 +1783,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1816,7 +1816,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1849,7 +1849,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1882,7 +1882,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1915,7 +1915,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1948,7 +1948,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -1981,7 +1981,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -2014,7 +2014,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -2047,7 +2047,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -2080,7 +2080,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
@@ -2113,7 +2113,7 @@ services:
     tmpfs:
       - /tmp
     restart: unless-stopped
-    mem_limit: 512m
+    mem_limit: 4g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
