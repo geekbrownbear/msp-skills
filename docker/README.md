@@ -145,6 +145,56 @@ entrypoint detects this and refuses to start with an explanation rather than
 looping silently. See
 [#241](https://github.com/Servosity/msp-skills/issues/241).
 
+## The gateway
+
+Connectors publish no ports, so the gateway is not the recommended path to them,
+it is the only one. That is what makes its audit log a record of every call
+rather than a record of the polite ones.
+
+```sh
+# docker/.env
+MSP_GATEWAY_BIND=10.0.0.5          # a specific LAN address, never 0.0.0.0
+MSP_GATEWAY_PORT=8080
+MSP_GATEWAY_CONFIG=/srv/msp/gateway.json
+
+docker compose -f compose.yml -f compose.gateway.yml --profile gateway up -d
+```
+
+Each technician gets their own bearer token. Store only its digest:
+
+```sh
+printf '%s' "$TOKEN" | sha256sum        # put this in token_sha256
+```
+
+A grant is per actor, per connector, per tool. Deny beats allow, an empty allow
+list means nothing rather than everything, and a tool that is not annotated
+read-only counts as a write. That last rule matters more than it looks:
+`<slug>_execute` takes an arbitrary endpoint id and reaches every write the
+vendor exposes, and it carries no annotation at all.
+
+Point a client at one connector per entry:
+
+```sh
+claude mcp add --transport http halopsa http://10.0.0.5:8080/mcp/halopsa \
+  --header "Authorization: Bearer $TOKEN"
+```
+
+Every call is recorded in a hash-chained log, denials included. Editing or
+removing a line breaks every hash after it:
+
+```sh
+docker compose -f compose.yml -f compose.gateway.yml exec gateway \
+  msp-mcp-gateway -verify-audit /var/lib/msp-mcp-gateway/audit.jsonl
+```
+
+Arguments are hashed rather than recorded verbatim by default, because tool
+arguments routinely carry customer names and ticket bodies and an audit log that
+stores them is itself a liability. Set `arguments_mode` to `full` only
+deliberately.
+
+The gateway is new security-critical code. Review it before it fronts anything
+that matters.
+
 ## What this does not solve
 
 **Securing the Docker host.** Anyone with daemon access can read every
