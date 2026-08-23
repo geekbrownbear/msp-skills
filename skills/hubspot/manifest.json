@@ -40,7 +40,7 @@
       "type": "string",
       "title": "HUBSPOT_OWNER_EMAIL",
       "description": "HUBSPOT_OWNER_EMAIL for HubSpot",
-      "required": true
+      "required": false
     }
   },
   "compatibility": {

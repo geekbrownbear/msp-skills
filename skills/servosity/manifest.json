@@ -33,7 +33,7 @@
       "type": "string",
       "title": "SERVOSITY_MSP_RESELLER_ID",
       "description": "SERVOSITY_MSP_RESELLER_ID for Servosity",
-      "required": true
+      "required": false
     },
     "servosity_msp_token": {
       "type": "string",

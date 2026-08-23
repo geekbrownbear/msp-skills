@@ -53,7 +53,7 @@
       "type": "string",
       "title": "UNIFI_INSECURE_SKIP_VERIFY",
       "description": "UNIFI_INSECURE_SKIP_VERIFY for UniFi Network",
-      "required": true
+      "required": false
     }
   },
   "compatibility": {

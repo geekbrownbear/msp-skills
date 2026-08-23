@@ -48,7 +48,7 @@
       "type": "string",
       "title": "IMMYBOT_OAUTH_SCOPE",
       "description": "IMMYBOT_OAUTH_SCOPE for ImmyBot",
-      "required": true
+      "required": false
     },
     "immybot_subdomain": {
       "type": "string",
