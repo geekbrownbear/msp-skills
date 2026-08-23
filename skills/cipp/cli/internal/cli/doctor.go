@@ -246,7 +246,12 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 						// 2xx response — clearly reachable. Still inspect the
 						// body for a known interstitial; some bot walls return
 						// 200 with a JS challenge page.
-						if vendor := looksLikeDoctorInterstitial(reachBody); vendor != "" {
+						if baseURLMissingAPIPath(cfg.BaseURL) {
+							report["api"] = fmt.Sprintf(
+								"reachable, but base_url does not end in /api, so requests reach the CIPP web UI and not the Functions backend. Set CIPP_BASE_URL to %s/api",
+								strings.TrimRight(cfg.BaseURL, "/"))
+							report["api_hint"] = "A CIPP base URL without /api returns the single-page app for every call: HTML with a 200, which reads as success."
+						} else if vendor := looksLikeDoctorInterstitial(reachBody); vendor != "" {
 							report["api"] = fmt.Sprintf("blocked by %s interstitial — the configured transport reached the wall. Try a different network, wait for the IP-level rate limit to clear, or check that the browser-chrome transport is bound correctly.", vendor)
 						} else {
 							report["api"] = "reachable"
@@ -259,6 +264,11 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 						status := reachAPIErr.StatusCode
 						if vendor := looksLikeDoctorInterstitial([]byte(reachAPIErr.Body)); vendor != "" {
 							report["api"] = fmt.Sprintf("blocked by %s interstitial (HTTP %d) — the configured transport reached the wall.", vendor, status)
+						} else if baseURLMissingAPIPath(cfg.BaseURL) {
+							report["api"] = fmt.Sprintf(
+								"reachable (HTTP %d at /), but base_url does not end in /api, so requests reach the CIPP web UI and not the Functions backend. Set CIPP_BASE_URL to %s/api",
+								status, strings.TrimRight(cfg.BaseURL, "/"))
+							report["api_hint"] = "A CIPP base URL without /api returns the single-page app for every call: HTML with a 200, which reads as success."
 						} else {
 							report["api"] = fmt.Sprintf("reachable (HTTP %d at /)", status)
 						}
@@ -571,4 +581,21 @@ func renderCacheReport(w io.Writer, rep map[string]any) {
 	if hint, ok := rep["hint"]; ok {
 		fmt.Fprintf(w, "    hint: %v\n", hint)
 	}
+}
+
+// baseURLMissingAPIPath reports whether base_url omits the /api suffix CIPP's
+// Functions backend lives under.
+//
+// auth_login warns about this, but that is the wrong and now the only place for
+// it: credentials can be supplied entirely through the environment, which never
+// runs auth login. Without the check there, a base URL pointing at the static
+// web UI answers every request with the CIPP single-page app, so `doctor`
+// reports the API reachable, sync reports source "live", and the payload is
+// HTML. Observed exactly that against a real instance.
+func baseURLMissingAPIPath(baseURL string) bool {
+	u := strings.TrimRight(strings.TrimSpace(baseURL), "/")
+	if u == "" {
+		return false
+	}
+	return !strings.HasSuffix(strings.ToLower(u), "/api")
 }

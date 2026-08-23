@@ -72,6 +72,20 @@
           "min_count": 1
         }
       ]
+    },
+    {
+      "id": "doctor-flags-base-url-missing-api-path",
+      "summary": "doctor warns when base_url omits /api, which auth login warned about and the environment path bypassed",
+      "why": "auth_login printed 'warning: --base-url does not end in /api; CIPP requests will hit the static web UI, not the Functions backend'. That was the only guard, and this branch added an environment configuration path that never runs auth login, so the guard was removed without replacement. A base URL pointing at the web UI answers every request with the CIPP single-page app: doctor reported 'OK API: reachable', a live read reported source 'live', and the payload was HTML. Observed against a real instance after an 11 hour soak. Adding /api took the same call to 7 tenants. The check lives in doctor so every configuration path sees it, and fires on both the 2xx and non-2xx reach branches, since HTML with a 200 is the worse case.",
+      "status": "active",
+      "spec_encode_followup": "Give the press a per-connector expected base path so this class of misconfiguration is caught for every connector whose API sits under a prefix, not just cipp and hudu.",
+      "asserts": [
+        {
+          "file": "cli/internal/cli/doctor.go",
+          "contains": "func baseURLMissingAPIPath(",
+          "min_count": 1
+        }
+      ]
     }
   ]
 }
