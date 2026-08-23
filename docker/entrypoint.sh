@@ -78,7 +78,16 @@ run_credential_provider() {
         esac
         exit 1
     fi
-    echo "${output}" | while IFS= read -r line; do
+    # Parse KEY=VALUE lines WITHOUT eval. The first version eval'd the lines,
+    # and a value containing a space (NINJAONE_OAUTH_SCOPE="monitoring
+    # management" is a legitimate one) made the shell execute the second word
+    # as a command. That is a crash for an honest value and arbitrary command
+    # execution for a dishonest one. export "$name=$value" assigns the value
+    # verbatim, whatever it contains.
+    #
+    # The here-doc keeps the loop in this shell; a pipe would put it in a
+    # subshell whose exports die with it.
+    while IFS= read -r line; do
         case "${line}" in
             ''|'#'*) continue ;;
         esac
@@ -86,13 +95,19 @@ run_credential_provider() {
             *=*) ;;
             *) die "credential provider printed a line that is not KEY=VALUE: ${line}" ;;
         esac
-    done
-    # Applied in this shell rather than the subshell above, which cannot export
-    # into the parent.
-    set -a
-    # shellcheck disable=SC2046
-    eval "$(echo "${output}" | grep -E '^[A-Za-z_][A-Za-z0-9_]*=')"
-    set +a
+        name=${line%%=*}
+        value=${line#*=}
+        case "${name}" in
+            [A-Za-z_]*) ;;
+            *) die "credential provider printed an invalid variable name: ${name}" ;;
+        esac
+        case "${name}" in
+            *[!A-Za-z0-9_]*) die "credential provider printed an invalid variable name: ${name}" ;;
+        esac
+        export "${name}=${value}"
+    done <<PROVIDER_EOF
+${output}
+PROVIDER_EOF
 }
 
 # /data holds the SQLite mirror. Catch an unwritable mount here, with a message
