@@ -422,6 +422,35 @@
           "min_count": 1
         }
       ]
+    },
+    {
+      "id": "mcp-transport-flag-parity",
+      "summary": "`avanan-mcp` accepts --transport/--addr and PP_MCP_TRANSPORT, matching the 59 connectors that already do",
+      "why": "main() called server.ServeStdio unconditionally and never parsed os.Args, so `avanan-mcp --transport http` was silently ignored and the process still served stdio. avanan's own mcp-install.md instructs remote-agent users to run exactly `avanan-mcp --transport http --addr :7777`, so the shipped documentation described a mode the binary did not have. Merged from upstream at avanan-v0.1.0 in that state. The block added here is the same shape the other connectors carry: a --transport flag defaulting to defaultTransport() which reads PP_MCP_TRANSPORT and falls back to stdio so no-argument invocation is unchanged, an --addr flag defaulting to :7777, and a switch serving stdio, NewStreamableHTTPServer for http, or exit 2 on an unknown value. avanan keeps its unique BindMCPServerProfile() and AVANAN_LEARN_SURFACE setup ahead of the switch. This is press drift: avanan is on a newer press than several connectors that already have the flag, so a reprint will not reliably restore it.",
+      "status": "active",
+      "spec_encode_followup": "Same as the other transport-flag connectors: make the block unconditional in the press MCP main template, and add a generator check that fails when an mcp-install.md documents a flag the printed main.go does not parse.",
+      "asserts": [
+        {
+          "file": "cli/cmd/avanan-mcp/main.go",
+          "contains": "flag.String(\"transport\"",
+          "min_count": 1
+        },
+        {
+          "file": "cli/cmd/avanan-mcp/main.go",
+          "contains": "func defaultTransport()",
+          "min_count": 1
+        },
+        {
+          "file": "cli/cmd/avanan-mcp/main.go",
+          "contains": "NewStreamableHTTPServer",
+          "min_count": 1
+        },
+        {
+          "file": "cli/cmd/avanan-mcp/main.go",
+          "contains": "PP_MCP_TRANSPORT",
+          "min_count": 1
+        }
+      ]
     }
   ]
 }

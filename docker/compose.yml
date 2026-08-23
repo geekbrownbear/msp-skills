@@ -277,6 +277,39 @@ services:
     cap_drop:
       - ALL
 
+  avanan:
+    profiles: [avanan]
+    image: "${MSP_IMAGE_REPO:-msp-skills}/avanan:${AVANAN_VERSION:-0.1.0}"
+    build:
+      context: .
+      dockerfile: Dockerfile.connector
+      args:
+        SLUG: avanan
+        CLI_BINARY: avanan-cli
+        MCP_BINARY: avanan-mcp
+        VERSION: "${AVANAN_VERSION:-0.1.0}"
+    container_name: msp-avanan
+    env_file:
+      - path: env/avanan.env
+        required: false
+    environment:
+      HOME: /data
+      PP_MCP_TRANSPORT: http
+    user: "10001:10001"
+    volumes:
+      - msp-avanan-data:/data
+    networks: [msp-internal]
+    read_only: true
+    tmpfs:
+      - /tmp
+    restart: unless-stopped
+    mem_limit: 4g
+    pids_limit: 512
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
   aws-billing:
     profiles: [aws-billing]
     image: "${MSP_IMAGE_REPO:-msp-skills}/aws-billing:${AWS_BILLING_VERSION:-0.1.0}"
@@ -2140,6 +2173,7 @@ volumes:
   msp-atera-data:
   msp-autotask-data:
   msp-auvik-data:
+  msp-avanan-data:
   msp-aws-billing-data:
   msp-axcient-data:
   msp-betterstack-data:
