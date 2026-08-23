@@ -23,6 +23,9 @@ type Config struct {
 	TokenExpiry   time.Time         `toml:"token_expiry"`
 	ClientID      string            `toml:"client_id"`
 	ClientSecret  string            `toml:"client_secret"`
+	TenantID      string            `toml:"tenant_id"`
+	OAuthScope    string            `toml:"oauth_scope"`
+	Authority     string            `toml:"authority"`
 	Path          string            `toml:"-"`
 	envOverrides  map[string]bool   `toml:"-"`
 	fileConfig    *Config           `toml:"-"`
@@ -60,6 +63,43 @@ func Load(configPath string) (*Config, error) {
 		cfg.CippApiKey = v
 		cfg.markEnvOverride("CippApiKey")
 		cfg.AuthSource = "env:CIPP_API_KEY"
+	}
+
+	// The client-credentials inputs, so a CIPP instance can be configured
+	// entirely by environment instead of only through `auth login`. This is what
+	// lets CIPP run as a service, and it matches the shape immybot already uses
+	// (IMMYBOT_CLIENT_ID and friends). `auth login` is untouched and still the
+	// right path on a laptop.
+	//
+	// Every one is markEnvOverride'd, so configForSave restores the file's value
+	// and an env-supplied secret is never written to disk. That guard is why
+	// #268 exists; ClientID and ClientSecret were previously file-only and so
+	// were never covered by it.
+	if v := os.Getenv("CIPP_CLIENT_ID"); v != "" {
+		cfg.ClientID = v
+		cfg.markEnvOverride("ClientID")
+		if cfg.AuthSource == "" {
+			cfg.AuthSource = "env:CIPP_CLIENT_ID"
+		}
+	}
+	if v := os.Getenv("CIPP_CLIENT_SECRET"); v != "" {
+		cfg.ClientSecret = v
+		cfg.markEnvOverride("ClientSecret")
+		if cfg.AuthSource == "" {
+			cfg.AuthSource = "env:CIPP_CLIENT_SECRET"
+		}
+	}
+	if v := os.Getenv("CIPP_TENANT_ID"); v != "" {
+		cfg.TenantID = v
+		cfg.markEnvOverride("TenantID")
+	}
+	if v := os.Getenv("CIPP_OAUTH_SCOPE"); v != "" {
+		cfg.OAuthScope = v
+		cfg.markEnvOverride("OAuthScope")
+	}
+	if v := os.Getenv("CIPP_AUTHORITY"); v != "" {
+		cfg.Authority = v
+		cfg.markEnvOverride("Authority")
 	}
 
 	// Label config-file-derived credentials so doctor can distinguish
@@ -216,8 +256,26 @@ func (c *Config) snapshotFileConfig() {
 func (c *Config) configForSave() Config {
 	out := *c
 	if c.fileConfig != nil {
+		// An env-supplied credential must never reach the file. Each field is
+		// restored from the on-disk snapshot when the live value came from the
+		// environment.
 		if c.envOverrides["CippApiKey"] {
 			out.CippApiKey = c.fileConfig.CippApiKey
+		}
+		if c.envOverrides["ClientID"] {
+			out.ClientID = c.fileConfig.ClientID
+		}
+		if c.envOverrides["ClientSecret"] {
+			out.ClientSecret = c.fileConfig.ClientSecret
+		}
+		if c.envOverrides["TenantID"] {
+			out.TenantID = c.fileConfig.TenantID
+		}
+		if c.envOverrides["OAuthScope"] {
+			out.OAuthScope = c.fileConfig.OAuthScope
+		}
+		if c.envOverrides["Authority"] {
+			out.Authority = c.fileConfig.Authority
 		}
 	}
 	out.envOverrides = nil
@@ -244,6 +302,12 @@ func (c *Config) updateFileConfigField(field string) {
 		c.fileConfig.ClientSecret = c.ClientSecret
 	case "CippApiKey":
 		c.fileConfig.CippApiKey = c.CippApiKey
+	case "TenantID":
+		c.fileConfig.TenantID = c.TenantID
+	case "OAuthScope":
+		c.fileConfig.OAuthScope = c.OAuthScope
+	case "Authority":
+		c.fileConfig.Authority = c.Authority
 	}
 }
 
@@ -272,3 +336,74 @@ func (c *Config) save() error {
 
 // Ensure strings import is used
 var _ = strings.ReplaceAll
+
+// DefaultAuthority is Azure AD's public cloud endpoint. Sovereign clouds set
+// CIPP_AUTHORITY or the authority field in config.toml.
+const DefaultAuthority = "https://login.microsoftonline.com"
+
+// tokenRefreshSkew re-mints slightly early so a token cannot expire in flight
+// between the check and the API call it authorizes.
+const tokenRefreshSkew = 2 * time.Minute
+
+// CanMintToken reports whether the client-credentials inputs are all present,
+// whatever their source: environment for a container, config.toml for a laptop
+// that has run `auth login`.
+func (c *Config) CanMintToken() bool {
+	return c.ClientID != "" && c.ClientSecret != "" && c.TenantID != ""
+}
+
+// TokenNeedsRefresh reports whether the cached access token is missing or close
+// enough to expiry to be untrustworthy.
+//
+// Nothing consulted TokenExpiry before this. `auth login` cached a token and its
+// expiry, the client read only the token, and an Azure AD client-credentials
+// token lives about an hour, so CIPP worked for an hour and then returned 401
+// until someone ran `auth login` again. That is a laptop bug as much as a
+// container one; it is simply unmissable when the process is meant to stay up.
+func (c *Config) TokenNeedsRefresh() bool {
+	if c.CippApiKey != "" || c.AuthHeaderVal != "" {
+		// A static bearer token was supplied deliberately. Not ours to refresh.
+		return false
+	}
+	if c.AccessToken == "" {
+		return true
+	}
+	if c.TokenExpiry.IsZero() {
+		// Cached by a build that did not record an expiry. Leave it alone rather
+		// than re-minting on every call.
+		return false
+	}
+	return time.Now().After(c.TokenExpiry.Add(-tokenRefreshSkew))
+}
+
+// EffectiveScope returns the configured OAuth2 scope, defaulting to the same
+// value `auth login` derives.
+func (c *Config) EffectiveScope() string {
+	if c.OAuthScope != "" {
+		return c.OAuthScope
+	}
+	if c.ClientID == "" {
+		return ""
+	}
+	return "api://" + c.ClientID + "/.default"
+}
+
+// EffectiveAuthority returns the configured authority or the public cloud.
+func (c *Config) EffectiveAuthority() string {
+	if c.Authority != "" {
+		return c.Authority
+	}
+	return DefaultAuthority
+}
+
+// ApplyMintedToken records a freshly minted token in memory only.
+//
+// Deliberately not persisted. `auth login` is an explicit act by a human and
+// writes to disk; an automatic refresh on a read path is not, and writing there
+// would put a live credential into the volume an operator backs up. A
+// long-running server mints once per token lifetime, which is cheap.
+func (c *Config) ApplyMintedToken(token string, expiry time.Time) {
+	c.AccessToken = token
+	c.TokenExpiry = expiry
+	c.AuthSource = "oauth2"
+}

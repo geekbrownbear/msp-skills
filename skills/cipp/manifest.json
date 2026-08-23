@@ -16,7 +16,12 @@
       "args": [],
       "env": {
         "CIPP_API_KEY": "${user_config.cipp_api_key}",
-        "CIPP_BASE_URL": "${user_config.cipp_base_url}"
+        "CIPP_BASE_URL": "${user_config.cipp_base_url}",
+        "CIPP_CLIENT_ID": "${user_config.cipp_client_id}",
+        "CIPP_CLIENT_SECRET": "${user_config.cipp_client_secret}",
+        "CIPP_TENANT_ID": "${user_config.cipp_tenant_id}",
+        "CIPP_OAUTH_SCOPE": "${user_config.cipp_oauth_scope}",
+        "CIPP_AUTHORITY": "${user_config.cipp_authority}"
       }
     }
   },
@@ -33,6 +38,38 @@
       "title": "CIPP_BASE_URL",
       "description": "Base URL of your CIPP instance",
       "required": true
+    },
+    "cipp_client_id": {
+      "type": "string",
+      "title": "CIPP_CLIENT_ID",
+      "description": "Azure AD application (client) ID of the CIPP API client. Create it in CIPP: Integrations > CIPP-API > Create New Client (a read-only Custom Role is safest to start). With this, CIPP_CLIENT_SECRET and CIPP_TENANT_ID set, the connector mints and refreshes its own access token, which is what lets it run unattended. Supply CIPP_API_KEY instead if you would rather hand it a static bearer token.",
+      "required": true,
+      "sensitive": true
+    },
+    "cipp_client_secret": {
+      "type": "string",
+      "title": "CIPP_CLIENT_SECRET",
+      "description": "Client secret paired with CIPP_CLIENT_ID.",
+      "required": true,
+      "sensitive": true
+    },
+    "cipp_tenant_id": {
+      "type": "string",
+      "title": "CIPP_TENANT_ID",
+      "description": "Azure AD tenant (directory) ID that hosts the CIPP API app registration.",
+      "required": true
+    },
+    "cipp_oauth_scope": {
+      "type": "string",
+      "title": "CIPP_OAUTH_SCOPE",
+      "description": "OAuth2 scope for the client-credentials exchange. Defaults to api://<client-id>/.default, which is correct for most CIPP deployments; set it only when your app registration exposes a different scope.",
+      "required": false
+    },
+    "cipp_authority": {
+      "type": "string",
+      "title": "CIPP_AUTHORITY",
+      "description": "Azure AD authority host. Defaults to https://login.microsoftonline.com; override only for a sovereign cloud.",
+      "required": false
     }
   },
   "compatibility": {

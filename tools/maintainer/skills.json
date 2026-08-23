@@ -308,7 +308,7 @@
       "category": "Security",
       "display_name": "CIPP",
       "tagline": "Every client tenant's M365 posture, license waste, and stale accounts in one cross-tenant rollup.",
-      "cli_hash": "sha256:aa0dc021cdb156c7c5bd704dc240c05f666bcc65074ff04bc8a5b76852f20f19",
+      "cli_hash": "sha256:7b16fe72eb411d9f0e307f0727dc0d81ac5448a985b5535960c35bb423912e58",
       "template_version": 3,
       "version": "0.1.2",
       "cli_hash_at_release": "sha256:b4186b5e961722283c8d500e1b12cd6bcbb2442e9b61b6dc9aea7f96a95f12da",

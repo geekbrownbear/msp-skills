@@ -22,6 +22,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -37,6 +38,7 @@ type Client struct {
 	NoCache    bool
 	cacheDir   string
 	limiter    *cliutil.AdaptiveLimiter
+	tokenMu    sync.Mutex
 }
 
 // RequestBaseURL returns the base URL used for requests.
@@ -659,6 +661,9 @@ func (c *Client) authHeader(ctx context.Context) (string, error) {
 	if c.Config == nil {
 		return "", nil
 	}
+	if err := c.ensureFreshToken(ctx); err != nil {
+		return "", err
+	}
 	authHeader := c.Config.AuthHeader()
 	if authHeaderLooksLikePlaceholderCredential(authHeader) {
 		return "", authPlaceholderCredentialError(c.Config)
@@ -908,4 +913,54 @@ func truncateBody(b []byte) string {
 		return string(b)
 	}
 	return strings.ToValidUTF8(string(b[:maxBytes]), "") + "..."
+}
+
+// ensureFreshToken mints a new access token when the cached one is missing or
+// spent and the client-credentials inputs are available.
+//
+// Before this, TokenExpiry was written by `auth login` and never read: CIPP
+// worked for roughly one Azure AD token lifetime and then returned 401 until a
+// human re-ran `auth login`. Refreshing here fixes that for every caller,
+// whether the credentials came from config.toml on a laptop or from the
+// environment in a container.
+//
+// The minted token is held in memory and never written to disk. `auth login`
+// persisting is a deliberate human action; a refresh on a read path is not, and
+// writing there would drop a live credential into a backed-up volume.
+func (c *Client) ensureFreshToken(ctx context.Context) error {
+	if c.Config == nil || !c.Config.TokenNeedsRefresh() {
+		return nil
+	}
+	if !c.Config.CanMintToken() {
+		// Nothing to mint with. Fall through and let the existing
+		// missing-credential errors describe what to set, rather than
+		// inventing a second vocabulary for the same problem.
+		return nil
+	}
+	// Verify mode must never dial out.
+	if cliutil.IsVerifyEnv() && !cliutil.IsVerifyLiveHTTPEnv() {
+		return nil
+	}
+
+	c.tokenMu.Lock()
+	defer c.tokenMu.Unlock()
+	// Re-check under the lock: the MCP server serves tools concurrently, and
+	// without this every in-flight request mints its own token on expiry.
+	if !c.Config.TokenNeedsRefresh() {
+		return nil
+	}
+
+	token, expiry, err := ClientCredentialsToken(
+		ctx,
+		c.Config.EffectiveAuthority(),
+		c.Config.TenantID,
+		c.Config.ClientID,
+		c.Config.ClientSecret,
+		c.Config.EffectiveScope(),
+	)
+	if err != nil {
+		return fmt.Errorf("refreshing CIPP access token: %w", err)
+	}
+	c.Config.ApplyMintedToken(token, expiry)
+	return nil
 }

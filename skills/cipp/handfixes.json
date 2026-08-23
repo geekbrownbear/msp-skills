@@ -10,8 +10,15 @@
       "status": "active",
       "spec_encode_followup": "Press-side: a connector whose generated sync path-map is empty should emit a connector-aware remedy (or, per upstream cli-printing-press #3659 'gate zero-sync data surfaces', not advertise the sync surface at all) instead of pointing at --resources. Re-check on the next reprint - cipp is on the 4.24.0 engine and #3659 landed after it.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "--all-tenants --save", "min_count": 2},
-        {"file": "cli/internal/cli/sync.go", "not_contains": "use --resources for explicit sync targets"}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "--all-tenants --save",
+          "min_count": 2
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "not_contains": "use --resources for explicit sync targets"
+        }
       ]
     },
     {
@@ -20,8 +27,50 @@
       "why": "Current CIPP returns /ListTenants as {\"Results\":[...]}; the novel cross-tenant code only handled a bare array and fell back to 'treat the whole payload as one tenant object'. That object resolves no defaultDomainName, gets dropped, and every --all-tenants fan-out reports ZERO tenants against a healthy CIPP with a 6.6 KB response on the wire. The rest of the tree already knew the key - promoted_list-tenants.go writes the store from \"Results\" and sync.go's pageItemKeys lists results/Results - only the novel path missed it. cipp_tenants.go is a NOVEL (non-generated) file, so this survives a reprint as a carried novel; the assert guards against a novel-rewrite dropping it.",
       "status": "active",
       "asserts": [
-        {"file": "cli/internal/cli/cipp_tenants.go", "contains": "tenantEnvelopeArray", "min_count": 2},
-        {"file": "cli/internal/cli/cipp_tenants_test.go", "contains": "Results envelope", "min_count": 1}
+        {
+          "file": "cli/internal/cli/cipp_tenants.go",
+          "contains": "tenantEnvelopeArray",
+          "min_count": 2
+        },
+        {
+          "file": "cli/internal/cli/cipp_tenants_test.go",
+          "contains": "Results envelope",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "id": "cipp-oauth-env-and-refresh",
+      "summary": "CIPP_CLIENT_ID/SECRET/TENANT_ID/OAUTH_SCOPE/AUTHORITY configure the client-credentials flow by environment, and the client re-mints an expired token instead of failing",
+      "why": "CIPP could only be configured through `auth login`, whose client id, secret, tenant and scope were flags with no environment equivalent. That made it the one connector in the fleet that cannot be deployed declaratively: a container had to shell in after every volume reset and run auth login, which also wrote the client secret in cleartext into the volume the operator backs up. immybot already had the right shape (IMMYBOT_CLIENT_ID and friends) so this mirrors it rather than inventing a second convention. The larger defect was underneath: TokenExpiry was written by SaveTokens and never read by anything. The client called Config.AuthHeader(), which returns the cached AccessToken with no expiry check, and nothing anywhere minted or refreshed. An Azure AD client-credentials token lives about an hour, so CIPP worked for an hour after auth login and then returned 401 until a human re-ran it. That is a laptop bug as much as a container one; running as a service only makes it unmissable. ensureFreshToken now re-mints when the cached token is missing or within two minutes of expiry, guarded by a mutex because the MCP server serves tools concurrently and every in-flight request would otherwise mint its own. A refreshed token is held in memory and never written to disk: auth login persisting is a deliberate human action, an automatic refresh on a read path is not, and writing there would drop a live credential into a backed-up volume. A static CIPP_API_KEY or auth_header is left alone entirely, since a token supplied deliberately is not ours to refresh. configForSave previously restored only CippApiKey from the file snapshot, so ClientID and ClientSecret were not covered by the #268 guard. They were file-only before, so nothing leaked; making them env-settable without extending that guard would have written an env-supplied client secret straight to config.toml. Verified: with all three set in the environment, a save leaves client_id, client_secret and tenant_id empty on disk. doctor also reported 'not configured' when client credentials were present but no token had been minted yet, which would tell a correctly-configured operator their setup was broken.",
+      "status": "active",
+      "spec_encode_followup": "Add the client-credentials env quartet and an expiry-aware refresh to the press auth template so every OAuth2 connector gets both, and audit which other connectors persist a TokenExpiry that nothing reads.",
+      "asserts": [
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "CIPP_CLIENT_SECRET",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "func (c *Config) TokenNeedsRefresh()",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "c.envOverrides[\"ClientSecret\"]",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/client/client.go",
+          "contains": "func (c *Client) ensureFreshToken(",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/client/oauth.go",
+          "contains": "func ClientCredentialsToken(",
+          "min_count": 1
+        }
       ]
     }
   ]

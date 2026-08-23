@@ -1,0 +1,78 @@
+# Build a connector image from the tree instead of from a published release.
+# Hand-authored companion to Dockerfile.connector.
+#
+# Needed because this fork carries fixes that are not released yet. The default
+# image downloads release binaries, so a change made here is invisible to it
+# until a release is cut, which makes our own work untestable in the very
+# deployment it was written for.
+#
+# Build context is skills/<slug>/cli, which is a self-contained Go module of a
+# few MB, so this stays cheap:
+#
+#   docker build -f docker/Dockerfile.connector.source \
+#     --build-arg SLUG=cipp \
+#     --build-arg CLI_BINARY=cipp-cli --build-arg MCP_BINARY=cipp-mcp \
+#     -t msp-skills/cipp:source skills/cipp/cli
+#
+# Then set CIPP_VERSION=source in docker/.env and the generated compose picks it
+# up, because the image tag is already ${<SLUG>_VERSION:-<registry version>}.
+
+ARG GO_VERSION=1.26
+ARG ALPINE_VERSION=3.20
+
+FROM golang:${GO_VERSION}-alpine AS build
+
+ARG CLI_BINARY
+ARG MCP_BINARY
+ARG VERSION=0.0.0-source
+
+RUN apk add --no-cache git ca-certificates
+
+WORKDIR /src
+COPY . .
+
+# CGO off keeps the binaries static, matching the release artifacts. The store
+# is modernc.org/sqlite, which is pure Go, so nothing here needs a C toolchain.
+ENV CGO_ENABLED=0
+RUN set -eu; \
+    go build -trimpath -ldflags "-s -w -X main.version=${VERSION}" \
+      -o "/out/${CLI_BINARY}" ./cmd/"${CLI_BINARY}"; \
+    go build -trimpath -ldflags "-s -w -X main.version=${VERSION}" \
+      -o "/out/${MCP_BINARY}" ./cmd/"${MCP_BINARY}"
+
+FROM alpine:${ALPINE_VERSION}
+
+ARG SLUG
+ARG CLI_BINARY
+ARG MCP_BINARY
+ARG VERSION=0.0.0-source
+
+RUN apk add --no-cache ca-certificates tzdata
+
+COPY --from=build /out/${CLI_BINARY} /usr/local/bin/${CLI_BINARY}
+COPY --from=build /out/${MCP_BINARY} /usr/local/bin/${MCP_BINARY}
+COPY --from=build /src/docker-entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN ln -s "/usr/local/bin/${CLI_BINARY}" /usr/local/bin/cli \
+ && ln -s "/usr/local/bin/${MCP_BINARY}" /usr/local/bin/mcp \
+ && addgroup -g 10001 -S msp \
+ && adduser -u 10001 -S -G msp -h /data msp \
+ && mkdir -p /data \
+ && chown -R 10001:10001 /data \
+ && chmod 0755 /usr/local/bin/entrypoint.sh
+
+ENV MSP_CLI_BINARY=${CLI_BINARY} \
+    MSP_MCP_BINARY=${MCP_BINARY} \
+    MSP_SLUG=${SLUG} \
+    HOME=/data \
+    PP_MCP_TRANSPORT=http \
+    PP_MCP_ADDR=0.0.0.0:7777
+
+USER 10001:10001
+WORKDIR /data
+EXPOSE 7777
+
+LABEL org.opencontainers.image.title="msp-skills ${SLUG} connector (source build)" \
+      org.opencontainers.image.version="${VERSION}"
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

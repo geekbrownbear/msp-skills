@@ -171,9 +171,18 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 			authConfigured := false
 			if cfg != nil {
 				header := cfg.AuthHeader()
-				if header == "" {
+				// Client credentials count as configured even before a token
+				// has been minted. Without this, an operator who supplied
+				// CIPP_CLIENT_ID and friends is told auth is not configured
+				// while the connector is in fact ready to mint on first use.
+				if header == "" && cfg.CanMintToken() {
+					report["auth"] = "configured"
+					report["auth_source"] = cfg.AuthSource
+					report["auth_detail"] = "client credentials present; an access token is minted on first request and held in memory"
+					authConfigured = true
+				} else if header == "" {
 					report["auth"] = "not configured"
-					report["auth_hint"] = "Set it with: cipp-cli auth set-token <token> or export CIPP_API_KEY=\"your-token-here\""
+					report["auth_hint"] = "Set it with: cipp-cli auth set-token <token>, or export CIPP_API_KEY=\"your-token-here\", or export CIPP_CLIENT_ID, CIPP_CLIENT_SECRET and CIPP_TENANT_ID to mint tokens automatically"
 					report["auth_key_url"] = "https://docs.cipp.app/user-documentation/cipp/integrations/cipp-api"
 					report["auth_instructions"] = "In CIPP: Integrations > CIPP-API > Create New Client (use a read-only Custom Role for safe testing). Then run 'cipp-cli auth login' with the Client ID, Secret, Tenant ID, and base URL (must end in /api), or set CIPP_API_KEY to a bearer token directly."
 				} else {
