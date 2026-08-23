@@ -88,11 +88,37 @@ mcp="${MSP_MCP_BINARY:?image is missing MSP_MCP_BINARY}"
 # Binding 0.0.0.0 inside the container is not a widening of exposure. The
 # container's network namespace is the boundary, the compose file publishes no
 # ports, and check_compose.py fails the build if anyone adds one.
+# A stdio-only MCP server in a container is a silent crash loop: it reads EOF on
+# stdin immediately, exits 0, and the restart policy starts it again forever
+# while logging nothing at all. Observed with blumira, whose binary predates the
+# transport flag and ignores unknown flags without complaint, so --help prints
+# nothing and there is no way to ask it politely.
+#
+# The http-capable binaries embed the PP_MCP_TRANSPORT string; the stdio-only
+# ones do not. Checking for it turns an undiagnosable restart loop into one
+# clear line naming the connector, the cause and the fix.
+assert_http_capable() {
+    [ "${PP_MCP_TRANSPORT:-stdio}" = "http" ] || return 0
+    if ! grep -qa "PP_MCP_TRANSPORT" "$(command -v "${mcp}")" 2>/dev/null; then
+        log "ERROR: ${MSP_SLUG:-this connector} was built before the MCP server"
+        log "       learned --transport, so it can only speak stdio and cannot"
+        log "       serve HTTP. In a container it would exit immediately and"
+        log "       restart forever without logging anything."
+        log ""
+        log "       See Servosity/msp-skills#241. Until that lands, this"
+        log "       connector cannot run as a service. Remove it from"
+        log "       COMPOSE_PROFILES in docker/.env."
+        exit 1
+    fi
+}
+
 mcp_args() {
     if [ "${PP_MCP_TRANSPORT:-stdio}" = "http" ]; then
         echo "--addr ${PP_MCP_ADDR:-0.0.0.0:7777}"
     fi
 }
+
+assert_http_capable
 
 case "${1:-}" in
     cli)

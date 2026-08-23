@@ -39,7 +39,18 @@ RUN set -eu; \
     for binary in "${CLI_BINARY}" "${MCP_BINARY}"; do \
       asset="${binary}-linux-${TARGETARCH}"; \
       echo "fetching ${asset}"; \
-      curl -fsSL --retry 3 --retry-delay 2 -o "${asset}" "${base}/${asset}"; \
+      if ! curl -fsSL --retry 3 --retry-delay 2 -o "${asset}" "${base}/${asset}"; then \
+        echo "" >&2; \
+        echo "ERROR: no release asset ${asset} at ${base}" >&2; \
+        echo "" >&2; \
+        echo "tools/maintainer/skills.json records version ${VERSION} for ${SLUG}, but that" >&2; \
+        echo "release may not be published. The registry version is the version of the" >&2; \
+        echo "connector in the tree, which is not always a released artifact." >&2; \
+        echo "" >&2; \
+        echo "Check https://github.com/Servosity/msp-skills/releases?q=${SLUG} and pin a" >&2; \
+        echo "published version in docker/.env:  $(echo "${SLUG}" | tr "a-z-" "A-Z_")_VERSION=<version>" >&2; \
+        exit 1; \
+      fi; \
       curl -fsSL --retry 3 --retry-delay 2 -o "${asset}.sha256" "${base}/${asset}.sha256"; \
       sha256sum -c "${asset}.sha256"; \
       mv "${asset}" "${binary}"; \
