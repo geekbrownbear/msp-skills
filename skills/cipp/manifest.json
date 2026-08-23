@@ -29,9 +29,9 @@
     "cipp_api_key": {
       "type": "string",
       "title": "CIPP bearer token",
-      "description": "Azure AD bearer JWT for your self-hosted CIPP instance. Obtained via OAuth2 client-credentials against login.microsoftonline.com; 'auth login' performs the exchange and caches it. CIPP_API_KEY accepts a static bearer token.",
+      "description": "Static Azure AD bearer token, as an alternative to the CIPP_CLIENT_ID / CIPP_CLIENT_SECRET / CIPP_TENANT_ID trio rather than an addition to it. Convenient for a quick test, but an Azure AD access token lives about an hour and nothing refreshes one supplied this way, so prefer the client credentials for anything long-running.",
       "sensitive": true,
-      "required": true
+      "required": false
     },
     "cipp_base_url": {
       "type": "string",
