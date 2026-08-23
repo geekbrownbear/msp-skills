@@ -171,9 +171,18 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 			authConfigured := false
 			if cfg != nil {
 				header := cfg.AuthHeader()
-				if header == "" {
+				// Refresh credentials count as configured before the first
+				// mint: the client refreshes lazily on the first request, so
+				// an empty header with the refresh trio present is "ready",
+				// not "unconfigured".
+				if header == "" && cfg.CanMintToken() {
+					report["auth"] = "configured"
+					report["auth_source"] = cfg.AuthSource
+					report["auth_detail"] = "refresh credentials present; an access token is minted on first request"
+					authConfigured = true
+				} else if header == "" {
 					report["auth"] = "not configured"
-					report["auth_hint"] = "Set it with: quickbooks-cli auth set-token <token> or export QUICKBOOKS_ACCESS_TOKEN=\"your-token-here\""
+					report["auth_hint"] = "Set QUICKBOOKS_CLIENT_ID, QUICKBOOKS_CLIENT_SECRET and QUICKBOOKS_REFRESH_TOKEN (plus QUICKBOOKS_REALM_ID), or a static QUICKBOOKS_ACCESS_TOKEN for a quick test"
 				} else {
 					authConfigured = true
 					report["auth"] = "configured"

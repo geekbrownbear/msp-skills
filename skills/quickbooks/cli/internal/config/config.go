@@ -55,6 +55,26 @@ func Load(configPath string) (*Config, error) {
 	cfg.snapshotFileConfig()
 
 	// Env var overrides
+	// The refresh inputs, so a container can be seeded entirely from the
+	// environment. QUICKBOOKS_ACCESS_TOKEN below stays the short-circuit for a
+	// hand-supplied token; these three are what the client refreshes with.
+	// Every one is markEnvOverride'd so an env-supplied secret is never written
+	// back to the file (#268 semantics).
+	if v := os.Getenv("QUICKBOOKS_CLIENT_ID"); v != "" {
+		cfg.ClientID = v
+		cfg.markEnvOverride("ClientID")
+	}
+	if v := os.Getenv("QUICKBOOKS_CLIENT_SECRET"); v != "" {
+		cfg.ClientSecret = v
+		cfg.markEnvOverride("ClientSecret")
+	}
+	if v := os.Getenv("QUICKBOOKS_REFRESH_TOKEN"); v != "" {
+		cfg.RefreshToken = v
+		cfg.markEnvOverride("RefreshToken")
+		if cfg.AuthSource == "" {
+			cfg.AuthSource = "env:QUICKBOOKS_REFRESH_TOKEN"
+		}
+	}
 	if v := os.Getenv("QUICKBOOKS_ACCESS_TOKEN"); v != "" {
 		cfg.AccessToken = v
 		cfg.markEnvOverride("AccessToken")
@@ -150,8 +170,18 @@ func (c *Config) SaveTokens(clientID, clientSecret, accessToken, refreshToken st
 	c.AccessToken = accessToken
 	c.RefreshToken = refreshToken
 	c.TokenExpiry = expiry
-	delete(c.envOverrides, "ClientID")
-	delete(c.envOverrides, "ClientSecret")
+	// The minted material persists deliberately: the access token, the expiry,
+	// and the refresh token, because Intuit ROTATES refresh tokens and
+	// invalidates the previous value, so a restart that fell back to the
+	// original env seed would be locked out. Deleting those three markers is
+	// what makes the minted values reach the file even when the seed came from
+	// the environment.
+	//
+	// The ClientID and ClientSecret markers are deliberately NOT deleted.
+	// Deleting them defeated configForSave's env guard and wrote an
+	// env-supplied client secret to disk in cleartext, which is the same
+	// defect immybot's save-tokens-keeps-env-credential-markers hand-fix
+	// records.
 	delete(c.envOverrides, "AccessToken")
 	delete(c.envOverrides, "RefreshToken")
 	delete(c.envOverrides, "TokenExpiry")
@@ -229,6 +259,15 @@ func (c *Config) configForSave() Config {
 		if c.envOverrides["AccessToken"] {
 			out.AccessToken = c.fileConfig.AccessToken
 		}
+		if c.envOverrides["ClientID"] {
+			out.ClientID = c.fileConfig.ClientID
+		}
+		if c.envOverrides["ClientSecret"] {
+			out.ClientSecret = c.fileConfig.ClientSecret
+		}
+		if c.envOverrides["RefreshToken"] {
+			out.RefreshToken = c.fileConfig.RefreshToken
+		}
 	}
 	out.envOverrides = nil
 	out.fileConfig = nil
@@ -280,3 +319,53 @@ func (c *Config) save() error {
 
 // Ensure strings import is used
 var _ = strings.ReplaceAll
+
+// DefaultTokenURL is Intuit's production token endpoint.
+const DefaultTokenURL = "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer"
+
+// tokenRefreshSkew re-mints slightly early so a token cannot expire between
+// the check and the request it authorizes.
+const tokenRefreshSkew = 2 * time.Minute
+
+// CanMintToken reports whether the refresh inputs are all present, whatever
+// their source: environment in a container, config file on a laptop.
+func (c *Config) CanMintToken() bool {
+	return c != nil && c.ClientID != "" && c.ClientSecret != "" && c.RefreshToken != ""
+}
+
+// TokenNeedsRefresh reports whether the cached access token is missing or too
+// close to expiry to trust.
+//
+// Nothing consulted TokenExpiry before this. An Intuit access token lives one
+// hour, `auth refresh` existed but nothing called it, so the connector worked
+// for an hour per manual refresh. Same defect cipp had.
+func (c *Config) TokenNeedsRefresh() bool {
+	if c.AuthHeaderVal != "" {
+		// A hand-supplied header is not ours to refresh.
+		return false
+	}
+	if envAccessTokenSupplied() {
+		// An operator who pins QUICKBOOKS_ACCESS_TOKEN gets exactly that token.
+		return false
+	}
+	if c.AccessToken == "" {
+		return true
+	}
+	if c.TokenExpiry.IsZero() {
+		// Cached by a build that recorded no expiry; do not churn mints.
+		return false
+	}
+	return time.Now().After(c.TokenExpiry.Add(-tokenRefreshSkew))
+}
+
+func envAccessTokenSupplied() bool {
+	return strings.TrimSpace(os.Getenv("QUICKBOOKS_ACCESS_TOKEN")) != ""
+}
+
+// EffectiveTokenURL returns the configured token endpoint or Intuit's default.
+func EffectiveTokenURL() string {
+	if v := strings.TrimSpace(os.Getenv("QUICKBOOKS_TOKEN_URL")); v != "" {
+		return v
+	}
+	return DefaultTokenURL
+}

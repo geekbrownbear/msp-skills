@@ -22,6 +22,7 @@ import (
 	"quickbooks-pp-cli/internal/config"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -36,6 +37,7 @@ type Client struct {
 	DryRun     bool
 	NoCache    bool
 	cacheDir   string
+	tokenMu    sync.Mutex
 	limiter    *cliutil.AdaptiveLimiter
 }
 
@@ -660,6 +662,9 @@ func (c *Client) authHeader(ctx context.Context) (string, error) {
 	if c.Config == nil {
 		return "", nil
 	}
+	if err := c.ensureFreshToken(ctx); err != nil {
+		return "", err
+	}
 	authHeader := c.Config.AuthHeader()
 	if authHeaderLooksLikePlaceholderCredential(authHeader) {
 		return "", authPlaceholderCredentialError(c.Config)
@@ -909,4 +914,63 @@ func truncateBody(b []byte) string {
 		return string(b)
 	}
 	return strings.ToValidUTF8(string(b[:maxBytes]), "") + "..."
+}
+
+// ensureFreshToken refreshes the access token when the cached one is missing
+// or spent and the refresh inputs are available.
+//
+// Before this, TokenExpiry was written and never read: an Intuit access token
+// lives one hour, `auth refresh` existed but nothing called it, so the
+// connector worked for an hour per manual refresh. Same defect cipp had, fixed
+// in the same shape, with one deliberate difference.
+//
+// The difference is persistence. Intuit ROTATES refresh tokens and invalidates
+// the previous value, so holding the rotation only in memory means the next
+// process restart falls back to a dead seed and is locked out with no way to
+// recover short of redoing the browser OAuth dance. The rotated refresh token
+// therefore persists via SaveTokens, whose env-override guard keeps the
+// operator's client secret off disk while letting the minted material through.
+func (c *Client) ensureFreshToken(ctx context.Context) error {
+	if c.Config == nil || !c.Config.TokenNeedsRefresh() {
+		return nil
+	}
+	if !c.Config.CanMintToken() {
+		// Nothing to refresh with; let the existing missing-credential errors
+		// describe what to set.
+		return nil
+	}
+	if cliutil.IsVerifyEnv() && !cliutil.IsVerifyLiveHTTPEnv() {
+		return nil
+	}
+
+	c.tokenMu.Lock()
+	defer c.tokenMu.Unlock()
+	if !c.Config.TokenNeedsRefresh() {
+		return nil
+	}
+
+	access, newRefresh, expiresIn, err := RefreshAccessToken(
+		ctx,
+		config.EffectiveTokenURL(),
+		c.Config.ClientID,
+		c.Config.ClientSecret,
+		c.Config.RefreshToken,
+	)
+	if err != nil {
+		return fmt.Errorf("refreshing QuickBooks access token: %w", err)
+	}
+	if newRefresh == "" {
+		newRefresh = c.Config.RefreshToken // not every response rotates
+	}
+	expiry := time.Now().Add(time.Duration(expiresIn) * time.Second)
+	if expiresIn == 0 {
+		expiry = time.Now().Add(50 * time.Minute)
+	}
+	if err := c.Config.SaveTokens(c.Config.ClientID, c.Config.ClientSecret, access, newRefresh, expiry); err != nil {
+		// The mint succeeded; a failed write must not fail the request. The
+		// values are live in memory, and the next process will re-mint from
+		// the seed if it is still valid.
+		fmt.Fprintf(os.Stderr, "warning: refreshed QuickBooks token could not be persisted: %v\n", err)
+	}
+	return nil
 }

@@ -30,26 +30,26 @@
     "quickbooks_access_token": {
       "type": "string",
       "title": "QUICKBOOKS_ACCESS_TOKEN",
-      "description": "OAuth 2.0 bearer access token sent as `Authorization: Bearer <token>`. Obtain one\nfrom the Intuit OAuth 2.0 Playground or mint it from a refresh token. Also set the\ncompany scope via QUICKBOOKS_REALM_ID (+ QUICKBOOKS_ENVIRONMENT=production|sandbox)\nor the full QUICKBOOKS_BASE_URL. Required scope: com.intuit.quickbooks.accounting.",
+      "description": "Static access token, as an alternative to the refresh trio for a quick test. Intuit access tokens live one hour and nothing refreshes one supplied this way, so prefer the refresh credentials for anything long-running.",
       "sensitive": true,
-      "required": true
+      "required": false
     },
     "quickbooks_base_url": {
       "type": "string",
       "title": "QUICKBOOKS_BASE_URL",
-      "description": "Base URL of your QuickBooks Online instance",
-      "required": true
+      "description": "Derived from QUICKBOOKS_REALM_ID automatically; set only for sandbox (QUICKBOOKS_ENVIRONMENT=sandbox does that too) or a nonstandard host.",
+      "required": false
     },
     "quickbooks_client_id": {
       "type": "string",
       "title": "QUICKBOOKS_CLIENT_ID",
-      "description": "OAuth2 client ID from your QuickBooks Online API application",
+      "description": "OAuth2 client ID from your Intuit developer app (Keys & Credentials, production keys). With the client secret and a refresh token, the connector mints and refreshes its own access tokens, persisting rotations so a restart survives Intuit's refresh-token rotation.",
       "required": true
     },
     "quickbooks_client_secret": {
       "type": "string",
       "title": "QUICKBOOKS_CLIENT_SECRET",
-      "description": "OAuth2 client secret from your QuickBooks Online API application",
+      "description": "OAuth2 client secret paired with QUICKBOOKS_CLIENT_ID.",
       "sensitive": true,
       "required": true
     },
@@ -62,21 +62,21 @@
     "quickbooks_realm_id": {
       "type": "string",
       "title": "QUICKBOOKS_REALM_ID",
-      "description": "Realm (company) ID in QuickBooks Online",
+      "description": "Your QuickBooks Online company ID. Shown beside the refresh token in the OAuth Playground, and in any QBO URL as companyid=<realm>.",
       "required": true
     },
     "quickbooks_refresh_token": {
       "type": "string",
       "title": "QUICKBOOKS_REFRESH_TOKEN",
-      "description": "OAuth2 refresh token for QuickBooks Online",
+      "description": "OAuth2 refresh token seed. Easiest source is Intuit's OAuth 2.0 Playground: authorize your app against your company with the com.intuit.quickbooks.accounting scope and copy the refresh token it prints. Intuit rotates this value; the connector persists rotations automatically.",
       "sensitive": true,
       "required": true
     },
     "quickbooks_token_url": {
       "type": "string",
       "title": "QUICKBOOKS_TOKEN_URL",
-      "description": "OAuth2 token endpoint for QuickBooks Online",
-      "required": true
+      "description": "Intuit's production token endpoint by default; override only for testing.",
+      "required": false
     }
   },
   "compatibility": {

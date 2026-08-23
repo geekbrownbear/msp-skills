@@ -10,9 +10,21 @@
       "status": "active",
       "spec_encode_followup": "Press change: teach cli-printing-press to inject the entity SQL + minorversion for QBO-shaped /query endpoints via a sync-hint / x-pp-query spec extension, so a reprint regenerates this by construction. File via /printing-press-retro.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "quickbooksEntity", "min_count": 2},
-        {"file": "cli/internal/cli/sync.go", "contains": "\"minorversion\"", "min_count": 1},
-        {"file": "cli/internal/cli/sync.go", "contains": "\"JournalEntry\"", "min_count": 1}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "quickbooksEntity",
+          "min_count": 2
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "\"minorversion\"",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "\"JournalEntry\"",
+          "min_count": 1
+        }
       ]
     },
     {
@@ -22,9 +34,21 @@
       "status": "active",
       "spec_encode_followup": "Same press change as qbo-query-injection: a QBO sync-hint that emits STARTPOSITION/MAXRESULTS paging by construction.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "qboMaxResults", "min_count": 2},
-        {"file": "cli/internal/cli/sync.go", "contains": "startposition %d maxresults %d", "min_count": 1},
-        {"file": "cli/internal/cli/sync.go", "contains": "path != \"/query\"", "min_count": 2}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "qboMaxResults",
+          "min_count": 2
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "startposition %d maxresults %d",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "path != \"/query\"",
+          "min_count": 2
+        }
       ]
     },
     {
@@ -34,7 +58,11 @@
       "status": "active",
       "spec_encode_followup": "Same press change as qbo-query-injection: a QBO response-envelope hint so the generated extractor unwraps QueryResponse.<Entity> by construction.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "\"QueryResponse\"", "min_count": 1}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "\"QueryResponse\"",
+          "min_count": 1
+        }
       ]
     },
     {
@@ -44,7 +72,11 @@
       "status": "active",
       "spec_encode_followup": "Press change: a generic <CLI>_DB_PATH env override on defaultDBPath would let any multi-tenant connector isolate mirrors without a hand-edit.",
       "asserts": [
-        {"file": "cli/internal/cli/helpers.go", "contains": "QUICKBOOKS_DB_PATH", "min_count": 1}
+        {
+          "file": "cli/internal/cli/helpers.go",
+          "contains": "QUICKBOOKS_DB_PATH",
+          "min_count": 1
+        }
       ]
     },
     {
@@ -54,7 +86,11 @@
       "status": "active",
       "spec_encode_followup": "Press change: novel commands that own a private table should declare it in the store migration set so it is created by construction.",
       "asserts": [
-        {"file": "cli/internal/cli/aging_delta.go", "contains": "CREATE TABLE IF NOT EXISTS aging_snapshots", "min_count": 1}
+        {
+          "file": "cli/internal/cli/aging_delta.go",
+          "contains": "CREATE TABLE IF NOT EXISTS aging_snapshots",
+          "min_count": 1
+        }
       ]
     },
     {
@@ -64,9 +100,55 @@
       "status": "active",
       "spec_encode_followup": "Press change: encode the report command group in the QBO spec (or a novel-feature manifest) so root.go registers it by construction without a hand-edit.",
       "asserts": [
-        {"file": "cli/internal/cli/root.go", "contains": "newReportCmd(flags)", "min_count": 1},
-        {"file": "cli/internal/cli/report.go", "contains": "/reports/ProfitAndLoss", "min_count": 1},
-        {"file": "cli/internal/cli/report.go", "contains": "/reports/BalanceSheet", "min_count": 1}
+        {
+          "file": "cli/internal/cli/root.go",
+          "contains": "newReportCmd(flags)",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/report.go",
+          "contains": "/reports/ProfitAndLoss",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/report.go",
+          "contains": "/reports/BalanceSheet",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "id": "oauth-env-and-auto-refresh",
+      "summary": "QUICKBOOKS_CLIENT_ID/SECRET/REFRESH_TOKEN configure refresh by environment, the client refreshes expired tokens itself, and rotations persist",
+      "why": "TokenExpiry was written by SaveTokens and read by nothing, `auth refresh` existed and nothing called it, and an Intuit access token lives one hour, so the connector worked for an hour per manual refresh. Same defect cipp had, fixed in the same shape: ensureFreshToken in the request path, mutex-guarded because the MCP server serves tools concurrently, verify-mode never dials. Verified live: with a fake refresh trio the mint reached Intuit's token endpoint and surfaced invalid_client; with a static QUICKBOOKS_ACCESS_TOKEN no mint happens and the request goes straight to the API. One deliberate difference from cipp: the refreshed material PERSISTS via SaveTokens. Intuit rotates refresh tokens and invalidates the previous value, so an in-memory-only rotation locks the connector out on the next restart with no recovery short of redoing the browser OAuth flow. SaveTokens also previously deleted the ClientID and ClientSecret env-override markers before saving, which defeated configForSave's guard and wrote an env-supplied client secret to disk in cleartext; that is the same defect immybot's save-tokens-keeps-env-credential-markers records. It now keeps those markers, and configForSave restores ClientID, ClientSecret and RefreshToken from the file snapshot when their live values came from the environment. Verified: a save with the trio set in the environment leaves all three empty on disk while the minted access token, rotated refresh token and expiry persist. doctor also reported not configured when the refresh trio was present but no token had been minted yet.",
+      "status": "active",
+      "spec_encode_followup": "The press auth template should emit the env trio, the expiry-aware request-path refresh, and rotation persistence for any vendor whose refresh tokens rotate; audit which other connectors persist a TokenExpiry nothing reads.",
+      "asserts": [
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "QUICKBOOKS_REFRESH_TOKEN",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/config/config.go",
+          "contains": "func (c *Config) TokenNeedsRefresh()",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/client/client.go",
+          "contains": "func (c *Client) ensureFreshToken(",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/client/oauth.go",
+          "contains": "func RefreshAccessToken(",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/doctor.go",
+          "contains": "cfg.CanMintToken()",
+          "min_count": 1
+        }
       ]
     }
   ]
