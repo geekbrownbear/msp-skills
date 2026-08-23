@@ -10,9 +10,21 @@
       "status": "active",
       "spec_encode_followup": "Fix belongs in the press: per-instance connectors should carry every required non-secret config var (base_url/region/tenant) into manifest user_config + mcp env + docs, not just the secret. Sibling of project_onboard_manifest_deleak_and_envvar (NAME mismatch) - this is env-var OMISSION.",
       "asserts": [
-        {"file": "manifest.json", "contains": "HUDU_BASE_URL", "min_count": 1},
-        {"file": "mcp-install.md", "contains": "HUDU_BASE_URL", "min_count": 1},
-        {"file": "README.md", "contains": "HUDU_BASE_URL", "min_count": 1}
+        {
+          "file": "manifest.json",
+          "contains": "HUDU_BASE_URL",
+          "min_count": 1
+        },
+        {
+          "file": "mcp-install.md",
+          "contains": "HUDU_BASE_URL",
+          "min_count": 1
+        },
+        {
+          "file": "README.md",
+          "contains": "HUDU_BASE_URL",
+          "min_count": 1
+        }
       ]
     },
     {
@@ -22,8 +34,15 @@
       "status": "active",
       "spec_encode_followup": "Not fully press-encodable - the adversarial reviewer must check bare-command refs AND trailing positionals semantically, built from agent-context. Sibling of project_onboard_missing_required_positional_defect.",
       "asserts": [
-        {"file": "guide.md", "contains": "list-by-company <company_id>", "min_count": 1},
-        {"file": "SKILL.md", "not_contains": "list-by-company --company-id"}
+        {
+          "file": "guide.md",
+          "contains": "list-by-company <company_id>",
+          "min_count": 1
+        },
+        {
+          "file": "SKILL.md",
+          "not_contains": "list-by-company --company-id"
+        }
       ]
     },
     {
@@ -32,7 +51,10 @@
       "why": "A --trademark-owner ending in 'Inc.' + the template's trailing '.' produced 'Inc..' in the README non-affiliation banner. Stripped to a single period. A reprint with the same owner string reintroduces the double period.",
       "status": "active",
       "asserts": [
-        {"file": "README.md", "not_contains": "Inc.."}
+        {
+          "file": "README.md",
+          "not_contains": "Inc.."
+        }
       ]
     },
     {
@@ -42,19 +64,61 @@
       "status": "active",
       "spec_encode_followup": "Press gap: the profiler must support PER-ENDPOINT pagination shape, not one global profile for the whole API. Some endpoints accept page+page_size, some are non-paginated. Filed as a printing-press-retro. Sibling of project_ninjaone_after_id_pagination_defect.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "func resourceRejectsPageSize", "min_count": 1},
-        {"file": "cli/internal/cli/sync.go", "contains": "\"ip-addresses\", \"networks\", \"vlans\", \"vlan-zones\", \"rack-storage-items\"", "min_count": 1},
-        {"file": "cli/internal/cli/sync_page_size_test.go", "contains": "TestSyncResource_NonPaginatedEndpoint_FetchesOnceNoPageParam", "min_count": 1},
-        {"file": "cli/internal/cli/ip-addresses_list.go", "not_contains": "page_size"},
-        {"file": "cli/internal/cli/networks_list.go", "not_contains": "page_size"},
-        {"file": "cli/internal/cli/vlans_list.go", "not_contains": "page_size"},
-        {"file": "cli/internal/cli/vlan-zones_list.go", "not_contains": "page_size"},
-        {"file": "cli/internal/cli/rack-storage-items_list.go", "not_contains": "page_size"},
-        {"file": "cli/internal/cli/ip-addresses_list.go", "not_contains": "flagPage"},
-        {"file": "cli/internal/cli/networks_list.go", "not_contains": "flagPage"},
-        {"file": "cli/internal/cli/vlans_list.go", "not_contains": "flagPage"},
-        {"file": "cli/internal/cli/vlan-zones_list.go", "not_contains": "flagPage"},
-        {"file": "cli/internal/cli/rack-storage-items_list.go", "not_contains": "flagPage"}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "func resourceRejectsPageSize",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "\"ip-addresses\", \"networks\", \"vlans\", \"vlan-zones\", \"rack-storage-items\"",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync_page_size_test.go",
+          "contains": "TestSyncResource_NonPaginatedEndpoint_FetchesOnceNoPageParam",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/ip-addresses_list.go",
+          "not_contains": "page_size"
+        },
+        {
+          "file": "cli/internal/cli/networks_list.go",
+          "not_contains": "page_size"
+        },
+        {
+          "file": "cli/internal/cli/vlans_list.go",
+          "not_contains": "page_size"
+        },
+        {
+          "file": "cli/internal/cli/vlan-zones_list.go",
+          "not_contains": "page_size"
+        },
+        {
+          "file": "cli/internal/cli/rack-storage-items_list.go",
+          "not_contains": "page_size"
+        },
+        {
+          "file": "cli/internal/cli/ip-addresses_list.go",
+          "not_contains": "flagPage"
+        },
+        {
+          "file": "cli/internal/cli/networks_list.go",
+          "not_contains": "flagPage"
+        },
+        {
+          "file": "cli/internal/cli/vlans_list.go",
+          "not_contains": "flagPage"
+        },
+        {
+          "file": "cli/internal/cli/vlan-zones_list.go",
+          "not_contains": "flagPage"
+        },
+        {
+          "file": "cli/internal/cli/rack-storage-items_list.go",
+          "not_contains": "flagPage"
+        }
       ]
     },
     {
@@ -64,8 +128,16 @@
       "status": "active",
       "spec_encode_followup": "Press gap: when cursorParam resolves to a page-integer spelling (page/page_number/...), cursorType must be set to 'page', not left ''. Filed in the same printing-press-retro as the per-endpoint pagination shape.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "cursorType: \"page\"", "min_count": 1},
-        {"file": "cli/internal/cli/sync_page_size_test.go", "contains": "TestSyncResource_PageType_AdvancesUntilShortPage", "min_count": 1}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "cursorType: \"page\"",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync_page_size_test.go",
+          "contains": "TestSyncResource_PageType_AdvancesUntilShortPage",
+          "min_count": 1
+        }
       ]
     },
     {
@@ -75,12 +147,36 @@
       "status": "active",
       "spec_encode_followup": "Press gap: the profiler must support per-endpoint pagination shape, including endpoints that accept but ignore pagination parameters and return the complete collection. Track with upstream issue #3481.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "seenPageFingerprints[fp]", "min_count": 2},
-        {"file": "cli/internal/cli/sync.go", "contains": "if resource == \"procedure-tasks\"", "min_count": 1},
-        {"file": "cli/internal/cli/sync_page_size_test.go", "contains": "TestSyncResource_ProcedureTasks_IgnoredPaginationSkipsDuplicateUpsert", "min_count": 1},
-        {"file": "cli/internal/cli/sync_page_size_test.go", "contains": "TestSyncResource_ProcedureTasks_PaginatedDeploymentStillDrainsPages", "min_count": 1},
-        {"file": "cli/internal/cli/sync_page_size_test.go", "contains": "TestSyncResource_ProcedureTasks_TotalIncludesExistingRows", "min_count": 1},
-        {"file": "cli/internal/cli/sync_page_size_test.go", "contains": "TestSyncResource_PageFingerprintTerminatesMultiPageCycle", "min_count": 1}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "seenPageFingerprints[fp]",
+          "min_count": 2
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "if resource == \"procedure-tasks\"",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync_page_size_test.go",
+          "contains": "TestSyncResource_ProcedureTasks_IgnoredPaginationSkipsDuplicateUpsert",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync_page_size_test.go",
+          "contains": "TestSyncResource_ProcedureTasks_PaginatedDeploymentStillDrainsPages",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync_page_size_test.go",
+          "contains": "TestSyncResource_ProcedureTasks_TotalIncludesExistingRows",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync_page_size_test.go",
+          "contains": "TestSyncResource_PageFingerprintTerminatesMultiPageCycle",
+          "min_count": 1
+        }
       ]
     },
     {
@@ -90,9 +186,21 @@
       "status": "active",
       "spec_encode_followup": "Press gap: an endpoint with a REQUIRED query param that flat-list sync cannot supply (and no enumerable parent) should be excluded from the default sync set, not registered as flat-syncable. Sibling of the unresolved-path-key skip already in sync.go.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "skipped matchers: requires integration_id", "min_count": 1},
-        {"file": "cli/internal/cli/helpers.go", "contains": "func (p *syncUserParams) hasParam", "min_count": 1},
-        {"file": "cli/internal/cli/sync_page_size_test.go", "contains": "TestSyncResource_Matchers_SkippedWithoutIntegrationID", "min_count": 1}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "skipped matchers: requires integration_id",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/helpers.go",
+          "contains": "func (p *syncUserParams) hasParam",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync_page_size_test.go",
+          "contains": "TestSyncResource_Matchers_SkippedWithoutIntegrationID",
+          "min_count": 1
+        }
       ]
     },
     {
@@ -102,10 +210,26 @@
       "status": "active",
       "spec_encode_followup": "Press gap: PER-ENDPOINT page_size (some endpoints 500 at the API max page size and need a smaller one). Filed in the same printing-press-retro as the per-endpoint pagination shape. Sibling of ipam-endpoints-reject-page-size.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "func resourcePageSize", "min_count": 1},
-        {"file": "cli/internal/cli/sync.go", "contains": "if lim := resourcePageSize(resource); lim > 0", "min_count": 1},
-        {"file": "cli/internal/cli/relations_list.go", "contains": "\"page-size\", 25", "min_count": 1},
-        {"file": "cli/internal/cli/sync_page_size_test.go", "contains": "TestSyncResource_Relations_PagesAt25NotGlobal100", "min_count": 1}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "func resourcePageSize",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "if lim := resourcePageSize(resource); lim > 0",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/relations_list.go",
+          "contains": "\"page-size\", 25",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync_page_size_test.go",
+          "contains": "TestSyncResource_Relations_PagesAt25NotGlobal100",
+          "min_count": 1
+        }
       ]
     },
     {
@@ -115,10 +239,40 @@
       "status": "active",
       "spec_encode_followup": "Press gap: sync should offer a native --exclude complement to --resources. Filed in the printing-press-retro.",
       "asserts": [
-        {"file": "cli/internal/cli/sync.go", "contains": "func filterExcludedResources", "min_count": 1},
-        {"file": "cli/internal/cli/sync.go", "contains": "func validateExcludeNames", "min_count": 1},
-        {"file": "cli/internal/cli/sync.go", "contains": "StringSliceVar(&exclude, \"exclude\"", "min_count": 1},
-        {"file": "cli/internal/cli/sync_page_size_test.go", "contains": "TestExcludeResources", "min_count": 1}
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "func filterExcludedResources",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "func validateExcludeNames",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync.go",
+          "contains": "StringSliceVar(&exclude, \"exclude\"",
+          "min_count": 1
+        },
+        {
+          "file": "cli/internal/cli/sync_page_size_test.go",
+          "contains": "TestExcludeResources",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "id": "doctor-flags-base-url-missing-api-path",
+      "summary": "doctor warns when base_url omits /api/v1, instead of reporting the instance reachable",
+      "why": "Hudu's API lives under /api/v1. A base URL without it reaches the web UI, which answers 404 at / like a healthy instance would, so doctor reported \"OK API: reachable (HTTP 404 at /)\" and auth configured, and then every synced resource 404'd. Observed live: 27 of 28 resources failed this way, and nothing in doctor pointed at the cause. Adding /api/v1 took it to 27 of 28 succeeding, the remaining one being a scoped API key correctly refused for asset_passwords. The check fires only on a 404 at / with a base_url that does not end in /api/v1, so it cannot mask an unrelated 404, and it prints the corrected URL.",
+      "status": "active",
+      "spec_encode_followup": "Give the press doctor template a per-connector 'expected base path' assertion, since any API mounted under a path prefix has this same failure shape.",
+      "asserts": [
+        {
+          "file": "cli/internal/cli/doctor.go",
+          "contains": "does not end in /api/v1",
+          "min_count": 1
+        }
       ]
     }
   ]

@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -252,6 +253,16 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 						status := reachAPIErr.StatusCode
 						if vendor := looksLikeDoctorInterstitial([]byte(reachAPIErr.Body)); vendor != "" {
 							report["api"] = fmt.Sprintf("blocked by %s interstitial (HTTP %d) — the configured transport reached the wall.", vendor, status)
+						} else if status == http.StatusNotFound && !strings.HasSuffix(strings.TrimRight(cfg.BaseURL, "/"), "/api/v1") {
+							// A 404 at / with a base URL that omits the API path
+							// is the single most likely misconfiguration, and it
+							// is otherwise indistinguishable from a healthy
+							// instance: the host answers, TLS is fine, auth
+							// looks configured, and then every synced resource
+							// 404s. Observed live: 27 of 28 resources failed
+							// this way against a base URL missing /api/v1.
+							report["api"] = fmt.Sprintf("reachable (HTTP %d at /), but base_url does not end in /api/v1 — every API call will 404. Set HUDU_BASE_URL to %s/api/v1", status, strings.TrimRight(cfg.BaseURL, "/"))
+							report["api_hint"] = "Hudu's API lives under /api/v1. A base URL without it reaches the web UI, not the API."
 						} else {
 							report["api"] = fmt.Sprintf("reachable (HTTP %d at /)", status)
 						}
