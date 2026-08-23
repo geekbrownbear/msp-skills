@@ -48,7 +48,7 @@
       "type": "string",
       "title": "CW_API_VERSION",
       "description": "CW_API_VERSION for ConnectWise PSA (Manage)",
-      "required": true
+      "required": false
     },
     "cw_client_id": {
       "type": "string",

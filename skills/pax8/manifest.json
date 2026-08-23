@@ -29,7 +29,7 @@
       "type": "string",
       "title": "PAX8_AUDIENCE",
       "description": "PAX8_AUDIENCE for Pax8",
-      "required": true
+      "required": false
     },
     "pax8_base_url": {
       "type": "string",
