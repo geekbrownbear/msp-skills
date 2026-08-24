@@ -1,0 +1,2736 @@
+{
+ "global": {
+  "no_quotes": "Enter values exactly as issued. Do not wrap them in quotes; the file format takes everything after the = sign verbatim, so quotes become part of the value and break authentication."
+ },
+ "connectors": [
+  {
+   "slug": "abnormal",
+   "display_name": "Abnormal Security",
+   "vendor": "Abnormal Security",
+   "category": "Security",
+   "tagline": "Triage Abnormal email threats, confirm remediations, and pull client-ready security reports from your terminal.",
+   "fields": [
+    {
+     "name": "ABNORMAL_API_TOKEN",
+     "label": "ABNORMAL_API_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets ABNORMAL_API_TOKEN for the Abnormal Security MCP server. Get a credential from the Abnormal Security portal under Settings, Integrations, Abnormal REST API.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ABNORMAL_BASE_URL",
+     "label": "ABNORMAL_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Abnormal Security instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "acronis",
+   "display_name": "Acronis Cyber Protect Cloud",
+   "vendor": "Acronis",
+   "category": "Backup/DR",
+   "tagline": "Spot failed backups, offline agents, and unbilled usage across every Acronis tenant by asking.",
+   "fields": [
+    {
+     "name": "ACRONIS_BASE_URL",
+     "label": "ACRONIS_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Acronis Cyber Protect Cloud instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ACRONIS_BEARER_AUTH",
+     "label": "ACRONIS_BEARER_AUTH",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets ACRONIS_BEARER_AUTH for the Acronis Cyber Protect Cloud MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ACRONIS_CLIENT_ID",
+     "label": "ACRONIS_CLIENT_ID",
+     "required": true,
+     "sensitive": false,
+     "help": "OAuth2 client ID from your Acronis Cyber Protect Cloud API application",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ACRONIS_CLIENT_SECRET",
+     "label": "ACRONIS_CLIENT_SECRET",
+     "required": true,
+     "sensitive": true,
+     "help": "OAuth2 client secret from your Acronis Cyber Protect Cloud API application",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ACRONIS_DATACENTER",
+     "label": "ACRONIS_DATACENTER",
+     "required": null,
+     "sensitive": false,
+     "help": "Sets ACRONIS_DATACENTER for the endpoint template variable {datacenter}.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "action1",
+   "display_name": "Action1",
+   "vendor": "Action1",
+   "category": "RMM",
+   "tagline": "Patch every client's endpoints and triage CVEs fleet-wide from your terminal.",
+   "fields": [
+    {
+     "name": "ACTION1_BASE_URL",
+     "label": "ACTION1_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Action1 instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ACTION1_CLIENT_ID",
+     "label": "ACTION1_CLIENT_ID",
+     "required": null,
+     "sensitive": true,
+     "help": "Client ID from the Action1 console's API Credentials page. With ACTION1_CLIENT_SECRET, the CLI mints a bearer token automatically. Create credentials at https://www.action1.com/api-documentation/.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ACTION1_CLIENT_SECRET",
+     "label": "ACTION1_CLIENT_SECRET",
+     "required": null,
+     "sensitive": true,
+     "help": "Client Secret paired with ACTION1_CLIENT_ID, from the Action1 console's API Credentials page.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ACTION1_OAUTH2",
+     "label": "ACTION1_OAUTH2",
+     "required": true,
+     "sensitive": false,
+     "help": "ACTION1_OAUTH2 for Action1",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ACTION1_ORG_ID",
+     "label": "ACTION1_ORG_ID",
+     "required": true,
+     "sensitive": false,
+     "help": "Organization ID in Action1",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "afi",
+   "display_name": "Afi",
+   "vendor": "Afi",
+   "category": "Backup/DR",
+   "tagline": "Answer fleet-wide Afi backup coverage, staleness, and licensing questions from one local store.",
+   "fields": [
+    {
+     "name": "AFI_API_KEY",
+     "label": "AFI_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets AFI_API_KEY for the Afi MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "AFI_BASE_URL",
+     "label": "AFI_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Afi instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "appdirect",
+   "display_name": "AppDirect",
+   "vendor": "AppDirect",
+   "category": "Billing",
+   "tagline": "Reconcile AppDirect marketplace billing and chase failed payments across every reseller company before month-close.",
+   "fields": [
+    {
+     "name": "APPDIRECT_BASE_URL",
+     "label": "APPDIRECT_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your AppDirect instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "APPDIRECT_CLIENT_ID",
+     "label": "APPDIRECT_CLIENT_ID",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets APPDIRECT_CLIENT_ID for the AppDirect MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "APPDIRECT_CLIENT_SECRET",
+     "label": "APPDIRECT_CLIENT_SECRET",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets APPDIRECT_CLIENT_SECRET for the AppDirect MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "APPDIRECT_OAUTH_SCOPE",
+     "label": "APPDIRECT_OAUTH_SCOPE",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets APPDIRECT_OAUTH_SCOPE for the AppDirect MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "APPDIRECT_TOKEN_URL",
+     "label": "APPDIRECT_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "OAuth2 token endpoint for AppDirect",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "atera",
+   "display_name": "Atera",
+   "vendor": "Atera",
+   "category": "RMM",
+   "tagline": "Answer fleet-health, SLA, and book-of-business questions across your Atera estate from the terminal.",
+   "fields": [
+    {
+     "name": "ATERA_ACCOUNT_API",
+     "label": "ATERA_ACCOUNT_API",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Sets ATERA_ACCOUNT_API for the Atera MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ATERA_API_KEY",
+     "label": "ATERA_API_KEY",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Sets ATERA_API_KEY for the Atera MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ATERA_BASE_URL",
+     "label": "ATERA_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Atera instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "autotask",
+   "display_name": "Autotask PSA",
+   "vendor": "Autotask",
+   "category": "PSA",
+   "tagline": "Triage tickets, surface unbilled time, and project retainer burn by asking.",
+   "fields": [
+    {
+     "name": "AUTOTASK_API_INTEGRATION_CODE",
+     "label": "AUTOTASK_API_INTEGRATION_CODE",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets AUTOTASK_API_INTEGRATION_CODE for the Autotask PSA MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "AUTOTASK_BASE_URL",
+     "label": "AUTOTASK_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Autotask PSA instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "AUTOTASK_PSA_SECRET",
+     "label": "AUTOTASK_PSA_SECRET",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets AUTOTASK_PSA_SECRET for the Autotask PSA MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "AUTOTASK_PSA_USER_NAME",
+     "label": "AUTOTASK_PSA_USER_NAME",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets AUTOTASK_PSA_USER_NAME for the Autotask PSA MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "auvik",
+   "display_name": "Auvik",
+   "vendor": "Auvik",
+   "category": "RMM",
+   "tagline": "",
+   "fields": [
+    {
+     "name": "AUVIK_API_KEY",
+     "label": "API key",
+     "required": true,
+     "sensitive": true,
+     "help": "Generate from your user profile in the Auvik portal.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "AUVIK_BASE_URL",
+     "label": "Region API host",
+     "required": true,
+     "sensitive": false,
+     "help": "Your region's full host, no path. The region code is in your Auvik portal URL (e.g. us6 in us6.my.auvik.com). A bare region word like 'us6' fails with a protocol error, and the wrong region returns a 401 that looks like a bad key.",
+     "example": "https://auvikapi.us6.my.auvik.com",
+     "pattern": "^https://auvikapi\\.[a-z0-9]+\\.my\\.auvik\\.com$"
+    },
+    {
+     "name": "AUVIK_USERNAME",
+     "label": "Auvik login email",
+     "required": true,
+     "sensitive": false,
+     "help": "The email of the Auvik user the API key belongs to. Sent with the key as a pair.",
+     "example": "you@yourmsp.com",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "avanan",
+   "display_name": "Avanan",
+   "vendor": "Avanan",
+   "category": "Security",
+   "tagline": "Triage today's phishing across every Avanan tenant, tell one campaign from forty problems, and prove what actually happened to a quarantined message.",
+   "fields": [
+    {
+     "name": "AVANAN_APP_ID",
+     "label": "SmartAPI App ID",
+     "required": true,
+     "sensitive": false,
+     "help": "Legacy Avanan portal: Security Settings > SmartAPI > create an API key. Issued as an App ID + Client Secret pair.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "AVANAN_CLIENT_SECRET",
+     "label": "SmartAPI Client Secret",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets AVANAN_CLIENT_SECRET (the Avanan client secret) for the Avanan MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "aws-billing",
+   "display_name": "AWS",
+   "vendor": "Amazon Web Services",
+   "category": "Billing",
+   "tagline": "",
+   "fields": [
+    {
+     "name": "AWS_BILLING_BASE_URL",
+     "label": "AWS_BILLING_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "AWS_BILLING_BASE_URL for AWS",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "axcient",
+   "display_name": "Axcient x360Recover",
+   "vendor": "Axcient",
+   "category": "Backup/DR",
+   "tagline": "Catch failed and stale Axcient backups, RPO breaches, and unbilled usage across every client by asking.",
+   "fields": [
+    {
+     "name": "AXCIENT_API_KEY",
+     "label": "AXCIENT_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets AXCIENT_API_KEY for the Axcient x360Recover MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "AXCIENT_BASE_URL",
+     "label": "AXCIENT_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Axcient x360Recover instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "betterstack",
+   "display_name": "Better Stack",
+   "vendor": "Better Stack",
+   "category": "Monitoring",
+   "tagline": "Ask what's down, who's paged, where coverage is missing, and your MTTA/MTTR across your Better Stack account",
+   "fields": [
+    {
+     "name": "BETTERSTACK_API_TOKEN",
+     "label": "BETTERSTACK_API_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets BETTERSTACK_API_TOKEN for the Better Stack MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "BETTERSTACK_BASE_URL",
+     "label": "BETTERSTACK_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Better Stack instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "blumira",
+   "display_name": "Blumira",
+   "vendor": "Blumira",
+   "category": "Security",
+   "tagline": "Triage every Blumira finding across all your MSP client accounts from one ranked queue",
+   "fields": [
+    {
+     "name": "BLUMIRA_API_TOKEN",
+     "label": "BLUMIRA_API_TOKEN",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Blumira JWT bearer token. Minted+cached by `auth login`, or set directly. Set this OR BLUMIRA_CLIENT_ID + BLUMIRA_CLIENT_SECRET.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "BLUMIRA_BASE_URL",
+     "label": "BLUMIRA_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Blumira instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "BLUMIRA_CLIENT_ID",
+     "label": "BLUMIRA_CLIENT_ID",
+     "required": false,
+     "sensitive": false,
+     "help": "Optional. Blumira API Client ID (Settings > Organization > Generate API Credentials). Used with BLUMIRA_CLIENT_SECRET by `auth login` to mint a JWT.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "BLUMIRA_CLIENT_SECRET",
+     "label": "BLUMIRA_CLIENT_SECRET",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Blumira API Client Secret. Used with BLUMIRA_CLIENT_ID by `auth login` to mint a JWT (client_credentials, audience=public-api).",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "cipp",
+   "display_name": "CIPP",
+   "vendor": "CIPP",
+   "category": "Security",
+   "tagline": "Every client tenant's M365 posture, license waste, and stale accounts in one cross-tenant rollup.",
+   "fields": [
+    {
+     "name": "CIPP_API_KEY",
+     "label": "CIPP_API_KEY",
+     "required": false,
+     "sensitive": true,
+     "help": "Static Azure AD bearer token, as an alternative to the CIPP_CLIENT_ID / CIPP_CLIENT_SECRET / CIPP_TENANT_ID trio rather than an addition to it. Convenient for a quick test, but an Azure AD access token lives about an hour and nothing refreshes one supplied this way, so prefer the client credentials for anything long-running.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CIPP_AUTHORITY",
+     "label": "CIPP_AUTHORITY",
+     "required": false,
+     "sensitive": false,
+     "help": "Azure AD authority host. Defaults to https://login.microsoftonline.com; override only for a sovereign cloud.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CIPP_BASE_URL",
+     "label": "API base URL",
+     "required": true,
+     "sensitive": false,
+     "help": "Your CIPP host PLUS /api. Without the suffix every call reaches the CIPP web page instead of the API and returns HTML that looks like success.",
+     "example": "https://cipp.yourmsp.com/api",
+     "pattern": "^https://.+/api$"
+    },
+    {
+     "name": "CIPP_CLIENT_ID",
+     "label": "API client ID",
+     "required": true,
+     "sensitive": true,
+     "help": "CIPP > Integrations > CIPP-API > Create New Client. A read-only Custom Role is the safe starting point. With the secret and tenant ID, the connector mints and refreshes its own tokens.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CIPP_CLIENT_SECRET",
+     "label": "API client secret",
+     "required": true,
+     "sensitive": true,
+     "help": "Client secret paired with CIPP_CLIENT_ID.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CIPP_OAUTH_SCOPE",
+     "label": "CIPP_OAUTH_SCOPE",
+     "required": false,
+     "sensitive": false,
+     "help": "OAuth2 scope for the client-credentials exchange. Defaults to api://<client-id>/.default, which is correct for most CIPP deployments; set it only when your app registration exposes a different scope.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CIPP_TENANT_ID",
+     "label": "Entra tenant ID",
+     "required": true,
+     "sensitive": false,
+     "help": "The Microsoft Entra directory (tenant) ID hosting the CIPP API app registration.",
+     "example": "b5f2e9c1-3a47-4c8d-9e12-7d6a0f4b8c35",
+     "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "connectwise-automate",
+   "display_name": "ConnectWise Automate",
+   "vendor": "ConnectWise",
+   "category": "RMM",
+   "tagline": "",
+   "fields": [
+    {
+     "name": "CONNECTWISE_AUTOMATE_BASE_URL",
+     "label": "CONNECTWISE_AUTOMATE_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "CONNECTWISE_AUTOMATE_BASE_URL for ConnectWise Automate",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CONNECTWISE_AUTOMATE_CLIENT_ID",
+     "label": "CONNECTWISE_AUTOMATE_CLIENT_ID",
+     "required": true,
+     "sensitive": false,
+     "help": "Your registered integration clientId GUID, sent as the clientId header on every request (required for ConnectWise Automate v2020.11+).",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CONNECTWISE_AUTOMATE_SERVER",
+     "label": "CONNECTWISE_AUTOMATE_SERVER",
+     "required": true,
+     "sensitive": false,
+     "help": "Your Automate host, e.g. company.hostedrmm.com. Sets CONNECTWISE_AUTOMATE_SERVER for the endpoint base URL.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CONNECTWISE_AUTOMATE_TOKEN",
+     "label": "CONNECTWISE_AUTOMATE_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets CONNECTWISE_AUTOMATE_TOKEN for the ConnectWise Automate MCP server. Get a credential from https://docs.connectwise.com/ConnectWise_Automate.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "connectwise-control",
+   "display_name": "ConnectWise Control",
+   "vendor": "ConnectWise",
+   "category": "Remote Access",
+   "tagline": "",
+   "fields": [
+    {
+     "name": "CONNECTWISE_CONTROL_BASE_URL",
+     "label": "CONNECTWISE_CONTROL_BASE_URL",
+     "required": true,
+     "sensitive": false,
+     "help": "Your ConnectWise Control / ScreenConnect instance base URL, e.g. https://company.screenconnect.com (per-instance, required).",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CONNECTWISE_CONTROL_PASSWORD",
+     "label": "CONNECTWISE_CONTROL_PASSWORD",
+     "required": true,
+     "sensitive": true,
+     "help": "Your ConnectWise Control instance password (HTTP Basic auth).",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CONNECTWISE_CONTROL_USERNAME",
+     "label": "CONNECTWISE_CONTROL_USERNAME",
+     "required": true,
+     "sensitive": false,
+     "help": "Your ConnectWise Control instance user name (HTTP Basic auth).",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "connectwise-manage",
+   "display_name": "ConnectWise PSA (Manage)",
+   "vendor": "ConnectWise Manage",
+   "category": "PSA",
+   "tagline": "Triage boards, catch unbilled time, and prep QBRs by asking.",
+   "fields": [
+    {
+     "name": "CONNECTWISE_MANAGE_BASE_URL",
+     "label": "CONNECTWISE_MANAGE_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "CONNECTWISE_MANAGE_BASE_URL for ConnectWise PSA (Manage)",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CW_API_VERSION",
+     "label": "CW_API_VERSION",
+     "required": false,
+     "sensitive": false,
+     "help": "CW_API_VERSION for ConnectWise PSA (Manage)",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CW_CLIENT_ID",
+     "label": "CW_CLIENT_ID",
+     "required": true,
+     "sensitive": true,
+     "help": "Registered ConnectWise integration clientId GUID from developer.connectwise.com. Sent in the clientId header on every request.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CW_COMPANY_ID",
+     "label": "CW_COMPANY_ID",
+     "required": true,
+     "sensitive": false,
+     "help": "ConnectWise Manage company ID/codebase used in the composite Basic auth username.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CW_PRIVATE_KEY",
+     "label": "CW_PRIVATE_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "API Member private key used as the composite Basic auth password.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CW_PUBLIC_KEY",
+     "label": "CW_PUBLIC_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "API Member public key used with the company ID in the composite Basic auth username.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CW_SITE",
+     "label": "CW_SITE",
+     "required": true,
+     "sensitive": false,
+     "help": "ConnectWise Manage region host such as api-na.myconnectwise.net, api-eu.myconnectwise.net, api-au.myconnectwise.net, or your on-prem host.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "cork",
+   "display_name": "Cork",
+   "vendor": "Cork",
+   "category": "Security",
+   "tagline": "Explain why a client's risk score moved, patch by what is actually exploited, and catch the connector that reports healthy while its data went stale.",
+   "fields": [
+    {
+     "name": "CORK_API_KEY",
+     "label": "API key",
+     "required": true,
+     "sensitive": true,
+     "help": "From the Cork portal's API settings.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CORK_BASE_URL",
+     "label": "CORK_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Cork instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "cove",
+   "display_name": "Cove Data Protection",
+   "vendor": "Cove Data Protection",
+   "category": "Backup/DR",
+   "tagline": "Sweep every Cove customer for failed and stale backups, storage growth, and month-end billing from your terminal.",
+   "fields": [
+    {
+     "name": "COVE_BASE_URL",
+     "label": "COVE_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Cove Data Protection instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "COVE_PARTNER",
+     "label": "COVE_PARTNER",
+     "required": true,
+     "sensitive": false,
+     "help": "Partner account name for Cove Data Protection",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "COVE_PASSWORD",
+     "label": "COVE_PASSWORD",
+     "required": true,
+     "sensitive": true,
+     "help": "Password for Cove Data Protection",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "COVE_USERNAME",
+     "label": "COVE_USERNAME",
+     "required": true,
+     "sensitive": false,
+     "help": "Username for Cove Data Protection",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "crowdstrike",
+   "display_name": "CrowdStrike Falcon",
+   "vendor": "CrowdStrike",
+   "category": "Security",
+   "tagline": "Triage Falcon alerts, find stale sensors, and rank critical vulnerabilities across every tenant by asking.",
+   "fields": [
+    {
+     "name": "CROWDSTRIKE_BASE_URL",
+     "label": "CROWDSTRIKE_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your CrowdStrike Falcon instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CROWDSTRIKE_OAUTH_SCOPE",
+     "label": "CROWDSTRIKE_OAUTH_SCOPE",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets CROWDSTRIKE_OAUTH_SCOPE for the CrowdStrike Falcon MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "CROWDSTRIKE_TOKEN_URL",
+     "label": "CROWDSTRIKE_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "OAuth2 token endpoint for CrowdStrike Falcon",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "FALCON_CLIENT_ID",
+     "label": "FALCON_CLIENT_ID",
+     "required": true,
+     "sensitive": false,
+     "help": "CrowdStrike API client ID (Falcon console > API Clients & Keys).",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "FALCON_CLIENT_SECRET",
+     "label": "FALCON_CLIENT_SECRET",
+     "required": true,
+     "sensitive": true,
+     "help": "CrowdStrike API client secret. Shown once at client creation.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "datto-bcdr",
+   "display_name": "Datto BCDR",
+   "vendor": "Datto BCDR",
+   "category": "Backup/DR",
+   "tagline": "Fleet-wide Datto BCDR answers - failed screenshots, stale backups, at-risk clients - from a local mirror in one ask.",
+   "fields": [
+    {
+     "name": "DATTO_BCDR_BASE_URL",
+     "label": "DATTO_BCDR_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "DATTO_BCDR_BASE_URL for Datto BCDR",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "DATTO_BCDR_PUBLIC_KEY",
+     "label": "Public key",
+     "required": true,
+     "sensitive": true,
+     "help": "Datto partner portal: Admin > Integrations > API. Issued as a public/secret pair.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "DATTO_BCDR_SECRET_KEY",
+     "label": "Secret key",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets DATTO_BCDR_SECRET_KEY for the Datto BCDR MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "datto-rmm",
+   "display_name": "Datto RMM",
+   "vendor": "Datto RMM",
+   "category": "RMM",
+   "tagline": "Fleet-wide Datto RMM answers - stale agents, alert storms, patch and AV gaps - from a local mirror in one ask.",
+   "fields": [
+    {
+     "name": "DATTO_RMM_API_KEY",
+     "label": "DATTO_RMM_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Datto RMM API key (username in the OAuth password grant). Generate in Setup > Users in the Datto RMM web UI.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "DATTO_RMM_API_SECRET_KEY",
+     "label": "DATTO_RMM_API_SECRET_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Datto RMM API secret key (password in the OAuth password grant).",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "DATTO_RMM_API_URL",
+     "label": "DATTO_RMM_API_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "DATTO_RMM_API_URL for Datto RMM",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "DATTO_RMM_BASE_URL",
+     "label": "DATTO_RMM_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "DATTO_RMM_BASE_URL for Datto RMM",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "DATTO_RMM_PLATFORM",
+     "label": "DATTO_RMM_PLATFORM",
+     "required": true,
+     "sensitive": false,
+     "help": "DATTO_RMM_PLATFORM for Datto RMM",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "DATTO_RMM_TOKEN",
+     "label": "DATTO_RMM_TOKEN",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Optional pre-minted OAuth bearer token (skips the auto-mint).",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "domotz",
+   "display_name": "Domotz",
+   "vendor": "Domotz",
+   "category": "Network Monitoring",
+   "tagline": "Roll up Domotz fleet health, offline devices, and asset inventory across every monitored site from the terminal.",
+   "fields": [
+    {
+     "name": "DOMOTZ_API_KEY",
+     "label": "DOMOTZ_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets DOMOTZ_API_KEY for the Domotz MCP server. Get a credential from https://portal.domotz.com/portal/settings/services?selected_menu=api_keys.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "DOMOTZ_BASE_URL",
+     "label": "DOMOTZ_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Domotz instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "DOMOTZ_REGION",
+     "label": "DOMOTZ_REGION",
+     "required": null,
+     "sensitive": false,
+     "help": "Sets DOMOTZ_REGION for the endpoint template variable {region}.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "gradient",
+   "display_name": "Gradient MSP",
+   "vendor": "Gradient MSP",
+   "category": "Billing",
+   "tagline": "Push usage counts, catch billing drift, and trace alerts to PSA tickets in Gradient MSP Synthesize from your terminal.",
+   "fields": [
+    {
+     "name": "GRADIENT_BASE_URL",
+     "label": "GRADIENT_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Gradient MSP instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "GRADIENT_TOKEN",
+     "label": "GRADIENT_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets GRADIENT_TOKEN for the Gradient MSP MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "halopsa",
+   "display_name": "HaloPSA",
+   "vendor": "HaloPSA",
+   "category": "PSA",
+   "tagline": "Triage tickets, pre-empt SLA breaches, run cross-client analytics by asking.",
+   "fields": [
+    {
+     "name": "HALOPSA_BASE_URL",
+     "label": "HALOPSA_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your HaloPSA instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "HALOPSA_CLIENT_ID",
+     "label": "API application client ID",
+     "required": true,
+     "sensitive": false,
+     "help": "From your Halo API application (Configuration > Integrations > HaloPSA API).",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "HALOPSA_CLIENT_SECRET",
+     "label": "API application secret",
+     "required": true,
+     "sensitive": true,
+     "help": "OAuth2 client secret from your Halo API application",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "HALOPSA_DOMAIN",
+     "label": "Portal domain",
+     "required": null,
+     "sensitive": false,
+     "help": "The host your Halo portal answers on.",
+     "example": "psa.yourmsp.com",
+     "pattern": ""
+    },
+    {
+     "name": "HALOPSA_OAUTH_SCOPE",
+     "label": "OAuth scope",
+     "required": false,
+     "sensitive": true,
+     "help": "Leave blank: defaults to \"all\", which matches most Halo API applications. Set only if yours is restricted to a narrower scope.",
+     "example": "all",
+     "pattern": ""
+    },
+    {
+     "name": "HALOPSA_SCOPE",
+     "label": "HALOPSA_SCOPE",
+     "required": false,
+     "sensitive": false,
+     "help": "Optional. OAuth2 scope (defaults to \"all\"); set to a narrower scope when your API application requires it",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "HALOPSA_TENANT",
+     "label": "Tenant name",
+     "required": null,
+     "sensitive": false,
+     "help": "Your Halo tenant short name.",
+     "example": "yourmsp",
+     "pattern": ""
+    },
+    {
+     "name": "HALOPSA_TOKEN",
+     "label": "HALOPSA_TOKEN",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Pre-issued Bearer access token. Overrides the client_credentials flow when set.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "HALOPSA_TOKEN_URL",
+     "label": "HALOPSA_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "OAuth2 token endpoint for HaloPSA",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "hubspot",
+   "display_name": "HubSpot",
+   "vendor": "HubSpot",
+   "category": "CRM",
+   "tagline": "Pipeline health, stale deals, and owner workload for every client by asking.",
+   "fields": [
+    {
+     "name": "HUBSPOT_ACCESS_TOKEN",
+     "label": "Private App token",
+     "required": true,
+     "sensitive": true,
+     "help": "app.hubspot.com/private-apps > Create. Grant read scopes only (crm.objects.*.read, crm.lists.read, crm.schemas.*.read); the connector then physically cannot write regardless of what any agent asks.",
+     "example": "pat-na1-xxxxxxxx-...",
+     "pattern": ""
+    },
+    {
+     "name": "HUBSPOT_BASE_URL",
+     "label": "HUBSPOT_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your HubSpot instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "HUBSPOT_OWNER_EMAIL",
+     "label": "HUBSPOT_OWNER_EMAIL",
+     "required": false,
+     "sensitive": false,
+     "help": "HUBSPOT_OWNER_EMAIL for HubSpot",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "hudu",
+   "display_name": "Hudu",
+   "vendor": "Hudu",
+   "category": "Documentation",
+   "tagline": "Audit Hudu documentation hygiene, find stale passwords and expiring certs, and search every company offline.",
+   "fields": [
+    {
+     "name": "HUDU_API_KEY",
+     "label": "API key",
+     "required": true,
+     "sensitive": true,
+     "help": "Hudu portal: Admin > API Keys. A key scoped without password access is safest; the connector works fully except reading asset passwords.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "HUDU_BASE_URL",
+     "label": "API base URL",
+     "required": true,
+     "sensitive": false,
+     "help": "Your Hudu host PLUS /api/v1. Without the suffix every call returns 404 while the connection itself looks healthy.",
+     "example": "https://docs.yourmsp.com/api/v1",
+     "pattern": "^https://.+/api/v1$"
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "huntress",
+   "display_name": "Huntress",
+   "vendor": "Huntress",
+   "category": "Security",
+   "tagline": "Triage Huntress incidents and coverage gaps across every client org from one queue.",
+   "fields": [
+    {
+     "name": "HUNTRESS_API_KEY",
+     "label": "API key",
+     "required": true,
+     "sensitive": true,
+     "help": "Huntress portal: top-right menu > API Credentials. Issued as a key + secret pair.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "HUNTRESS_API_SECRET",
+     "label": "API secret",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets HUNTRESS_API_SECRET for the Huntress MCP server. Get a credential from https://www.huntress.com/terms-of-service.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "HUNTRESS_BASE_URL",
+     "label": "HUNTRESS_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Huntress instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "immybot",
+   "display_name": "ImmyBot",
+   "vendor": "ImmyBot",
+   "category": "RMM",
+   "tagline": "Triage a night of failed maintenance by root cause, and rank one title across every tenant.",
+   "fields": [
+    {
+     "name": "IMMYBOT_BASE_URL",
+     "label": "IMMYBOT_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your ImmyBot instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "IMMYBOT_CLIENT_ID",
+     "label": "App registration client ID",
+     "required": null,
+     "sensitive": true,
+     "help": "Register an app in Entra, then in ImmyBot: Show More > People > New > paste the Enterprise App object ID into 'AD External ID'.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "IMMYBOT_CLIENT_SECRET",
+     "label": "App registration secret",
+     "required": null,
+     "sensitive": true,
+     "help": "Client secret paired with IMMYBOT_CLIENT_ID, from the Entra app registration.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "IMMYBOT_OAUTH_SCOPE",
+     "label": "IMMYBOT_OAUTH_SCOPE",
+     "required": false,
+     "sensitive": false,
+     "help": "IMMYBOT_OAUTH_SCOPE for ImmyBot",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "IMMYBOT_SUBDOMAIN",
+     "label": "Instance subdomain",
+     "required": null,
+     "sensitive": false,
+     "help": "The 'acme' in acme.immy.bot. Also derives the OAuth scope, so without it token requests are rejected.",
+     "example": "acme",
+     "pattern": ""
+    },
+    {
+     "name": "IMMYBOT_TENANT_ID",
+     "label": "Entra tenant ID",
+     "required": null,
+     "sensitive": false,
+     "help": "Directory ID of the Entra tenant your ImmyBot trusts.",
+     "example": "",
+     "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    },
+    {
+     "name": "IMMYBOT_TOKEN_URL",
+     "label": "IMMYBOT_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "OAuth2 token endpoint for ImmyBot",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "itglue",
+   "display_name": "IT Glue",
+   "vendor": "IT Glue",
+   "category": "Documentation",
+   "tagline": "Find any device, audit stale passwords, and rank thin client docs by asking.",
+   "fields": [
+    {
+     "name": "ITGLUE_API_KEY",
+     "label": "ITGLUE_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "IT Glue API key with permissions for the requested read and write operations.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ITGLUE_BASE_URL",
+     "label": "ITGLUE_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your IT Glue instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "kaseya-bms",
+   "display_name": "Kaseya BMS",
+   "vendor": "Kaseya BMS",
+   "category": "PSA",
+   "tagline": "Run the Kaseya BMS service desk, contracts, and billing from your terminal - with offline analytics the web grid can't compute.",
+   "fields": [
+    {
+     "name": "KASEYA_BMS_BASE_URL",
+     "label": "KASEYA_BMS_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "KASEYA_BMS_BASE_URL for Kaseya BMS",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "KASEYA_BMS_BEARER_AUTH",
+     "label": "KASEYA_BMS_BEARER_AUTH",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Sets KASEYA_BMS_BEARER_AUTH for the Kaseya BMS MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "KASEYA_BMS_TOKEN",
+     "label": "KASEYA_BMS_TOKEN",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Sets KASEYA_BMS_TOKEN for the Kaseya BMS MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "knowbe4",
+   "display_name": "KnowBe4",
+   "vendor": "KnowBe4",
+   "category": "Security",
+   "tagline": "Hunt repeat clickers, track risk drift, and close training-coverage gaps across every KnowBe4 client from your terminal.",
+   "fields": [
+    {
+     "name": "KNOWBE4_API_KEY",
+     "label": "KNOWBE4_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets KNOWBE4_API_KEY for the KnowBe4 MCP server. Get a credential from https://developer.knowbe4.com/.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "KNOWBE4_BASE_URL",
+     "label": "KNOWBE4_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your KnowBe4 instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "KNOWBE4_REGION",
+     "label": "KNOWBE4_REGION",
+     "required": null,
+     "sensitive": false,
+     "help": "Sets KNOWBE4_REGION for the endpoint template variable {region}.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "levelio",
+   "display_name": "Level",
+   "vendor": "Level",
+   "category": "RMM",
+   "tagline": "Rank your riskiest endpoints, patch posture, and stale devices across your Level RMM fleet from one command.",
+   "fields": [
+    {
+     "name": "LEVELIO_BASE_URL",
+     "label": "LEVELIO_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Level instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "LEVEL_API_TOKEN",
+     "label": "LEVEL_API_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets LEVEL_API_TOKEN for the Level MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "liongard",
+   "display_name": "Liongard",
+   "vendor": "Liongard",
+   "category": "Documentation",
+   "tagline": "See every config change, stale collector, and offline agent across your whole Liongard estate from one command.",
+   "fields": [
+    {
+     "name": "LIONGARD_API_KEY",
+     "label": "LIONGARD_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets LIONGARD_API_KEY for the Liongard MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "LIONGARD_BASE_URL",
+     "label": "LIONGARD_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Liongard instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "LIONGARD_INSTANCE",
+     "label": "LIONGARD_INSTANCE",
+     "required": null,
+     "sensitive": false,
+     "help": "Sets LIONGARD_INSTANCE for the endpoint template variable {instance}.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "maxio",
+   "display_name": "Maxio",
+   "vendor": "Maxio",
+   "category": "Billing",
+   "tagline": "",
+   "fields": [
+    {
+     "name": "MAXIO_API_KEY",
+     "label": "MAXIO_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "API key issued by Maxio",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "MAXIO_BASE_URL",
+     "label": "MAXIO_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Maxio instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "MAXIO_PASSWORD",
+     "label": "MAXIO_PASSWORD",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets MAXIO_PASSWORD for the Maxio MCP server. Get a credential from https://app.chargify.com/signup/maxio-billing-sandbox.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "MAXIO_SITE",
+     "label": "MAXIO_SITE",
+     "required": null,
+     "sensitive": false,
+     "help": "Sets MAXIO_SITE for the endpoint template variable {site}.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "MAXIO_USERNAME",
+     "label": "MAXIO_USERNAME",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets MAXIO_USERNAME for the Maxio MCP server. Get a credential from https://app.chargify.com/signup/maxio-billing-sandbox.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "microsoft-graph",
+   "display_name": "Microsoft Graph",
+   "vendor": "Microsoft Graph",
+   "category": "Security",
+   "tagline": "Find wasted M365 licenses, audit global admins, and triage Defender alerts by asking.",
+   "fields": [
+    {
+     "name": "MICROSOFT_GRAPH_BASE_URL",
+     "label": "MICROSOFT_GRAPH_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "MICROSOFT_GRAPH_BASE_URL for Microsoft Graph",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "MICROSOFT_GRAPH_TOKEN",
+     "label": "MICROSOFT_GRAPH_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets MICROSOFT_GRAPH_TOKEN for the Microsoft Graph MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "mspbots",
+   "display_name": "MSPbots",
+   "vendor": "MSPbots",
+   "category": "Analytics",
+   "tagline": "Pull datasets, snapshot KPIs, and track ticket backlog trends by asking.",
+   "fields": [
+    {
+     "name": "MSPBOTS_API_KEY",
+     "label": "MSPBOTS_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets MSPBOTS_API_KEY for the MSPbots MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "MSPBOTS_BASE_URL",
+     "label": "MSPBOTS_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your MSPbots instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "n-central",
+   "display_name": "N-able N-central",
+   "vendor": "N-able N-central",
+   "category": "RMM",
+   "tagline": "Find any device, triage issues, and search across every client by asking.",
+   "fields": [
+    {
+     "name": "NCENTRAL_JWT",
+     "label": "NCENTRAL_JWT",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets NCENTRAL_JWT for the N-central MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "N_CENTRAL_BASE_URL",
+     "label": "N_CENTRAL_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "N_CENTRAL_BASE_URL for N-able N-central",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "nerdio",
+   "display_name": "Nerdio Manager",
+   "vendor": "Nerdio Manager",
+   "category": "RMM",
+   "tagline": "Audit autoscale, sweep idle session hosts, and reconcile per-customer billing across every Nerdio Manager account from your terminal.",
+   "fields": [
+    {
+     "name": "NERDIO_BASE_URL",
+     "label": "NERDIO_BASE_URL",
+     "required": true,
+     "sensitive": false,
+     "help": "Your NMM instance root URL (per-MSP install), e.g. https://nmm.contoso.com. Required - there is no vendor-global endpoint.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "NERDIO_CLIENT_ID",
+     "label": "NERDIO_CLIENT_ID",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets NERDIO_CLIENT_ID for the Nerdio Manager MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "NERDIO_CLIENT_SECRET",
+     "label": "NERDIO_CLIENT_SECRET",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets NERDIO_CLIENT_SECRET for the Nerdio Manager MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "NERDIO_OAUTH_SCOPE",
+     "label": "NERDIO_OAUTH_SCOPE",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets NERDIO_OAUTH_SCOPE for the Nerdio Manager MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "NERDIO_TOKEN_URL",
+     "label": "NERDIO_TOKEN_URL",
+     "required": true,
+     "sensitive": false,
+     "help": "Entra ID token endpoint for your tenant: https://login.microsoftonline.com/<TENANT_ID>/oauth2/v2.0/token",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "ninjaone",
+   "display_name": "NinjaOne",
+   "vendor": "NinjaOne",
+   "category": "RMM",
+   "tagline": "Fleet-wide NinjaOne answers - patch compliance, backup gaps, AV blast-radius - from a local mirror in one query.",
+   "fields": [
+    {
+     "name": "NINJAONE_BASE_URL",
+     "label": "NINJAONE_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your NinjaOne instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "NINJAONE_CLIENT_ID",
+     "label": "API app client ID",
+     "required": true,
+     "sensitive": true,
+     "help": "NinjaOne: Administration > Apps > API > Add. Choose the machine-to-machine (client credentials) type.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "NINJAONE_CLIENT_SECRET",
+     "label": "API app secret",
+     "required": true,
+     "sensitive": true,
+     "help": "OAuth2 client_secret from NinjaOne Administration > Apps > API.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "NINJAONE_OAUTH_SCOPE",
+     "label": "OAuth scope",
+     "required": true,
+     "sensitive": true,
+     "help": "Space-separated, and every word must be a scope the app actually has enabled, or the token request fails with invalid_scope. If unsure, enable only Monitoring on the app and enter: monitoring. That is also the right least-privilege posture for reads and reporting.",
+     "example": "monitoring",
+     "pattern": "^(monitoring|management|control)( (monitoring|management|control))*$"
+    },
+    {
+     "name": "NINJAONE_TOKEN_URL",
+     "label": "NINJAONE_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "OAuth2 token endpoint for NinjaOne",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "pagerduty",
+   "display_name": "PagerDuty",
+   "vendor": "PagerDuty",
+   "category": "Incident Response",
+   "tagline": "Triage PagerDuty incidents, on-call schedules, and escalation policies from the terminal.",
+   "fields": [
+    {
+     "name": "PAGERDUTY_API_KEY",
+     "label": "PAGERDUTY_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets PAGERDUTY_API_KEY for the PagerDuty MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PAGERDUTY_BASE_URL",
+     "label": "PAGERDUTY_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your PagerDuty instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "pandadoc",
+   "display_name": "PandaDoc",
+   "vendor": "PandaDoc",
+   "category": "Documentation",
+   "tagline": "Find stalled proposals, aging quotes, and unsigned PandaDoc documents from the terminal.",
+   "fields": [
+    {
+     "name": "PANDADOC_API_KEY",
+     "label": "PANDADOC_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets PANDADOC_API_KEY for the PandaDoc MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PANDADOC_BASE_URL",
+     "label": "PANDADOC_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your PandaDoc instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "pax8",
+   "display_name": "Pax8",
+   "vendor": "Pax8",
+   "category": "Billing",
+   "tagline": "Reconcile Pax8 billing, track MRR, and catch usage overages before they hit the customer invoice",
+   "fields": [
+    {
+     "name": "PAX8_AUDIENCE",
+     "label": "PAX8_AUDIENCE",
+     "required": false,
+     "sensitive": false,
+     "help": "PAX8_AUDIENCE for Pax8",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PAX8_BASE_URL",
+     "label": "PAX8_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Pax8 instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PAX8_CLIENT_ID",
+     "label": "PAX8_CLIENT_ID",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets PAX8_CLIENT_ID for the Pax8 MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PAX8_CLIENT_SECRET",
+     "label": "PAX8_CLIENT_SECRET",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets PAX8_CLIENT_SECRET for the Pax8 MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PAX8_OAUTH_SCOPE",
+     "label": "PAX8_OAUTH_SCOPE",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets PAX8_OAUTH_SCOPE for the Pax8 MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PAX8_TOKEN_URL",
+     "label": "PAX8_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "OAuth2 token endpoint for Pax8",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "pipedrive",
+   "display_name": "Pipedrive",
+   "vendor": "Pipedrive",
+   "category": "CRM",
+   "tagline": "Surface stale deals, weighted forecasts, and overdue follow-ups across your pipeline by asking.",
+   "fields": [
+    {
+     "name": "PIPEDRIVE_API_KEY",
+     "label": "PIPEDRIVE_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets PIPEDRIVE_API_KEY for the Pipedrive MCP server. Get a credential from https://app.pipedrive.com/settings/personal/api.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PIPEDRIVE_BASE_URL",
+     "label": "PIPEDRIVE_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Pipedrive instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "proofpoint",
+   "display_name": "Proofpoint TAP",
+   "vendor": "Proofpoint",
+   "category": "Security",
+   "tagline": "Investigate Proofpoint TAP threats, VAPs, and top clickers from your terminal without burning the daily API quota.",
+   "fields": [
+    {
+     "name": "PROOFPOINT_API_SECRET",
+     "label": "PROOFPOINT_API_SECRET",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets PROOFPOINT_API_SECRET for the Proofpoint TAP MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PROOFPOINT_BASE_URL",
+     "label": "PROOFPOINT_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Proofpoint TAP instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "PROOFPOINT_SERVICE_PRINCIPAL",
+     "label": "PROOFPOINT_SERVICE_PRINCIPAL",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets PROOFPOINT_SERVICE_PRINCIPAL for the Proofpoint TAP MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "quickbooks",
+   "display_name": "QuickBooks Online",
+   "vendor": "QuickBooks Online",
+   "category": "Billing",
+   "tagline": "Answer AR/AP aging, DSO, cash-forecast, and month-end close questions across QuickBooks Online by asking.",
+   "fields": [
+    {
+     "name": "QUICKBOOKS_ACCESS_TOKEN",
+     "label": "QUICKBOOKS_ACCESS_TOKEN",
+     "required": false,
+     "sensitive": true,
+     "help": "Static access token, as an alternative to the refresh trio for a quick test. Intuit access tokens live one hour and nothing refreshes one supplied this way, so prefer the refresh credentials for anything long-running.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "QUICKBOOKS_BASE_URL",
+     "label": "QUICKBOOKS_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Derived from QUICKBOOKS_REALM_ID automatically; set only for sandbox (QUICKBOOKS_ENVIRONMENT=sandbox does that too) or a nonstandard host.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "QUICKBOOKS_CLIENT_ID",
+     "label": "App client ID",
+     "required": true,
+     "sensitive": false,
+     "help": "developer.intuit.com > your app > Keys & Credentials. Use the PRODUCTION keys for a real company file.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "QUICKBOOKS_CLIENT_SECRET",
+     "label": "App client secret",
+     "required": true,
+     "sensitive": true,
+     "help": "OAuth2 client secret paired with QUICKBOOKS_CLIENT_ID.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "QUICKBOOKS_ENVIRONMENT",
+     "label": "Environment",
+     "required": true,
+     "sensitive": false,
+     "help": "production for a real company, sandbox for an Intuit sandbox company. Must match where the refresh token was authorized.",
+     "example": "production",
+     "pattern": "^(production|sandbox)$"
+    },
+    {
+     "name": "QUICKBOOKS_REALM_ID",
+     "label": "Company (realm) ID",
+     "required": true,
+     "sensitive": false,
+     "help": "Shown beside the refresh token in the OAuth Playground, and in any QuickBooks URL as companyid=<number>.",
+     "example": "123146147866629",
+     "pattern": "^[0-9]+$"
+    },
+    {
+     "name": "QUICKBOOKS_REFRESH_TOKEN",
+     "label": "Refresh token (seed)",
+     "required": true,
+     "sensitive": true,
+     "help": "Easiest source: Intuit's OAuth 2.0 Playground. IMPORTANT: select YOUR app in the dropdown (not the sample app) with the com.intuit.quickbooks.accounting scope, authorize your company, and copy the refresh token. Intuit rotates this value; the connector persists rotations automatically, so this is only the seed.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "QUICKBOOKS_TOKEN_URL",
+     "label": "QUICKBOOKS_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "Intuit's production token endpoint by default; override only for testing.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "resourceguru",
+   "display_name": "Resource Guru",
+   "vendor": "Resource Guru",
+   "category": "Other",
+   "tagline": "",
+   "fields": [
+    {
+     "name": "RESOURCEGURU_BASE_URL",
+     "label": "RESOURCEGURU_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Resource Guru instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "RESOURCEGURU_EMAIL",
+     "label": "RESOURCEGURU_EMAIL",
+     "required": true,
+     "sensitive": false,
+     "help": "Your Resource Guru account email, used for HTTP Basic auth to the Resource Guru API.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "RESOURCEGURU_PASSWORD",
+     "label": "RESOURCEGURU_PASSWORD",
+     "required": true,
+     "sensitive": true,
+     "help": "Your Resource Guru account password, used for HTTP Basic auth to the Resource Guru API.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "rewst",
+   "display_name": "Rewst",
+   "vendor": "Rewst",
+   "category": "Automation",
+   "tagline": "",
+   "fields": [
+    {
+     "name": "REWST_API_TOKEN",
+     "label": "REWST_API_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Rewst API token from an API client you create in the Rewst console (sent as a bearer token).",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "REWST_BASE_URL",
+     "label": "REWST_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Rewst API base URL for your region. Defaults to the US (https://api.rewst.io); set this for EU/AU or other regional instances.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "rocketcyber",
+   "display_name": "RocketCyber",
+   "vendor": "RocketCyber",
+   "category": "Security",
+   "tagline": "Triage your managed SOC, rank devices at risk, and audit suppression rules from the terminal - no console logins.",
+   "fields": [
+    {
+     "name": "ROCKETCYBER_API_TOKEN",
+     "label": "ROCKETCYBER_API_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets ROCKETCYBER_API_TOKEN for the RocketCyber MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ROCKETCYBER_BASE_URL",
+     "label": "ROCKETCYBER_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your RocketCyber instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "rootly",
+   "display_name": "Rootly",
+   "vendor": "Rootly",
+   "category": "Incident Response",
+   "tagline": "Every Rootly incident, alert, and on-call object as a typed command, plus offline MTTR and coverage-gap answers.",
+   "fields": [
+    {
+     "name": "ROOTLY_API_KEY",
+     "label": "ROOTLY_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Rootly API key, sent as a Bearer token (JSON:API). Create one at Rootly > Settings > API Keys. Set this OR ROOTLY_API_TOKEN.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ROOTLY_API_TOKEN",
+     "label": "ROOTLY_API_TOKEN",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Accepted as an alias for ROOTLY_API_KEY (the variable the Rootly MCP server uses).",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ROOTLY_BASE_URL",
+     "label": "ROOTLY_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Rootly instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "runzero",
+   "display_name": "runZero",
+   "vendor": "runZero",
+   "category": "Security",
+   "tagline": "Find every asset on your attack surface, diff it over time, and trace any CVE to the machines it hits.",
+   "fields": [
+    {
+     "name": "RUNZERO_API_KEY",
+     "label": "RUNZERO_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets RUNZERO_API_KEY for the runZero MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "RUNZERO_BASE_URL",
+     "label": "RUNZERO_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your runZero instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "salesbuildr",
+   "display_name": "Salesbuildr",
+   "vendor": "Salesbuildr",
+   "category": "CRM",
+   "tagline": "Surface stale quotes, thin-margin lines, and pipeline velocity across your Salesbuildr quoting by asking.",
+   "fields": [
+    {
+     "name": "SALESBUILDR_API_KEY",
+     "label": "SALESBUILDR_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SALESBUILDR_API_KEY for the Salesbuildr MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SALESBUILDR_BASE_URL",
+     "label": "SALESBUILDR_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Salesbuildr instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SALESBUILDR_TENANT",
+     "label": "SALESBUILDR_TENANT",
+     "required": null,
+     "sensitive": false,
+     "help": "Sets SALESBUILDR_TENANT for the endpoint template variable {tenant}.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "sentinelone",
+   "display_name": "SentinelOne",
+   "vendor": "SentinelOne",
+   "category": "Security",
+   "tagline": "Triage threats, find protection gaps, and catch overnight fleet drift across every SentinelOne tenant by asking.",
+   "fields": [
+    {
+     "name": "SENTINELONE_API_TOKEN",
+     "label": "SENTINELONE_API_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SENTINELONE_API_TOKEN for the SentinelOne MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SENTINELONE_BASE_URL",
+     "label": "SENTINELONE_BASE_URL",
+     "required": true,
+     "sensitive": false,
+     "help": "Base URL of your SentinelOne instance",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "servosity",
+   "display_name": "Servosity",
+   "vendor": "Servosity",
+   "category": "Backup/DR",
+   "tagline": "Fleet attention, stale backups, QBR reports, and restore watch for every client by asking.",
+   "fields": [
+    {
+     "name": "SERVOSITY_MSP_BASE_URL",
+     "label": "SERVOSITY_MSP_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "SERVOSITY_MSP_BASE_URL for Servosity",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SERVOSITY_MSP_RESELLER_ID",
+     "label": "SERVOSITY_MSP_RESELLER_ID",
+     "required": false,
+     "sensitive": false,
+     "help": "SERVOSITY_MSP_RESELLER_ID for Servosity",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SERVOSITY_MSP_TOKEN",
+     "label": "SERVOSITY_MSP_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SERVOSITY_MSP_TOKEN for the Servosity MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "sherweb",
+   "display_name": "Sherweb",
+   "vendor": "Sherweb",
+   "category": "Billing",
+   "tagline": "Reconcile what you owe Sherweb against what customers owe you and surface true net margin per customer.",
+   "fields": [
+    {
+     "name": "SHERWEB_BASE_URL",
+     "label": "SHERWEB_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Sherweb instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SHERWEB_CLIENT_ID",
+     "label": "API client ID",
+     "required": true,
+     "sensitive": true,
+     "help": "From Sherweb's developer portal (api.sherweb.com): register an application.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SHERWEB_CLIENT_SECRET",
+     "label": "API client secret",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SHERWEB_CLIENT_SECRET for the Sherweb MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SHERWEB_OAUTH_SCOPE",
+     "label": "SHERWEB_OAUTH_SCOPE",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SHERWEB_OAUTH_SCOPE for the Sherweb MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SHERWEB_SUBSCRIPTION_KEY",
+     "label": "Subscription key",
+     "required": true,
+     "sensitive": true,
+     "help": "The API-gateway subscription key from the same developer portal; sent alongside the OAuth token on every call.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SHERWEB_TOKEN_URL",
+     "label": "SHERWEB_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "OAuth2 token endpoint for Sherweb",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "skykick",
+   "display_name": "SkyKick",
+   "vendor": "SkyKick",
+   "category": "Backup/DR",
+   "tagline": "Catch silently-failing Microsoft 365 backups across every SkyKick tenant before a customer needs a restore.",
+   "fields": [
+    {
+     "name": "SKYKICK_BASE_URL",
+     "label": "SKYKICK_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your SkyKick instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SKYKICK_CLIENT_ID",
+     "label": "SKYKICK_CLIENT_ID",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SKYKICK_CLIENT_ID for the SkyKick MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SKYKICK_CLIENT_SECRET",
+     "label": "SKYKICK_CLIENT_SECRET",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SKYKICK_CLIENT_SECRET for the SkyKick MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SKYKICK_OAUTH_SCOPE",
+     "label": "SKYKICK_OAUTH_SCOPE",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SKYKICK_OAUTH_SCOPE for the SkyKick MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SKYKICK_TOKEN_URL",
+     "label": "SKYKICK_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "OAuth2 token endpoint for SkyKick",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "superops",
+   "display_name": "SuperOps",
+   "vendor": "SuperOps",
+   "category": "PSA",
+   "tagline": "Catch SLA breaches, unbilled time, and at-risk assets across PSA and RMM by asking.",
+   "fields": [
+    {
+     "name": "SUPEROPS_API_TOKEN",
+     "label": "SUPEROPS_API_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SUPEROPS_API_TOKEN for the SuperOps MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SUPEROPS_BASE_URL",
+     "label": "SUPEROPS_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your SuperOps instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SUPEROPS_REGION",
+     "label": "SUPEROPS_REGION",
+     "required": true,
+     "sensitive": false,
+     "help": "SuperOps region your credentials were issued for",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SUPEROPS_SUBDOMAIN",
+     "label": "SUPEROPS_SUBDOMAIN",
+     "required": true,
+     "sensitive": false,
+     "help": "Your SuperOps subdomain",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "syncro",
+   "display_name": "Syncro",
+   "vendor": "Syncro",
+   "category": "PSA",
+   "tagline": "Run every Syncro PSA and RMM workflow from your terminal: tickets, billing, and patch gaps in one ask.",
+   "fields": [
+    {
+     "name": "SYNCRO_API_KEY",
+     "label": "SYNCRO_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets SYNCRO_API_KEY for the Syncro MCP server. Get a credential from https://syncromsp.com.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SYNCRO_BASE_URL",
+     "label": "SYNCRO_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Syncro instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "SYNCRO_SUBDOMAIN",
+     "label": "SYNCRO_SUBDOMAIN",
+     "required": null,
+     "sensitive": false,
+     "help": "Sets SYNCRO_SUBDOMAIN for the endpoint template variable {subdomain}.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "tactical-rmm",
+   "display_name": "Tactical RMM",
+   "vendor": "Tactical RMM",
+   "category": "RMM",
+   "tagline": "Triage every agent, sweep patch posture, and run a script across a filtered cohort by asking.",
+   "fields": [
+    {
+     "name": "TACTICAL_RMM_BASE_URL",
+     "label": "TACTICAL_RMM_BASE_URL",
+     "required": true,
+     "sensitive": false,
+     "help": "TACTICAL_RMM_BASE_URL for Tactical RMM",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "TRMM_API_KEY",
+     "label": "TRMM_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Tactical RMM API key (Settings > Global Settings > API Keys). Bypasses 2FA.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "threatlocker",
+   "display_name": "ThreatLocker",
+   "vendor": "ThreatLocker",
+   "category": "Security",
+   "tagline": "Clear approval backlogs, beat the 31-day audit cliff, and find dark agents across every tenant by asking.",
+   "fields": [
+    {
+     "name": "PRINTING_PRESS_CLIENT_PROFILE",
+     "label": "PRINTING_PRESS_CLIENT_PROFILE",
+     "required": true,
+     "sensitive": false,
+     "help": "Binds the MCP server to an existing tenant-gated Printing Press client profile.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "THREATLOCKER_API_KEY",
+     "label": "API key",
+     "required": true,
+     "sensitive": true,
+     "help": "Create under Integrations > API Interface in the portal, on the SAME instance as the host above. Keys can carry an expiry date.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "THREATLOCKER_BASE_URL",
+     "label": "Portal API host",
+     "required": false,
+     "sensitive": false,
+     "help": "The letter is your ThreatLocker instance: look at your portal login, e.g. 'ThreatLocker Access (F)' means the F instance. The default is G, and the wrong instance rejects your key in a way that looks like a bad key. Keep the /portalapi suffix.",
+     "example": "https://portalapi.f.threatlocker.com/portalapi",
+     "pattern": "^https://portalapi\\.[a-z]\\.threatlocker\\.com/portalapi$"
+    },
+    {
+     "name": "THREATLOCKER_ORG_ID",
+     "label": "Organization GUID",
+     "required": true,
+     "sensitive": false,
+     "help": "The GUID of your own organization, sent as the ManagedOrganizationId header. Most data calls refuse without it. Visible in the portal URL as organizationId=<guid> when viewing your organization.",
+     "example": "1f0d3c5a-9b2e-4d67-8a1c-2e5b7f9d0c3a",
+     "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    }
+   ],
+   "hinted": true
+  },
+  {
+   "slug": "unifi-network",
+   "display_name": "UniFi Network",
+   "vendor": "UniFi",
+   "category": "Network Monitoring",
+   "tagline": "Audit UniFi devices, firewall policy, and overnight config drift on a self-hosted gateway from your terminal.",
+   "fields": [
+    {
+     "name": "UNIFI_API_KEY",
+     "label": "UNIFI_API_KEY",
+     "required": true,
+     "sensitive": true,
+     "help": "Local API key from the gateway UI: Settings > Control Plane > Integrations > Create API Key.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "UNIFI_BASE_PATH",
+     "label": "UNIFI_BASE_PATH",
+     "required": true,
+     "sensitive": false,
+     "help": "UNIFI_BASE_PATH for UniFi Network",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "UNIFI_BASE_URL",
+     "label": "UNIFI_BASE_URL",
+     "required": true,
+     "sensitive": false,
+     "help": "Base URL of your UniFi Network instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "UNIFI_GATEWAY_HOST",
+     "label": "UNIFI_GATEWAY_HOST",
+     "required": true,
+     "sensitive": false,
+     "help": "Hostname or IP of the UniFi OS gateway on your network, e.g. 10.0.0.1 (the CLI adds the /proxy/network prefix).",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "UNIFI_INSECURE_SKIP_VERIFY",
+     "label": "UNIFI_INSECURE_SKIP_VERIFY",
+     "required": false,
+     "sensitive": false,
+     "help": "UNIFI_INSECURE_SKIP_VERIFY for UniFi Network",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "veeam",
+   "display_name": "Veeam",
+   "vendor": "Veeam",
+   "category": "Backup/DR",
+   "tagline": "",
+   "fields": [
+    {
+     "name": "VEEAM_BASE_URL",
+     "label": "VEEAM_BASE_URL",
+     "required": true,
+     "sensitive": false,
+     "help": "Your VSPC appliance REST API base URL, e.g. https://vspc.example.com:1280/api/v3. The console is appliance-hosted, so this is per-instance and required.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "VEEAM_TOKEN",
+     "label": "VEEAM_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Bearer token for the VSPC REST API (POST /token with your portal credentials).",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "wordpress",
+   "display_name": "WordPress",
+   "vendor": "WordPress",
+   "category": "Marketing",
+   "tagline": "",
+   "fields": [
+    {
+     "name": "WORDPRESS_BASE_URL",
+     "label": "WORDPRESS_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your WordPress instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "WORDPRESS_BASIC_AUTH",
+     "label": "WORDPRESS_BASIC_AUTH",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets WORDPRESS_BASIC_AUTH for the Wordpress MCP server.",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "xero",
+   "display_name": "Xero",
+   "vendor": "Xero",
+   "category": "Billing",
+   "tagline": "Answer AR/AP aging, reconciliation, and GL tie-out for a Xero org from the terminal - offline, in one call.",
+   "fields": [
+    {
+     "name": "XERO_ACCESS_TOKEN",
+     "label": "XERO_ACCESS_TOKEN",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Sets XERO_ACCESS_TOKEN for the Xero MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "XERO_AUTHORIZATION_URL",
+     "label": "XERO_AUTHORIZATION_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "XERO_AUTHORIZATION_URL for Xero",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "XERO_BASE_URL",
+     "label": "XERO_BASE_URL",
+     "required": false,
+     "sensitive": false,
+     "help": "Base URL of your Xero instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "XERO_CLIENT_ID",
+     "label": "XERO_CLIENT_ID",
+     "required": true,
+     "sensitive": false,
+     "help": "OAuth2 client ID from your Xero API application",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "XERO_CLIENT_SECRET",
+     "label": "XERO_CLIENT_SECRET",
+     "required": true,
+     "sensitive": true,
+     "help": "OAuth2 client secret from your Xero API application",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "XERO_OAUTH2",
+     "label": "XERO_OAUTH2",
+     "required": false,
+     "sensitive": true,
+     "help": "Optional. Sets XERO_OAUTH2 for the Xero MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "XERO_TENANT_ID",
+     "label": "XERO_TENANT_ID",
+     "required": true,
+     "sensitive": false,
+     "help": "Tenant ID in Xero",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "XERO_TOKEN_URL",
+     "label": "XERO_TOKEN_URL",
+     "required": false,
+     "sensitive": true,
+     "help": "OAuth2 token endpoint for Xero",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  },
+  {
+   "slug": "zammad",
+   "display_name": "Zammad",
+   "vendor": "Zammad",
+   "category": "PSA",
+   "tagline": "Read, search, and triage Zammad tickets and Knowledge Base, plus team-management analytics the API can't answer in one call.",
+   "fields": [
+    {
+     "name": "ZAMMAD_API_TOKEN",
+     "label": "ZAMMAD_API_TOKEN",
+     "required": true,
+     "sensitive": true,
+     "help": "Sets ZAMMAD_API_TOKEN for the Zammad MCP server.",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ZAMMAD_BASE_URL",
+     "label": "ZAMMAD_BASE_URL",
+     "required": true,
+     "sensitive": false,
+     "help": "Base URL of your Zammad instance",
+     "example": "",
+     "pattern": ""
+    },
+    {
+     "name": "ZAMMAD_URL",
+     "label": "ZAMMAD_URL",
+     "required": true,
+     "sensitive": false,
+     "help": "ZAMMAD_URL for Zammad",
+     "example": "",
+     "pattern": ""
+    }
+   ],
+   "hinted": false
+  }
+ ]
+}

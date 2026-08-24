@@ -121,7 +121,11 @@ check_data_dir() {
 }
 
 expand_file_vars
-run_credential_provider
+# Under MSP_SECRETS_RELOAD the provider runs inside the serve loop, once per
+# (re)start, so values re-read on every reload rather than freezing at boot.
+if [ "${MSP_SECRETS_RELOAD:-}" != "1" ]; then
+    run_credential_provider
+fi
 check_data_dir
 
 cli="${MSP_CLI_BINARY:?image is missing MSP_CLI_BINARY}"
@@ -166,19 +170,72 @@ mcp_args() {
     fi
 }
 
+# secret_mtime prints the mtime of the mounted secrets file, or 0.
+secret_mtime() {
+    stat -c %Y /run/secrets/connector.env 2>/dev/null || echo 0
+}
+
+# serve_with_reload runs the MCP server and restarts it when the mounted
+# secrets file changes.
+#
+# Credentials are read once at startup, so without this a credential written
+# after the container started is invisible until someone recreates the
+# container, which needs Docker access. Watching the file instead means the
+# setup UI (or any operator edit) needs only write access to the secrets
+# directory: the connector notices and reloads itself. This is what lets a
+# setup surface help the stack without holding the Docker socket, which is
+# root on the host.
+#
+# Only armed when MSP_SECRETS_RELOAD=1, which the secrets overlay sets; a
+# plain env-file deployment keeps exec-and-forget semantics.
+serve_with_reload() {
+    while :; do
+        stamp=$(secret_mtime)
+        run_credential_provider
+        # shellcheck disable=SC2046
+        "${mcp}" $(mcp_args) "$@" &
+        srv=$!
+        while kill -0 "${srv}" 2>/dev/null; do
+            sleep 5
+            if [ "$(secret_mtime)" != "${stamp}" ]; then
+                log "secrets file changed; reloading ${MSP_SLUG:-connector}"
+                kill "${srv}" 2>/dev/null
+                wait "${srv}" 2>/dev/null || true
+                continue 2
+            fi
+        done
+        # server exited on its own; propagate rather than looping a crash
+        wait "${srv}" 2>/dev/null
+        exit $?
+    done
+}
+
 case "${1:-}" in
     cli)
         shift
+        # Under reload mode the top-level provider run is deferred into the
+        # serve loop, which an exec'd CLI never enters, so run it here or
+        # `docker compose exec <slug> cli doctor` authenticates as nobody.
+        # Caught live: the server had credentials and the CLI beside it did not.
+        if [ "${MSP_SECRETS_RELOAD:-}" = "1" ]; then
+            run_credential_provider
+        fi
         exec "${cli}" "$@"
         ;;
     mcp)
         shift
         assert_http_capable
+        if [ "${MSP_SECRETS_RELOAD:-}" = "1" ]; then
+            serve_with_reload "$@"
+        fi
         # shellcheck disable=SC2046
         exec "${mcp}" $(mcp_args) "$@"
         ;;
     '')
         assert_http_capable
+        if [ "${MSP_SECRETS_RELOAD:-}" = "1" ]; then
+            serve_with_reload
+        fi
         # shellcheck disable=SC2046
         exec "${mcp}" $(mcp_args)
         ;;

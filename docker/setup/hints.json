@@ -1,0 +1,146 @@
+{
+  "_comment": "Hand-authored field hints for the setup UI, layered over each manifest's own descriptions. Everything here was learned by configuring a real connector against a real tenant; when a hint names a trap, we hit it.",
+  "global": {
+    "no_quotes": "Enter values exactly as issued. Do not wrap them in quotes; the file format takes everything after the = sign verbatim, so quotes become part of the value and break authentication."
+  },
+  "connectors": {
+    "threatlocker": {
+      "THREATLOCKER_BASE_URL": {
+        "label": "Portal API host",
+        "example": "https://portalapi.f.threatlocker.com/portalapi",
+        "help": "The letter is your ThreatLocker instance: look at your portal login, e.g. 'ThreatLocker Access (F)' means the F instance. The default is G, and the wrong instance rejects your key in a way that looks like a bad key. Keep the /portalapi suffix.",
+        "pattern": "^https://portalapi\\.[a-z]\\.threatlocker\\.com/portalapi$",
+        "choices_hint": "https://portalapi.<instance-letter>.threatlocker.com/portalapi"
+      },
+      "THREATLOCKER_ORG_ID": {
+        "label": "Organization GUID",
+        "example": "1f0d3c5a-9b2e-4d67-8a1c-2e5b7f9d0c3a",
+        "help": "The GUID of your own organization, sent as the ManagedOrganizationId header. Most data calls refuse without it. Visible in the portal URL as organizationId=<guid> when viewing your organization.",
+        "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+      },
+      "THREATLOCKER_API_KEY": {
+        "label": "API key",
+        "help": "Create under Integrations > API Interface in the portal, on the SAME instance as the host above. Keys can carry an expiry date."
+      }
+    },
+    "auvik": {
+      "AUVIK_BASE_URL": {
+        "label": "Region API host",
+        "example": "https://auvikapi.us6.my.auvik.com",
+        "help": "Your region's full host, no path. The region code is in your Auvik portal URL (e.g. us6 in us6.my.auvik.com). A bare region word like 'us6' fails with a protocol error, and the wrong region returns a 401 that looks like a bad key.",
+        "pattern": "^https://auvikapi\\.[a-z0-9]+\\.my\\.auvik\\.com$"
+      },
+      "AUVIK_USERNAME": {
+        "label": "Auvik login email",
+        "example": "you@yourmsp.com",
+        "help": "The email of the Auvik user the API key belongs to. Sent with the key as a pair."
+      },
+      "AUVIK_API_KEY": {
+        "label": "API key",
+        "help": "Generate from your user profile in the Auvik portal."
+      }
+    },
+    "hudu": {
+      "HUDU_BASE_URL": {
+        "label": "API base URL",
+        "example": "https://docs.yourmsp.com/api/v1",
+        "help": "Your Hudu host PLUS /api/v1. Without the suffix every call returns 404 while the connection itself looks healthy.",
+        "pattern": "^https://.+/api/v1$"
+      },
+      "HUDU_API_KEY": {
+        "label": "API key",
+        "help": "Hudu portal: Admin > API Keys. A key scoped without password access is safest; the connector works fully except reading asset passwords."
+      }
+    },
+    "cipp": {
+      "CIPP_BASE_URL": {
+        "label": "API base URL",
+        "example": "https://cipp.yourmsp.com/api",
+        "help": "Your CIPP host PLUS /api. Without the suffix every call reaches the CIPP web page instead of the API and returns HTML that looks like success.",
+        "pattern": "^https://.+/api$"
+      },
+      "CIPP_CLIENT_ID": {
+        "label": "API client ID",
+        "help": "CIPP > Integrations > CIPP-API > Create New Client. A read-only Custom Role is the safe starting point. With the secret and tenant ID, the connector mints and refreshes its own tokens."
+      },
+      "CIPP_CLIENT_SECRET": {"label": "API client secret"},
+      "CIPP_TENANT_ID": {
+        "label": "Entra tenant ID",
+        "example": "b5f2e9c1-3a47-4c8d-9e12-7d6a0f4b8c35",
+        "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+        "help": "The Microsoft Entra directory (tenant) ID hosting the CIPP API app registration."
+      }
+    },
+    "halopsa": {
+      "HALOPSA_CLIENT_ID": {"label": "API application client ID", "help": "From your Halo API application (Configuration > Integrations > HaloPSA API)."},
+      "HALOPSA_CLIENT_SECRET": {"label": "API application secret"},
+      "HALOPSA_TENANT": {"label": "Tenant name", "example": "yourmsp", "help": "Your Halo tenant short name."},
+      "HALOPSA_DOMAIN": {"label": "Portal domain", "example": "psa.yourmsp.com", "help": "The host your Halo portal answers on."},
+      "HALOPSA_OAUTH_SCOPE": {"label": "OAuth scope", "example": "all", "help": "Leave blank: defaults to \"all\", which matches most Halo API applications. Set only if yours is restricted to a narrower scope."}
+    },
+    "ninjaone": {
+      "NINJAONE_CLIENT_ID": {"label": "API app client ID", "help": "NinjaOne: Administration > Apps > API > Add. Choose the machine-to-machine (client credentials) type."},
+      "NINJAONE_CLIENT_SECRET": {"label": "API app secret"},
+      "NINJAONE_OAUTH_SCOPE": {
+        "label": "OAuth scope",
+        "example": "monitoring",
+        "help": "Space-separated, and every word must be a scope the app actually has enabled, or the token request fails with invalid_scope. If unsure, enable only Monitoring on the app and enter: monitoring. That is also the right least-privilege posture for reads and reporting.",
+        "pattern": "^(monitoring|management|control)( (monitoring|management|control))*$"
+      }
+    },
+    "quickbooks": {
+      "QUICKBOOKS_CLIENT_ID": {"label": "App client ID", "help": "developer.intuit.com > your app > Keys & Credentials. Use the PRODUCTION keys for a real company file."},
+      "QUICKBOOKS_CLIENT_SECRET": {"label": "App client secret"},
+      "QUICKBOOKS_REFRESH_TOKEN": {
+        "label": "Refresh token (seed)",
+        "help": "Easiest source: Intuit's OAuth 2.0 Playground. IMPORTANT: select YOUR app in the dropdown (not the sample app) with the com.intuit.quickbooks.accounting scope, authorize your company, and copy the refresh token. Intuit rotates this value; the connector persists rotations automatically, so this is only the seed."
+      },
+      "QUICKBOOKS_REALM_ID": {
+        "label": "Company (realm) ID",
+        "example": "123146147866629",
+        "pattern": "^[0-9]+$",
+        "help": "Shown beside the refresh token in the OAuth Playground, and in any QuickBooks URL as companyid=<number>."
+      },
+      "QUICKBOOKS_ENVIRONMENT": {"label": "Environment", "example": "production", "pattern": "^(production|sandbox)$", "help": "production for a real company, sandbox for an Intuit sandbox company. Must match where the refresh token was authorized."}
+    },
+    "immybot": {
+      "IMMYBOT_SUBDOMAIN": {"label": "Instance subdomain", "example": "acme", "help": "The 'acme' in acme.immy.bot. Also derives the OAuth scope, so without it token requests are rejected."},
+      "IMMYBOT_TENANT_ID": {"label": "Entra tenant ID", "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "help": "Directory ID of the Entra tenant your ImmyBot trusts."},
+      "IMMYBOT_CLIENT_ID": {"label": "App registration client ID", "help": "Register an app in Entra, then in ImmyBot: Show More > People > New > paste the Enterprise App object ID into 'AD External ID'."},
+      "IMMYBOT_CLIENT_SECRET": {"label": "App registration secret"}
+    },
+    "hubspot": {
+      "HUBSPOT_ACCESS_TOKEN": {
+        "label": "Private App token",
+        "example": "pat-na1-xxxxxxxx-...",
+        "help": "app.hubspot.com/private-apps > Create. Grant read scopes only (crm.objects.*.read, crm.lists.read, crm.schemas.*.read); the connector then physically cannot write regardless of what any agent asks."
+      }
+    },
+    "huntress": {
+      "HUNTRESS_API_KEY": {"label": "API key", "help": "Huntress portal: top-right menu > API Credentials. Issued as a key + secret pair."},
+      "HUNTRESS_API_SECRET": {"label": "API secret"}
+    },
+    "datto-bcdr": {
+      "DATTO_BCDR_PUBLIC_KEY": {"label": "Public key", "help": "Datto partner portal: Admin > Integrations > API. Issued as a public/secret pair."},
+      "DATTO_BCDR_SECRET_KEY": {"label": "Secret key"}
+    },
+    "sherweb": {
+      "SHERWEB_CLIENT_ID": {"label": "API client ID", "help": "From Sherweb's developer portal (api.sherweb.com): register an application."},
+      "SHERWEB_CLIENT_SECRET": {"label": "API client secret"},
+      "SHERWEB_SUBSCRIPTION_KEY": {"label": "Subscription key", "help": "The API-gateway subscription key from the same developer portal; sent alongside the OAuth token on every call."}
+    },
+    "cork": {
+      "CORK_API_KEY": {"label": "API key", "help": "From the Cork portal's API settings."}
+    },
+    "avanan": {
+      "AVANAN_APP_ID": {"label": "SmartAPI App ID", "help": "Legacy Avanan portal: Security Settings > SmartAPI > create an API key. Issued as an App ID + Client Secret pair."},
+      "AVANAN_CLIENT_SECRET": {"label": "SmartAPI Client Secret"},
+      "AVANAN_BASE_URL": {
+        "label": "Region API host",
+        "example": "https://smart-api-production-1-us.avanan.net",
+        "help": "Leave blank for US region 1 (the default). Credentials are region-locked, so if you are on another region use its smart-api host.",
+        "pattern": "^https://smart-api-.+\\.avanan\\.net$"
+      }
+    }
+  }
+}

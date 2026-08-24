@@ -277,6 +277,9 @@ def render_secrets_overlay(slugs):
         )
         out.append("    environment:")
         out.append('      MSP_CREDENTIAL_PROVIDER: "cat /run/secrets/connector.env"')
+        # reload on change, so a credential saved through the setup UI (or any
+        # edit of the host file) applies without recreating the container
+        out.append('      MSP_SECRETS_RELOAD: "1"')
     out.append("")
     return "\n".join(out)
 

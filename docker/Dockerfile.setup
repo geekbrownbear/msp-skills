@@ -1,0 +1,22 @@
+# The setup UI: an ephemeral onboarding page. Hand-authored.
+# Build context is the repo root, because the image needs both the Go module
+# and the generated catalog.
+
+ARG GO_VERSION=1.26
+ARG ALPINE_VERSION=3.20
+
+FROM golang:${GO_VERSION}-alpine AS build
+WORKDIR /src
+COPY tools/msp-setup/ .
+ENV CGO_ENABLED=0
+RUN go build -trimpath -ldflags "-s -w" -o /out/msp-setup .
+
+FROM alpine:${ALPINE_VERSION}
+RUN apk add --no-cache ca-certificates
+COPY --from=build /out/msp-setup /usr/local/bin/msp-setup
+COPY docker/setup/catalog.json /opt/msp-setup/catalog.json
+# Runs as root, deliberately and narrowly: saved files must be chowned to
+# uid 10001 (what the connectors run as), and only root in this namespace can
+# do that. The container is profile-gated and meant to run only during
+# onboarding; stop it when you are done.
+ENTRYPOINT ["/usr/local/bin/msp-setup"]

@@ -1,0 +1,39 @@
+# SETUP overlay. Hand-authored, not generated.
+#
+# An onboarding page for filling in connector credentials with guidance and
+# validation. Run it while onboarding, stop it after:
+#
+#   docker compose -f compose.yml -f compose.setup.yml --profile setup up -d setup
+#   docker compose -f compose.yml -f compose.setup.yml logs setup   # shows the URL + token
+#   ... use the page ...
+#   docker compose -f compose.yml -f compose.setup.yml --profile setup down setup
+#
+# It holds no Docker access and keeps no state: saves write through to
+# MSP_SECRETS_DIR on this host, and running connectors reload themselves.
+
+services:
+  setup:
+    profiles: [setup]
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.setup
+    container_name: msp-setup
+    ports:
+      - "${MSP_SETUP_BIND:?set MSP_SETUP_BIND to a specific LAN address}:${MSP_SETUP_PORT:-8081}:8081"
+    volumes:
+      - ${MSP_SECRETS_DIR:?set MSP_SECRETS_DIR in docker/.env}:/secrets
+    networks: [msp-internal]
+    read_only: true
+    tmpfs:
+      - /tmp
+    restart: "no"
+    mem_limit: 128m
+    pids_limit: 64
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - FOWNER
+      - DAC_OVERRIDE
