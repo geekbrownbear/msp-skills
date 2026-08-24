@@ -185,3 +185,25 @@ func readEvents(t *testing.T, path string) []Event {
 	}
 	return out
 }
+
+func TestE2ECallBeforeListSelfPrimes(t *testing.T) {
+	// The failure mcp-remote exposed: a fresh gateway session whose FIRST
+	// request is a tools/call. The gateway must fetch annotations itself
+	// rather than denying a read-only tool as unclassified.
+	front, _, _ := newTestGateway(t, Grant{AllowTools: []string{"*"}})
+	resp := post(t, front.URL+"/mcp/halopsa", "tok", `{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"search","arguments":{}}}`)
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("read-only tool denied before any tools/list passed through: %d", resp.StatusCode)
+	}
+}
+
+func TestE2ECallBeforeListStillDeniesWrites(t *testing.T) {
+	// Self-priming must not fail open: the write tool stays refused.
+	front, _, _ := newTestGateway(t, Grant{AllowTools: []string{"*"}})
+	resp := post(t, front.URL+"/mcp/halopsa", "tok", `{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"purge","arguments":{}}}`)
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusForbidden {
+		t.Fatalf("write tool must stay denied after self-prime, got %d", resp.StatusCode)
+	}
+}

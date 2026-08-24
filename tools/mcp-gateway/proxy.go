@@ -37,11 +37,16 @@ type Gateway struct {
 	auditor *Auditor
 	proxies map[string]*httputil.ReverseProxy
 
-	// annotations caches each connector's tool -> readOnlyHint, learned by
-	// watching tools/list responses pass through. Nothing else on this side of
-	// the wire knows whether a tool is read-only.
+	// annotations caches each connector's tool -> readOnlyHint. Two sources:
+	// tools/list responses passing through (free), and a direct fetch from the
+	// connector on a cache miss (see ensureAnnotations). The fetch matters:
+	// without it, a client whose first request in a fresh gateway session is a
+	// tools/call gets its read-only tool denied as unclassified, purely on
+	// ordering. Found by driving the gateway through mcp-remote, whose test
+	// sequence called before listing.
 	annMu       sync.RWMutex
 	annotations map[string]map[string]*bool
+	annClient   *http.Client
 }
 
 func NewGateway(cfg *Config, auditor *Auditor) (*Gateway, error) {
@@ -51,6 +56,7 @@ func NewGateway(cfg *Config, auditor *Auditor) (*Gateway, error) {
 		auditor:     auditor,
 		proxies:     map[string]*httputil.ReverseProxy{},
 		annotations: map[string]map[string]*bool{},
+		annClient:   &http.Client{Timeout: 15 * time.Second},
 	}
 	for slug, conn := range cfg.Connectors {
 		target, err := url.Parse(conn.URL)
@@ -125,6 +131,7 @@ func (g *Gateway) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if c.Method != "tools/call" {
 			continue
 		}
+		g.ensureAnnotations(slug)
 		dec := Evaluate(actor, slug, c.Params.Name, g.readOnlyHint(slug, c.Params.Name))
 		if !dec.Allow {
 			g.deny(w, actor, slug, c.Params.Name, dec, r)
@@ -210,6 +217,80 @@ func (g *Gateway) captureAnnotations(slug string) func(*http.Response) error {
 		g.annMu.Unlock()
 		return nil
 	}
+}
+
+// ensureAnnotations fetches a connector's tool annotations directly when the
+// cache has never been filled for it. The gateway performs its own MCP
+// handshake against the connector on the internal network; no client
+// credentials are involved, and a failure leaves the cache empty, which keeps
+// the deny-unclassified default rather than failing open.
+func (g *Gateway) ensureAnnotations(slug string) {
+	g.annMu.RLock()
+	_, ok := g.annotations[slug]
+	g.annMu.RUnlock()
+	if ok {
+		return
+	}
+	conn, known := g.cfg.Connectors[slug]
+	if !known {
+		return
+	}
+
+	post := func(session, body string) (*http.Response, error) {
+		req, err := http.NewRequest(http.MethodPost, conn.URL, strings.NewReader(body))
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Accept", "application/json, text/event-stream")
+		if session != "" {
+			req.Header.Set("Mcp-Session-Id", session)
+		}
+		return g.annClient.Do(req)
+	}
+
+	resp, err := post("", `{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"msp-mcp-gateway","version":"1"}}}`)
+	if err != nil {
+		return
+	}
+	session := resp.Header.Get("Mcp-Session-Id")
+	io.Copy(io.Discard, resp.Body)
+	resp.Body.Close()
+
+	if r2, err := post(session, `{"jsonrpc":"2.0","method":"notifications/initialized"}`); err == nil {
+		io.Copy(io.Discard, r2.Body)
+		r2.Body.Close()
+	}
+
+	resp, err = post(session, `{"jsonrpc":"2.0","id":2,"method":"tools/list"}`)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(io.LimitReader(resp.Body, maxBodyBytes))
+	if err != nil {
+		return
+	}
+	var parsed struct {
+		Result struct {
+			Tools []struct {
+				Name        string `json:"name"`
+				Annotations struct {
+					ReadOnlyHint *bool `json:"readOnlyHint"`
+				} `json:"annotations"`
+			} `json:"tools"`
+		} `json:"result"`
+	}
+	if json.Unmarshal(body, &parsed) != nil || len(parsed.Result.Tools) == 0 {
+		return
+	}
+	m := make(map[string]*bool, len(parsed.Result.Tools))
+	for _, t := range parsed.Result.Tools {
+		m[t.Name] = t.Annotations.ReadOnlyHint
+	}
+	g.annMu.Lock()
+	g.annotations[slug] = m
+	g.annMu.Unlock()
 }
 
 func (g *Gateway) readOnlyHint(slug, tool string) *bool {
