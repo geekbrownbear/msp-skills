@@ -5,6 +5,7 @@
  "connectors": [
   {
    "slug": "abnormal",
+   "shared_inputs": {},
    "display_name": "Abnormal Security",
    "vendor": "Abnormal Security",
    "category": "Security",
@@ -35,6 +36,7 @@
   },
   {
    "slug": "acronis",
+   "shared_inputs": {},
    "display_name": "Acronis Cyber Protect Cloud",
    "vendor": "Acronis",
    "category": "Backup/DR",
@@ -95,6 +97,7 @@
   },
   {
    "slug": "action1",
+   "shared_inputs": {},
    "display_name": "Action1",
    "vendor": "Action1",
    "category": "RMM",
@@ -155,6 +158,7 @@
   },
   {
    "slug": "afi",
+   "shared_inputs": {},
    "display_name": "Afi",
    "vendor": "Afi",
    "category": "Backup/DR",
@@ -185,6 +189,7 @@
   },
   {
    "slug": "appdirect",
+   "shared_inputs": {},
    "display_name": "AppDirect",
    "vendor": "AppDirect",
    "category": "Billing",
@@ -245,6 +250,7 @@
   },
   {
    "slug": "atera",
+   "shared_inputs": {},
    "display_name": "Atera",
    "vendor": "Atera",
    "category": "RMM",
@@ -285,6 +291,7 @@
   },
   {
    "slug": "autotask",
+   "shared_inputs": {},
    "display_name": "Autotask PSA",
    "vendor": "Autotask",
    "category": "PSA",
@@ -335,6 +342,7 @@
   },
   {
    "slug": "auvik",
+   "shared_inputs": {},
    "display_name": "Auvik",
    "vendor": "Auvik",
    "category": "RMM",
@@ -381,6 +389,7 @@
   },
   {
    "slug": "avanan",
+   "shared_inputs": {},
    "display_name": "Avanan",
    "vendor": "Avanan",
    "category": "Security",
@@ -411,6 +420,7 @@
   },
   {
    "slug": "aws-billing",
+   "shared_inputs": {},
    "display_name": "AWS",
    "vendor": "Amazon Web Services",
    "category": "Billing",
@@ -431,6 +441,7 @@
   },
   {
    "slug": "axcient",
+   "shared_inputs": {},
    "display_name": "Axcient x360Recover",
    "vendor": "Axcient",
    "category": "Backup/DR",
@@ -461,6 +472,7 @@
   },
   {
    "slug": "betterstack",
+   "shared_inputs": {},
    "display_name": "Better Stack",
    "vendor": "Better Stack",
    "category": "Monitoring",
@@ -491,6 +503,7 @@
   },
   {
    "slug": "blumira",
+   "shared_inputs": {},
    "display_name": "Blumira",
    "vendor": "Blumira",
    "category": "Security",
@@ -541,6 +554,7 @@
   },
   {
    "slug": "cipp",
+   "shared_inputs": {},
    "display_name": "CIPP",
    "vendor": "CIPP",
    "category": "Security",
@@ -628,6 +642,7 @@
   },
   {
    "slug": "connectwise-automate",
+   "shared_inputs": {},
    "display_name": "ConnectWise Automate",
    "vendor": "ConnectWise",
    "category": "RMM",
@@ -678,6 +693,7 @@
   },
   {
    "slug": "connectwise-control",
+   "shared_inputs": {},
    "display_name": "ConnectWise Control",
    "vendor": "ConnectWise",
    "category": "Remote Access",
@@ -718,6 +734,7 @@
   },
   {
    "slug": "connectwise-manage",
+   "shared_inputs": {},
    "display_name": "ConnectWise PSA (Manage)",
    "vendor": "ConnectWise Manage",
    "category": "PSA",
@@ -798,6 +815,7 @@
   },
   {
    "slug": "cork",
+   "shared_inputs": {},
    "display_name": "Cork",
    "vendor": "Cork",
    "category": "Security",
@@ -828,6 +846,7 @@
   },
   {
    "slug": "cove",
+   "shared_inputs": {},
    "display_name": "Cove Data Protection",
    "vendor": "Cove Data Protection",
    "category": "Backup/DR",
@@ -878,6 +897,7 @@
   },
   {
    "slug": "crowdstrike",
+   "shared_inputs": {},
    "display_name": "CrowdStrike Falcon",
    "vendor": "CrowdStrike",
    "category": "Security",
@@ -938,6 +958,7 @@
   },
   {
    "slug": "datto-bcdr",
+   "shared_inputs": {},
    "display_name": "Datto BCDR",
    "vendor": "Datto BCDR",
    "category": "Backup/DR",
@@ -978,6 +999,7 @@
   },
   {
    "slug": "datto-rmm",
+   "shared_inputs": {},
    "display_name": "Datto RMM",
    "vendor": "Datto RMM",
    "category": "RMM",
@@ -1048,6 +1070,7 @@
   },
   {
    "slug": "domotz",
+   "shared_inputs": {},
    "display_name": "Domotz",
    "vendor": "Domotz",
    "category": "Network Monitoring",
@@ -1088,6 +1111,7 @@
   },
   {
    "slug": "gradient",
+   "shared_inputs": {},
    "display_name": "Gradient MSP",
    "vendor": "Gradient MSP",
    "category": "Billing",
@@ -1118,6 +1142,14 @@
   },
   {
    "slug": "halopsa",
+   "shared_inputs": {
+    "halo_url": {
+     "label": "The address you sign in to Halo at",
+     "example": "https://yourmsp.halopsa.com  or  https://psa.yourmsp.com",
+     "pattern": "^https://[A-Za-z0-9.-]+(/.*)?$",
+     "help": "Paste your Halo login URL. Everything else about your instance is worked out from it."
+    }
+   },
    "display_name": "HaloPSA",
    "vendor": "HaloPSA",
    "category": "PSA",
@@ -1157,15 +1189,12 @@
      "name": "HALOPSA_DOMAIN",
      "label": "Portal domain",
      "derive": {
-      "from_field": "HALOPSA_TENANT",
-      "template": "{value}.halopsa.com",
-      "override_label": "Using a custom domain instead of halopsa.com? Enter it",
-      "override_example": "psa.yourmsp.com",
-      "override_pattern": "^[A-Za-z0-9.-]+$"
+      "from_input": "halo_url",
+      "role": "host"
      },
      "required": null,
      "sensitive": false,
-     "help": "Derived from your tenant name automatically. Only fill the custom-domain box if your Halo lives on your own domain.",
+     "help": "Sets HALOPSA_DOMAIN for the endpoint template variable {domain}.",
      "example": "",
      "pattern": ""
     },
@@ -1192,12 +1221,21 @@
     {
      "name": "HALOPSA_TENANT",
      "label": "Tenant name",
-     "derive": null,
+     "derive": {
+      "from_input": "halo_url",
+      "role": "hosted_label",
+      "hosted_suffix": ".halopsa.com",
+      "on_custom": "ask",
+      "ask_label": "Tenant name",
+      "ask_example": "yourmsp",
+      "ask_pattern": "^[a-z0-9-]+$",
+      "ask_help": "You are on a custom domain, so the URL cannot tell us your Halo tenant name. It is the short name Halo assigned (Configuration > Advanced Settings, or the tenant= value on your login screen's address)."
+     },
      "required": null,
      "sensitive": false,
-     "help": "The 'yourmsp' in yourmsp.halopsa.com. Shown in your Halo URL and under Configuration > Advanced Settings.",
-     "example": "yourmsp",
-     "pattern": "^[a-z0-9-]+$"
+     "help": "Sets HALOPSA_TENANT for the endpoint template variable {tenant}.",
+     "example": "",
+     "pattern": ""
     },
     {
      "name": "HALOPSA_TOKEN",
@@ -1224,6 +1262,7 @@
   },
   {
    "slug": "hubspot",
+   "shared_inputs": {},
    "display_name": "HubSpot",
    "vendor": "HubSpot",
    "category": "CRM",
@@ -1264,6 +1303,7 @@
   },
   {
    "slug": "hudu",
+   "shared_inputs": {},
    "display_name": "Hudu",
    "vendor": "Hudu",
    "category": "Documentation",
@@ -1301,6 +1341,7 @@
   },
   {
    "slug": "huntress",
+   "shared_inputs": {},
    "display_name": "Huntress",
    "vendor": "Huntress",
    "category": "Security",
@@ -1341,6 +1382,14 @@
   },
   {
    "slug": "immybot",
+   "shared_inputs": {
+    "immy_url": {
+     "label": "The address you sign in to ImmyBot at",
+     "example": "https://acme.immy.bot",
+     "pattern": "^https://[A-Za-z0-9.-]+(/.*)?$",
+     "help": "Paste your ImmyBot login URL; the instance subdomain is worked out from it."
+    }
+   },
    "display_name": "ImmyBot",
    "vendor": "ImmyBot",
    "category": "RMM",
@@ -1389,11 +1438,20 @@
     {
      "name": "IMMYBOT_SUBDOMAIN",
      "label": "Instance subdomain",
-     "derive": null,
+     "derive": {
+      "from_input": "immy_url",
+      "role": "hosted_label",
+      "hosted_suffix": ".immy.bot",
+      "on_custom": "ask",
+      "ask_label": "Instance subdomain",
+      "ask_example": "acme",
+      "ask_pattern": "^[a-z0-9-]+$",
+      "ask_help": "The 'acme' in acme.immy.bot. Your URL is not on immy.bot, so enter it directly."
+     },
      "required": null,
      "sensitive": false,
-     "help": "The 'acme' in acme.immy.bot. Also derives the OAuth scope, so without it token requests are rejected.",
-     "example": "acme",
+     "help": "Also derives the OAuth scope; without it token requests are rejected.",
+     "example": "",
      "pattern": ""
     },
     {
@@ -1421,6 +1479,7 @@
   },
   {
    "slug": "itglue",
+   "shared_inputs": {},
    "display_name": "IT Glue",
    "vendor": "IT Glue",
    "category": "Documentation",
@@ -1451,6 +1510,7 @@
   },
   {
    "slug": "kaseya-bms",
+   "shared_inputs": {},
    "display_name": "Kaseya BMS",
    "vendor": "Kaseya BMS",
    "category": "PSA",
@@ -1491,6 +1551,7 @@
   },
   {
    "slug": "knowbe4",
+   "shared_inputs": {},
    "display_name": "KnowBe4",
    "vendor": "KnowBe4",
    "category": "Security",
@@ -1531,6 +1592,7 @@
   },
   {
    "slug": "levelio",
+   "shared_inputs": {},
    "display_name": "Level",
    "vendor": "Level",
    "category": "RMM",
@@ -1561,6 +1623,7 @@
   },
   {
    "slug": "liongard",
+   "shared_inputs": {},
    "display_name": "Liongard",
    "vendor": "Liongard",
    "category": "Documentation",
@@ -1601,6 +1664,7 @@
   },
   {
    "slug": "maxio",
+   "shared_inputs": {},
    "display_name": "Maxio",
    "vendor": "Maxio",
    "category": "Billing",
@@ -1661,6 +1725,7 @@
   },
   {
    "slug": "microsoft-graph",
+   "shared_inputs": {},
    "display_name": "Microsoft Graph",
    "vendor": "Microsoft Graph",
    "category": "Security",
@@ -1691,6 +1756,7 @@
   },
   {
    "slug": "mspbots",
+   "shared_inputs": {},
    "display_name": "MSPbots",
    "vendor": "MSPbots",
    "category": "Analytics",
@@ -1721,6 +1787,7 @@
   },
   {
    "slug": "n-central",
+   "shared_inputs": {},
    "display_name": "N-able N-central",
    "vendor": "N-able N-central",
    "category": "RMM",
@@ -1751,6 +1818,7 @@
   },
   {
    "slug": "nerdio",
+   "shared_inputs": {},
    "display_name": "Nerdio Manager",
    "vendor": "Nerdio Manager",
    "category": "RMM",
@@ -1811,6 +1879,7 @@
   },
   {
    "slug": "ninjaone",
+   "shared_inputs": {},
    "display_name": "NinjaOne",
    "vendor": "NinjaOne",
    "category": "RMM",
@@ -1871,6 +1940,7 @@
   },
   {
    "slug": "pagerduty",
+   "shared_inputs": {},
    "display_name": "PagerDuty",
    "vendor": "PagerDuty",
    "category": "Incident Response",
@@ -1901,6 +1971,7 @@
   },
   {
    "slug": "pandadoc",
+   "shared_inputs": {},
    "display_name": "PandaDoc",
    "vendor": "PandaDoc",
    "category": "Documentation",
@@ -1931,6 +2002,7 @@
   },
   {
    "slug": "pax8",
+   "shared_inputs": {},
    "display_name": "Pax8",
    "vendor": "Pax8",
    "category": "Billing",
@@ -2001,6 +2073,7 @@
   },
   {
    "slug": "pipedrive",
+   "shared_inputs": {},
    "display_name": "Pipedrive",
    "vendor": "Pipedrive",
    "category": "CRM",
@@ -2031,6 +2104,7 @@
   },
   {
    "slug": "proofpoint",
+   "shared_inputs": {},
    "display_name": "Proofpoint TAP",
    "vendor": "Proofpoint",
    "category": "Security",
@@ -2071,6 +2145,7 @@
   },
   {
    "slug": "quickbooks",
+   "shared_inputs": {},
    "display_name": "QuickBooks Online",
    "vendor": "QuickBooks Online",
    "category": "Billing",
@@ -2161,6 +2236,7 @@
   },
   {
    "slug": "resourceguru",
+   "shared_inputs": {},
    "display_name": "Resource Guru",
    "vendor": "Resource Guru",
    "category": "Other",
@@ -2201,6 +2277,7 @@
   },
   {
    "slug": "rewst",
+   "shared_inputs": {},
    "display_name": "Rewst",
    "vendor": "Rewst",
    "category": "Automation",
@@ -2231,6 +2308,7 @@
   },
   {
    "slug": "rocketcyber",
+   "shared_inputs": {},
    "display_name": "RocketCyber",
    "vendor": "RocketCyber",
    "category": "Security",
@@ -2261,6 +2339,7 @@
   },
   {
    "slug": "rootly",
+   "shared_inputs": {},
    "display_name": "Rootly",
    "vendor": "Rootly",
    "category": "Incident Response",
@@ -2301,6 +2380,7 @@
   },
   {
    "slug": "runzero",
+   "shared_inputs": {},
    "display_name": "runZero",
    "vendor": "runZero",
    "category": "Security",
@@ -2331,6 +2411,7 @@
   },
   {
    "slug": "salesbuildr",
+   "shared_inputs": {},
    "display_name": "Salesbuildr",
    "vendor": "Salesbuildr",
    "category": "CRM",
@@ -2371,6 +2452,7 @@
   },
   {
    "slug": "sentinelone",
+   "shared_inputs": {},
    "display_name": "SentinelOne",
    "vendor": "SentinelOne",
    "category": "Security",
@@ -2401,6 +2483,7 @@
   },
   {
    "slug": "servosity",
+   "shared_inputs": {},
    "display_name": "Servosity",
    "vendor": "Servosity",
    "category": "Backup/DR",
@@ -2441,6 +2524,7 @@
   },
   {
    "slug": "sherweb",
+   "shared_inputs": {},
    "display_name": "Sherweb",
    "vendor": "Sherweb",
    "category": "Billing",
@@ -2511,6 +2595,7 @@
   },
   {
    "slug": "skykick",
+   "shared_inputs": {},
    "display_name": "SkyKick",
    "vendor": "SkyKick",
    "category": "Backup/DR",
@@ -2571,6 +2656,7 @@
   },
   {
    "slug": "superops",
+   "shared_inputs": {},
    "display_name": "SuperOps",
    "vendor": "SuperOps",
    "category": "PSA",
@@ -2621,6 +2707,7 @@
   },
   {
    "slug": "syncro",
+   "shared_inputs": {},
    "display_name": "Syncro",
    "vendor": "Syncro",
    "category": "PSA",
@@ -2661,6 +2748,7 @@
   },
   {
    "slug": "tactical-rmm",
+   "shared_inputs": {},
    "display_name": "Tactical RMM",
    "vendor": "Tactical RMM",
    "category": "RMM",
@@ -2691,6 +2779,7 @@
   },
   {
    "slug": "threatlocker",
+   "shared_inputs": {},
    "display_name": "ThreatLocker",
    "vendor": "ThreatLocker",
    "category": "Security",
@@ -2748,6 +2837,7 @@
   },
   {
    "slug": "unifi-network",
+   "shared_inputs": {},
    "display_name": "UniFi Network",
    "vendor": "UniFi",
    "category": "Network Monitoring",
@@ -2808,6 +2898,7 @@
   },
   {
    "slug": "veeam",
+   "shared_inputs": {},
    "display_name": "Veeam",
    "vendor": "Veeam",
    "category": "Backup/DR",
@@ -2838,6 +2929,7 @@
   },
   {
    "slug": "wordpress",
+   "shared_inputs": {},
    "display_name": "WordPress",
    "vendor": "WordPress",
    "category": "Marketing",
@@ -2868,6 +2960,7 @@
   },
   {
    "slug": "xero",
+   "shared_inputs": {},
    "display_name": "Xero",
    "vendor": "Xero",
    "category": "Billing",
@@ -2958,6 +3051,7 @@
   },
   {
    "slug": "zammad",
+   "shared_inputs": {},
    "display_name": "Zammad",
    "vendor": "Zammad",
    "category": "PSA",

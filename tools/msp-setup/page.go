@@ -90,13 +90,34 @@ function show(c){
   document.getElementById('f-tag').textContent=c.tagline||c.vendor;
   const have=(STATUS[c.slug]&&STATUS[c.slug].vars)||[];
   const box=document.getElementById('fields');box.innerHTML='';
+  for(const [id,si] of Object.entries(c.shared_inputs||{})){
+    const w=document.createElement('div');w.className='field';
+    w.innerHTML='<label>'+esc(si.label)+'<span class="req">required</span></label>'
+      +(si.help?'<div class="help">'+esc(si.help)+'</div>':'')
+      +'<input name="__shared__'+id+'" data-pattern="'+esc(si.pattern||'')+'" type="text" spellcheck="false">'
+      +(si.example?'<div class="ex">example: <code>'+esc(si.example)+'</code></div>':'')
+      +'<div class="viol">does not look like a web address</div>';
+    box.appendChild(w);
+  }
   const fields=[...c.fields].sort((a,b)=>((b.required===true)-(a.required===true)));
   for(const fl of fields){
     const w=document.createElement('div');w.className='field';
     const req=fl.required===true?'<span class="req">required</span>':(fl.required===false?'<span class="opt">optional</span>':'<span class="req">needed</span>');
     const set=have.includes(fl.name)?' <span class="opt">(already set &mdash; saving overwrites the whole file, so re-enter everything)</span>':'';
     const d=fl.derive;
-    if(d&&d.from_field){
+    if(d&&d.from_input){
+      w.innerHTML='<label>'+fl.label+'<span class="opt">worked out for you</span></label>'
+        +(fl.help?'<div class="help">'+esc(fl.help)+'</div>':'')
+        +'<div class="derived" id="prev-'+fl.name+'">&rarr; <code>&hellip;</code></div>'
+        +(d.on_custom==='ask'?
+          '<div id="ask-'+fl.name+'" style="display:none;margin-top:6px">'
+          +'<label>'+esc(d.ask_label||fl.label)+'<span class="req">needed</span></label>'
+          +(d.ask_help?'<div class="help">'+esc(d.ask_help)+'</div>':'')
+          +'<input name="'+fl.name+'__ask" data-pattern="'+esc(d.ask_pattern||'')+'" type="text" spellcheck="false" style="max-width:260px">'
+          +(d.ask_example?'<div class="ex">example: <code>'+esc(d.ask_example)+'</code></div>':'')
+          +'<div class="viol">does not match the expected shape</div></div>'
+          :'');
+    }else if(d&&d.from_field){
       // derived from another field, with a custom override
       w.innerHTML='<label>'+fl.label+'<span class="opt">derived</span></label>'
         +(fl.help?'<div class="help">'+esc(fl.help)+'</div>':'')
@@ -128,9 +149,26 @@ function show(c){
   f.scrollIntoView({behavior:'smooth'});
 }
 function esc(s){return s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function hostOf(v){
+  try{return new URL(v.trim()).hostname.toLowerCase()}catch(e){
+    const m=v.trim().toLowerCase().match(/^([a-z0-9.-]+)/);return m?m[1]:''}
+}
 function deriveValue(c,fl){
   const d=fl.derive;if(!d)return null;
   const q=n=>{const el=document.querySelector('#fields input[name="'+n+'"]');return el?el.value.trim():''};
+  if(d.from_input){
+    const raw=q('__shared__'+d.from_input);
+    if(!raw)return '';
+    const host=hostOf(raw);
+    if(!host)return '';
+    if(d.role==='host')return host;
+    if(d.role==='hosted_label'){
+      if(host.endsWith(d.hosted_suffix))return host.slice(0,-d.hosted_suffix.length).split('.')[0];
+      if(d.on_custom==='ask')return q(fl.name+'__ask');
+      return '';
+    }
+    return '';
+  }
   if(d.from_field){
     const ovr=q(fl.name+'__override');
     if(ovr)return ovr;
@@ -146,6 +184,13 @@ function deriveValue(c,fl){
 function previews(c){
   for(const fl of c.fields){
     if(!fl.derive)continue;
+    const d=fl.derive;
+    if(d.from_input&&d.role==='hosted_label'&&d.on_custom==='ask'){
+      const raw=(document.querySelector('#fields input[name="__shared__'+d.from_input+'"]')||{value:''}).value.trim();
+      const host=raw?hostOf(raw):'';
+      const ask=document.getElementById('ask-'+fl.name);
+      if(ask)ask.style.display=(host&&!host.endsWith(d.hosted_suffix))?'block':'none';
+    }
     const el=document.getElementById('prev-'+fl.name);if(!el)continue;
     const v=deriveValue(c,fl);
     el.innerHTML='&rarr; <code>'+(v?esc(v):'&hellip;')+'</code>'+(v?' <span class="opt">(saved as '+fl.name+')</span>':'');
@@ -171,7 +216,10 @@ async function save(ev){
   }
   const msg=document.getElementById('msg');
   if(bad){msg.className='msg err';msg.textContent='Fix the highlighted fields first.';return false}
-  const missing=c.fields.filter(f=>f.required===true&&!values[f.name]).map(f=>(f.derive&&f.derive.input_label)||f.label);
+  const missing=c.fields.filter(f=>f.required===true&&!values[f.name]).map(f=>{
+    const d=f.derive;
+    if(d&&d.from_input){const si=(c.shared_inputs||{})[d.from_input];return (d.on_custom==='ask'&&d.ask_label)?((si&&si.label)+' (or '+d.ask_label+')'):(si&&si.label)||f.label}
+    return (d&&d.input_label)||f.label});
   if(missing.length){msg.className='msg err';msg.textContent='Required: '+missing.join(', ');return false}
   const r=await fetch('/api/save',{method:'POST',headers:H,body:JSON.stringify({slug:CUR,values})});
   const j=await r.json().catch(()=>({}));

@@ -30,6 +30,7 @@ def main():
         env = (man.get("server") or {}).get("mcp_config", {}).get("env") or {}
         uc = man.get("user_config") or {}
         chints = (hints.get("connectors") or {}).get(slug, {})
+        shared = chints.get("_shared_inputs") or {}
         fields = []
         for name, ref in sorted(env.items()):
             key = str(ref).strip("${}").replace("user_config.", "")
@@ -54,6 +55,7 @@ def main():
         entry = skills[slug]
         catalog["connectors"].append({
             "slug": slug,
+            "shared_inputs": shared,
             "display_name": entry.get("display_name", slug),
             "vendor": entry.get("vendor", ""),
             "category": entry.get("category", ""),
