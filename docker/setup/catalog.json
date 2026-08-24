@@ -582,14 +582,17 @@
     },
     {
      "name": "CIPP_BASE_URL",
-     "label": "CIPP address",
+     "label": "CIPP API address",
      "derive": {
-      "input_label": "Your CIPP web address",
-      "input_example": "https://cipp.yourmsp.com",
-      "input_pattern": "^https://[A-Za-z0-9.-]+/?$",
-      "input_help": "The address you open CIPP at in the browser. The required /api is added for you; without it every call reaches the CIPP web page instead of the API and looks like success.",
+      "input_label": "API Url from CIPP",
+      "input_example": "https://cippabcd.azurewebsites.net",
+      "input_pattern": "^https://[A-Za-z0-9.-]+/?(api/?)?$",
+      "input_help": "In CIPP: Integrations > CIPP-API. Copy the 'API Url' shown there, the same page your client ID and secret come from. For hosted CIPP it looks like https://cippabcd.azurewebsites.net; self-hosted shows your own host. This is NOT the address you browse CIPP at. The required /api is added for you, and pasting it with /api already on the end is fine too.",
       "template": "{value}/api",
-      "strip_trailing_slash": true
+      "strip_trailing_slash": true,
+      "strip_suffixes": [
+       "/api"
+      ]
      },
      "required": true,
      "sensitive": false,
@@ -603,7 +606,7 @@
      "derive": null,
      "required": true,
      "sensitive": true,
-     "help": "CIPP > Integrations > CIPP-API > Create New Client. A read-only Custom Role is the safe starting point. With the secret and tenant ID, the connector mints and refreshes its own tokens.",
+     "help": "Same page: Integrations > CIPP-API > Create New Client. A read-only Custom Role is the safe starting point. With the secret and tenant ID, the connector mints and refreshes its own tokens.",
      "example": "",
      "pattern": ""
     },
@@ -1325,10 +1328,14 @@
      "derive": {
       "input_label": "Your Hudu web address",
       "input_example": "https://docs.yourmsp.com",
-      "input_pattern": "^https://[A-Za-z0-9.-]+/?$",
-      "input_help": "The address you open Hudu at in the browser, nothing after the host. The required /api/v1 is added for you; forgetting it by hand makes every call 404 while the connection looks healthy.",
+      "input_pattern": "^https://[A-Za-z0-9.-]+/?(api(/v1/?)?)?$",
+      "input_help": "The address you open Hudu at in the browser, nothing after the host. The required /api/v1 is added for you (pasting it with /api/v1 already on the end is fine too); forgetting it by hand makes every call 404 while the connection looks healthy.",
       "template": "{value}/api/v1",
-      "strip_trailing_slash": true
+      "strip_trailing_slash": true,
+      "strip_suffixes": [
+       "/api/v1",
+       "/api"
+      ]
      },
      "required": true,
      "sensitive": false,

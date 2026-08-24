@@ -179,6 +179,9 @@ function deriveValue(c,fl){
   if(!v)return '';
   if(d.lowercase)v=v.toLowerCase();
   if(d.strip_trailing_slash)v=v.replace(/\/+$/,'');
+  for(const suf of (d.strip_suffixes||[])){
+    if(v.toLowerCase().endsWith(suf)){v=v.slice(0,-suf.length).replace(/\/+$/,'');break}
+  }
   return d.template.replace('{value}',v);
 }
 function previews(c){
