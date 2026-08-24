@@ -224,7 +224,14 @@ func (a *aggregator) dispatch(sess *aggSession, actor *Actor, req rpcRequest, r 
 
 func metaTools() []map[string]any {
 	obj := func(props map[string]any, required ...string) map[string]any {
-		return map[string]any{"type": "object", "properties": props, "required": required}
+		m := map[string]any{"type": "object", "properties": props}
+		// An empty variadic is a nil slice, which encoding/json renders as
+		// null, and clients validate required as array-or-absent. Claude
+		// Desktop refused the whole tools/list over exactly this.
+		if len(required) > 0 {
+			m["required"] = required
+		}
+		return m
 	}
 	str := func(desc string) map[string]any { return map[string]any{"type": "string", "description": desc} }
 	ro, notRo := true, false

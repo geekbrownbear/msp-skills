@@ -255,3 +255,27 @@ func TestConfigWildcardBindAllowedWithExplicitOptIn(t *testing.T) {
 		t.Fatalf("opt-in should permit a wildcard bind: %v", err)
 	}
 }
+
+func TestMetaToolSchemasAreClientValid(t *testing.T) {
+	// Claude Desktop validates inputSchema.required as array-or-absent; a
+	// JSON null there makes it refuse the entire tools/list.
+	raw, err := json.Marshal(metaTools())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(string(raw), `"required":null`) {
+		t.Fatalf("a meta-tool schema serializes required as null: %s", raw)
+	}
+	var tools []struct {
+		InputSchema struct {
+			Type     string   `json:"type"`
+			Required []string `json:"required"`
+		} `json:"inputSchema"`
+	}
+	if err := json.Unmarshal(raw, &tools); err != nil {
+		t.Fatalf("meta-tool schemas do not round-trip: %v", err)
+	}
+	if len(tools) != 3 {
+		t.Fatalf("expected 3 meta-tools, got %d", len(tools))
+	}
+}
