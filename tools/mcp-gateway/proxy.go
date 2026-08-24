@@ -303,6 +303,19 @@ func (g *Gateway) mcpPost(url, session, body string) (*http.Response, error) {
 	return g.annClient.Do(req)
 }
 
+// hasTool reports whether the connector's cached tool list contains the tool.
+// False when the cache is empty, which the caller treats as absent.
+func (g *Gateway) hasTool(slug, tool string) bool {
+	g.annMu.RLock()
+	defer g.annMu.RUnlock()
+	m, ok := g.annotations[slug]
+	if !ok {
+		return false
+	}
+	_, ok = m[tool]
+	return ok
+}
+
 func (g *Gateway) readOnlyHint(slug, tool string) *bool {
 	g.annMu.RLock()
 	defer g.annMu.RUnlock()

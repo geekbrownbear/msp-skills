@@ -18,7 +18,7 @@ func newTestGateway(t *testing.T, grant Grant) (*httptest.Server, *httptest.Serv
 	upstream := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		upstreamAuth = r.Header.Get("Authorization")
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"jsonrpc":"2.0","id":1,"result":{"tools":[{"name":"search","annotations":{"readOnlyHint":true}},{"name":"purge","annotations":{"readOnlyHint":false}}]}}`))
+		w.Write([]byte(`{"jsonrpc":"2.0","id":1,"result":{"tools":[{"name":"search","annotations":{"readOnlyHint":true}},{"name":"analytics","annotations":{"readOnlyHint":true}},{"name":"purge","annotations":{"readOnlyHint":false}}]}}`))
 	}))
 	t.Cleanup(upstream.Close)
 

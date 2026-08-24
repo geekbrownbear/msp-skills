@@ -270,6 +270,11 @@ func (a *aggregator) overview(sess *aggSession, actor *Actor, r *http.Request) m
 
 func (a *aggregator) overviewOne(sess *aggSession, actor *Actor, slug string, r *http.Request) map[string]any {
 	a.g.ensureAnnotations(slug)
+	// Not every connector ships the standard summary tool (quickbooks does
+	// not); absent means "nothing to survey", not a policy violation.
+	if !a.g.hasTool(slug, "analytics") {
+		return map[string]any{"mirror": "no analytics summary tool; use fleet_tools to see what it offers"}
+	}
 	dec := Evaluate(actor, slug, "analytics", a.g.readOnlyHint(slug, "analytics"))
 	ev := &Event{
 		Actor:     a.g.eventActor(actor, r),
