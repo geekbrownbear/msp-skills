@@ -47,6 +47,8 @@ button:disabled{opacity:.5}
 .enable{margin-top:10px;font-size:13px;color:var(--mut)}
 .enable code{background:var(--bg);padding:2px 6px;border-radius:4px;user-select:all}
 .note{background:#fff8e6;border:1px solid #f0dcae;border-radius:8px;padding:8px 12px;font-size:13px;color:var(--warn);margin-bottom:16px}
+.derived{font-size:13px;margin-top:5px;color:var(--mut)}.derived code{background:#eef4fb;color:var(--acc);padding:2px 6px;border-radius:4px}
+.ovr{margin-top:6px}.ovr summary{font-size:12px;color:var(--mut);cursor:pointer}
 </style></head><body>
 <header><h1>MSP Connector Setup</h1>
 <p>Pick a connector, fill in its credentials, save. Values are written straight to the stack's secrets store on this host and never kept by this page. Running connectors reload on their own within seconds.</p></header>
@@ -92,32 +94,84 @@ function show(c){
   for(const fl of fields){
     const w=document.createElement('div');w.className='field';
     const req=fl.required===true?'<span class="req">required</span>':(fl.required===false?'<span class="opt">optional</span>':'<span class="req">needed</span>');
-    const set=have.includes(fl.name)?' <span class="opt">(already set &mdash; leave blank to keep... saving overwrites the whole file, so re-enter everything)</span>':'';
-    w.innerHTML='<label>'+fl.label+req+set+'</label>'
-      +(fl.help?'<div class="help">'+esc(fl.help)+'</div>':'')
-      +'<input name="'+fl.name+'" data-pattern="'+esc(fl.pattern||'')+'" '+(fl.sensitive?'type="password" autocomplete="off"':'type="text"')+' spellcheck="false">'
-      +(fl.example?'<div class="ex">example: <code>'+esc(fl.example)+'</code></div>':'')
-      +'<div class="viol">does not match the expected shape shown in the example</div>';
+    const set=have.includes(fl.name)?' <span class="opt">(already set &mdash; saving overwrites the whole file, so re-enter everything)</span>':'';
+    const d=fl.derive;
+    if(d&&d.from_field){
+      // derived from another field, with a custom override
+      w.innerHTML='<label>'+fl.label+'<span class="opt">derived</span></label>'
+        +(fl.help?'<div class="help">'+esc(fl.help)+'</div>':'')
+        +'<div class="derived" id="prev-'+fl.name+'">&rarr; <code>(fill in '+esc(d.from_field)+' above)</code></div>'
+        +'<details class="ovr"><summary>'+esc(d.override_label||'use a custom value instead')+'</summary>'
+        +'<input name="'+fl.name+'__override" data-pattern="'+esc(d.override_pattern||'')+'" type="text" spellcheck="false">'
+        +(d.override_example?'<div class="ex">example: <code>'+esc(d.override_example)+'</code></div>':'')
+        +'<div class="viol">does not match the expected shape</div></details>';
+    }else if(d){
+      // derived from its own small input
+      w.innerHTML='<label>'+esc(d.input_label||fl.label)+req+set+'</label>'
+        +(d.input_help?'<div class="help">'+esc(d.input_help)+'</div>':'')
+        +'<input name="'+fl.name+'__input" data-pattern="'+esc(d.input_pattern||'')+'" type="text" spellcheck="false" style="max-width:260px">'
+        +(d.input_example?'<div class="ex">example: <code>'+esc(d.input_example)+'</code></div>':'')
+        +'<div class="derived" id="prev-'+fl.name+'">&rarr; <code>&hellip;</code></div>'
+        +'<div class="viol">does not match the expected shape shown in the example</div>';
+    }else{
+      w.innerHTML='<label>'+fl.label+req+set+'</label>'
+        +(fl.help?'<div class="help">'+esc(fl.help)+'</div>':'')
+        +'<input name="'+fl.name+'" data-pattern="'+esc(fl.pattern||'')+'" '+(fl.sensitive?'type="password" autocomplete="off"':'type="text"')+' spellcheck="false">'
+        +(fl.example?'<div class="ex">example: <code>'+esc(fl.example)+'</code></div>':'')
+        +'<div class="viol">does not match the expected shape shown in the example</div>';
+    }
     box.appendChild(w);
   }
+  box.addEventListener('input',()=>previews(c));previews(c);
   document.getElementById('msg').className='msg';
   document.getElementById('enable').innerHTML='';
   f.scrollIntoView({behavior:'smooth'});
 }
 function esc(s){return s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function deriveValue(c,fl){
+  const d=fl.derive;if(!d)return null;
+  const q=n=>{const el=document.querySelector('#fields input[name="'+n+'"]');return el?el.value.trim():''};
+  if(d.from_field){
+    const ovr=q(fl.name+'__override');
+    if(ovr)return ovr;
+    const src=q(d.from_field)||q(d.from_field+'__input');
+    return src?d.template.replace('{value}',src):'';
+  }
+  let v=q(fl.name+'__input');
+  if(!v)return '';
+  if(d.lowercase)v=v.toLowerCase();
+  if(d.strip_trailing_slash)v=v.replace(/\/+$/,'');
+  return d.template.replace('{value}',v);
+}
+function previews(c){
+  for(const fl of c.fields){
+    if(!fl.derive)continue;
+    const el=document.getElementById('prev-'+fl.name);if(!el)continue;
+    const v=deriveValue(c,fl);
+    el.innerHTML='&rarr; <code>'+(v?esc(v):'&hellip;')+'</code>'+(v?' <span class="opt">(saved as '+fl.name+')</span>':'');
+  }
+}
 async function save(ev){
   ev.preventDefault();
   const c=CAT.connectors.find(x=>x.slug===CUR);
   const values={};let bad=false;
   for(const inp of document.querySelectorAll('#fields input')){
     const v=inp.value.trim(),pat=inp.dataset.pattern;
-    inp.className='';inp.nextElementSibling&&(inp.parentElement.querySelector('.viol').style.display='none');
-    if(v&&pat&&!(new RegExp(pat)).test(v)){inp.className='bad';inp.parentElement.querySelector('.viol').style.display='block';bad=true}
-    if(v)values[inp.name]=v;
+    inp.className='';const viol=inp.closest('.field').querySelector('.viol');viol&&(viol.style.display='none');
+    if(v&&pat&&!(new RegExp(pat)).test(v)){inp.className='bad';viol&&(viol.style.display='block');bad=true}
+    if(v&&!inp.name.includes('__'))values[inp.name]=v;
+  }
+  for(const fl of c.fields){
+    if(!fl.derive)continue;
+    const v=deriveValue(c,fl);
+    if(v){
+      if(fl.pattern&&!(new RegExp(fl.pattern)).test(v)){bad=true;const el=document.getElementById('prev-'+fl.name);el&&(el.innerHTML+=' <span style="color:var(--err)">derived value has the wrong shape</span>')}
+      else values[fl.name]=v;
+    }
   }
   const msg=document.getElementById('msg');
   if(bad){msg.className='msg err';msg.textContent='Fix the highlighted fields first.';return false}
-  const missing=c.fields.filter(f=>f.required===true&&!values[f.name]).map(f=>f.label);
+  const missing=c.fields.filter(f=>f.required===true&&!values[f.name]).map(f=>(f.derive&&f.derive.input_label)||f.label);
   if(missing.length){msg.className='msg err';msg.textContent='Required: '+missing.join(', ');return false}
   const r=await fetch('/api/save',{method:'POST',headers:H,body:JSON.stringify({slug:CUR,values})});
   const j=await r.json().catch(()=>({}));

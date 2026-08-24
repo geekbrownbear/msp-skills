@@ -44,6 +44,7 @@ def main():
             fields.append({
                 "name": name,
                 "label": h.get("label") or name,
+                "derive": h.get("derive"),
                 "required": bool(required) if required is not None else None,
                 "sensitive": bool(e.get("sensitive", "SECRET" in name or "TOKEN" in name or "KEY" in name or "PASSWORD" in name)),
                 "help": h.get("help") or desc,

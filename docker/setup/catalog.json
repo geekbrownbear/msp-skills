@@ -13,6 +13,7 @@
     {
      "name": "ABNORMAL_API_TOKEN",
      "label": "ABNORMAL_API_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets ABNORMAL_API_TOKEN for the Abnormal Security MCP server. Get a credential from the Abnormal Security portal under Settings, Integrations, Abnormal REST API.",
@@ -22,6 +23,7 @@
     {
      "name": "ABNORMAL_BASE_URL",
      "label": "ABNORMAL_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Abnormal Security instance",
@@ -41,6 +43,7 @@
     {
      "name": "ACRONIS_BASE_URL",
      "label": "ACRONIS_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Acronis Cyber Protect Cloud instance",
@@ -50,6 +53,7 @@
     {
      "name": "ACRONIS_BEARER_AUTH",
      "label": "ACRONIS_BEARER_AUTH",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets ACRONIS_BEARER_AUTH for the Acronis Cyber Protect Cloud MCP server.",
@@ -59,6 +63,7 @@
     {
      "name": "ACRONIS_CLIENT_ID",
      "label": "ACRONIS_CLIENT_ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "OAuth2 client ID from your Acronis Cyber Protect Cloud API application",
@@ -68,6 +73,7 @@
     {
      "name": "ACRONIS_CLIENT_SECRET",
      "label": "ACRONIS_CLIENT_SECRET",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "OAuth2 client secret from your Acronis Cyber Protect Cloud API application",
@@ -77,6 +83,7 @@
     {
      "name": "ACRONIS_DATACENTER",
      "label": "ACRONIS_DATACENTER",
+     "derive": null,
      "required": null,
      "sensitive": false,
      "help": "Sets ACRONIS_DATACENTER for the endpoint template variable {datacenter}.",
@@ -96,6 +103,7 @@
     {
      "name": "ACTION1_BASE_URL",
      "label": "ACTION1_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Action1 instance",
@@ -105,6 +113,7 @@
     {
      "name": "ACTION1_CLIENT_ID",
      "label": "ACTION1_CLIENT_ID",
+     "derive": null,
      "required": null,
      "sensitive": true,
      "help": "Client ID from the Action1 console's API Credentials page. With ACTION1_CLIENT_SECRET, the CLI mints a bearer token automatically. Create credentials at https://www.action1.com/api-documentation/.",
@@ -114,6 +123,7 @@
     {
      "name": "ACTION1_CLIENT_SECRET",
      "label": "ACTION1_CLIENT_SECRET",
+     "derive": null,
      "required": null,
      "sensitive": true,
      "help": "Client Secret paired with ACTION1_CLIENT_ID, from the Action1 console's API Credentials page.",
@@ -123,6 +133,7 @@
     {
      "name": "ACTION1_OAUTH2",
      "label": "ACTION1_OAUTH2",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "ACTION1_OAUTH2 for Action1",
@@ -132,6 +143,7 @@
     {
      "name": "ACTION1_ORG_ID",
      "label": "ACTION1_ORG_ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Organization ID in Action1",
@@ -151,6 +163,7 @@
     {
      "name": "AFI_API_KEY",
      "label": "AFI_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets AFI_API_KEY for the Afi MCP server.",
@@ -160,6 +173,7 @@
     {
      "name": "AFI_BASE_URL",
      "label": "AFI_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Afi instance",
@@ -179,6 +193,7 @@
     {
      "name": "APPDIRECT_BASE_URL",
      "label": "APPDIRECT_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your AppDirect instance",
@@ -188,6 +203,7 @@
     {
      "name": "APPDIRECT_CLIENT_ID",
      "label": "APPDIRECT_CLIENT_ID",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets APPDIRECT_CLIENT_ID for the AppDirect MCP server.",
@@ -197,6 +213,7 @@
     {
      "name": "APPDIRECT_CLIENT_SECRET",
      "label": "APPDIRECT_CLIENT_SECRET",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets APPDIRECT_CLIENT_SECRET for the AppDirect MCP server.",
@@ -206,6 +223,7 @@
     {
      "name": "APPDIRECT_OAUTH_SCOPE",
      "label": "APPDIRECT_OAUTH_SCOPE",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets APPDIRECT_OAUTH_SCOPE for the AppDirect MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
@@ -215,6 +233,7 @@
     {
      "name": "APPDIRECT_TOKEN_URL",
      "label": "APPDIRECT_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "OAuth2 token endpoint for AppDirect",
@@ -234,6 +253,7 @@
     {
      "name": "ATERA_ACCOUNT_API",
      "label": "ATERA_ACCOUNT_API",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Sets ATERA_ACCOUNT_API for the Atera MCP server.",
@@ -243,6 +263,7 @@
     {
      "name": "ATERA_API_KEY",
      "label": "ATERA_API_KEY",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Sets ATERA_API_KEY for the Atera MCP server.",
@@ -252,6 +273,7 @@
     {
      "name": "ATERA_BASE_URL",
      "label": "ATERA_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Atera instance",
@@ -271,6 +293,7 @@
     {
      "name": "AUTOTASK_API_INTEGRATION_CODE",
      "label": "AUTOTASK_API_INTEGRATION_CODE",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets AUTOTASK_API_INTEGRATION_CODE for the Autotask PSA MCP server.",
@@ -280,6 +303,7 @@
     {
      "name": "AUTOTASK_BASE_URL",
      "label": "AUTOTASK_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Autotask PSA instance",
@@ -289,6 +313,7 @@
     {
      "name": "AUTOTASK_PSA_SECRET",
      "label": "AUTOTASK_PSA_SECRET",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets AUTOTASK_PSA_SECRET for the Autotask PSA MCP server.",
@@ -298,6 +323,7 @@
     {
      "name": "AUTOTASK_PSA_USER_NAME",
      "label": "AUTOTASK_PSA_USER_NAME",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets AUTOTASK_PSA_USER_NAME for the Autotask PSA MCP server.",
@@ -317,6 +343,7 @@
     {
      "name": "AUVIK_API_KEY",
      "label": "API key",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Generate from your user profile in the Auvik portal.",
@@ -325,16 +352,24 @@
     },
     {
      "name": "AUVIK_BASE_URL",
-     "label": "Region API host",
+     "label": "Auvik region",
+     "derive": {
+      "input_label": "Region code",
+      "input_example": "us6",
+      "input_pattern": "^[a-z]{2,4}[0-9]*$",
+      "input_help": "The code in your Auvik dashboard URL: if you sign in at us6.my.auvik.com, enter us6. Auvik's docs show auvikapi.us1... and tell you to swap the region; this does the swap for you.",
+      "template": "https://auvikapi.{value}.my.auvik.com"
+     },
      "required": true,
      "sensitive": false,
-     "help": "Your region's full host, no path. The region code is in your Auvik portal URL (e.g. us6 in us6.my.auvik.com). A bare region word like 'us6' fails with a protocol error, and the wrong region returns a 401 that looks like a bad key.",
-     "example": "https://auvikapi.us6.my.auvik.com",
+     "help": "Only the region code is yours; the rest of the address is the same for everyone.",
+     "example": "",
      "pattern": "^https://auvikapi\\.[a-z0-9]+\\.my\\.auvik\\.com$"
     },
     {
      "name": "AUVIK_USERNAME",
      "label": "Auvik login email",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "The email of the Auvik user the API key belongs to. Sent with the key as a pair.",
@@ -354,6 +389,7 @@
     {
      "name": "AVANAN_APP_ID",
      "label": "SmartAPI App ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Legacy Avanan portal: Security Settings > SmartAPI > create an API key. Issued as an App ID + Client Secret pair.",
@@ -363,6 +399,7 @@
     {
      "name": "AVANAN_CLIENT_SECRET",
      "label": "SmartAPI Client Secret",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets AVANAN_CLIENT_SECRET (the Avanan client secret) for the Avanan MCP server.",
@@ -382,6 +419,7 @@
     {
      "name": "AWS_BILLING_BASE_URL",
      "label": "AWS_BILLING_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "AWS_BILLING_BASE_URL for AWS",
@@ -401,6 +439,7 @@
     {
      "name": "AXCIENT_API_KEY",
      "label": "AXCIENT_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets AXCIENT_API_KEY for the Axcient x360Recover MCP server.",
@@ -410,6 +449,7 @@
     {
      "name": "AXCIENT_BASE_URL",
      "label": "AXCIENT_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Axcient x360Recover instance",
@@ -429,6 +469,7 @@
     {
      "name": "BETTERSTACK_API_TOKEN",
      "label": "BETTERSTACK_API_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets BETTERSTACK_API_TOKEN for the Better Stack MCP server.",
@@ -438,6 +479,7 @@
     {
      "name": "BETTERSTACK_BASE_URL",
      "label": "BETTERSTACK_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Better Stack instance",
@@ -457,6 +499,7 @@
     {
      "name": "BLUMIRA_API_TOKEN",
      "label": "BLUMIRA_API_TOKEN",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Blumira JWT bearer token. Minted+cached by `auth login`, or set directly. Set this OR BLUMIRA_CLIENT_ID + BLUMIRA_CLIENT_SECRET.",
@@ -466,6 +509,7 @@
     {
      "name": "BLUMIRA_BASE_URL",
      "label": "BLUMIRA_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Blumira instance",
@@ -475,6 +519,7 @@
     {
      "name": "BLUMIRA_CLIENT_ID",
      "label": "BLUMIRA_CLIENT_ID",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Optional. Blumira API Client ID (Settings > Organization > Generate API Credentials). Used with BLUMIRA_CLIENT_SECRET by `auth login` to mint a JWT.",
@@ -484,6 +529,7 @@
     {
      "name": "BLUMIRA_CLIENT_SECRET",
      "label": "BLUMIRA_CLIENT_SECRET",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Blumira API Client Secret. Used with BLUMIRA_CLIENT_ID by `auth login` to mint a JWT (client_credentials, audience=public-api).",
@@ -503,6 +549,7 @@
     {
      "name": "CIPP_API_KEY",
      "label": "CIPP_API_KEY",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Static Azure AD bearer token, as an alternative to the CIPP_CLIENT_ID / CIPP_CLIENT_SECRET / CIPP_TENANT_ID trio rather than an addition to it. Convenient for a quick test, but an Azure AD access token lives about an hour and nothing refreshes one supplied this way, so prefer the client credentials for anything long-running.",
@@ -512,6 +559,7 @@
     {
      "name": "CIPP_AUTHORITY",
      "label": "CIPP_AUTHORITY",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Azure AD authority host. Defaults to https://login.microsoftonline.com; override only for a sovereign cloud.",
@@ -520,16 +568,25 @@
     },
     {
      "name": "CIPP_BASE_URL",
-     "label": "API base URL",
+     "label": "CIPP address",
+     "derive": {
+      "input_label": "Your CIPP web address",
+      "input_example": "https://cipp.yourmsp.com",
+      "input_pattern": "^https://[A-Za-z0-9.-]+/?$",
+      "input_help": "The address you open CIPP at in the browser. The required /api is added for you; without it every call reaches the CIPP web page instead of the API and looks like success.",
+      "template": "{value}/api",
+      "strip_trailing_slash": true
+     },
      "required": true,
      "sensitive": false,
-     "help": "Your CIPP host PLUS /api. Without the suffix every call reaches the CIPP web page instead of the API and returns HTML that looks like success.",
-     "example": "https://cipp.yourmsp.com/api",
+     "help": "Base URL of your CIPP instance",
+     "example": "",
      "pattern": "^https://.+/api$"
     },
     {
      "name": "CIPP_CLIENT_ID",
      "label": "API client ID",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "CIPP > Integrations > CIPP-API > Create New Client. A read-only Custom Role is the safe starting point. With the secret and tenant ID, the connector mints and refreshes its own tokens.",
@@ -539,6 +596,7 @@
     {
      "name": "CIPP_CLIENT_SECRET",
      "label": "API client secret",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Client secret paired with CIPP_CLIENT_ID.",
@@ -548,6 +606,7 @@
     {
      "name": "CIPP_OAUTH_SCOPE",
      "label": "CIPP_OAUTH_SCOPE",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "OAuth2 scope for the client-credentials exchange. Defaults to api://<client-id>/.default, which is correct for most CIPP deployments; set it only when your app registration exposes a different scope.",
@@ -557,6 +616,7 @@
     {
      "name": "CIPP_TENANT_ID",
      "label": "Entra tenant ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "The Microsoft Entra directory (tenant) ID hosting the CIPP API app registration.",
@@ -576,6 +636,7 @@
     {
      "name": "CONNECTWISE_AUTOMATE_BASE_URL",
      "label": "CONNECTWISE_AUTOMATE_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "CONNECTWISE_AUTOMATE_BASE_URL for ConnectWise Automate",
@@ -585,6 +646,7 @@
     {
      "name": "CONNECTWISE_AUTOMATE_CLIENT_ID",
      "label": "CONNECTWISE_AUTOMATE_CLIENT_ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Your registered integration clientId GUID, sent as the clientId header on every request (required for ConnectWise Automate v2020.11+).",
@@ -594,6 +656,7 @@
     {
      "name": "CONNECTWISE_AUTOMATE_SERVER",
      "label": "CONNECTWISE_AUTOMATE_SERVER",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Your Automate host, e.g. company.hostedrmm.com. Sets CONNECTWISE_AUTOMATE_SERVER for the endpoint base URL.",
@@ -603,6 +666,7 @@
     {
      "name": "CONNECTWISE_AUTOMATE_TOKEN",
      "label": "CONNECTWISE_AUTOMATE_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets CONNECTWISE_AUTOMATE_TOKEN for the ConnectWise Automate MCP server. Get a credential from https://docs.connectwise.com/ConnectWise_Automate.",
@@ -622,6 +686,7 @@
     {
      "name": "CONNECTWISE_CONTROL_BASE_URL",
      "label": "CONNECTWISE_CONTROL_BASE_URL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Your ConnectWise Control / ScreenConnect instance base URL, e.g. https://company.screenconnect.com (per-instance, required).",
@@ -631,6 +696,7 @@
     {
      "name": "CONNECTWISE_CONTROL_PASSWORD",
      "label": "CONNECTWISE_CONTROL_PASSWORD",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Your ConnectWise Control instance password (HTTP Basic auth).",
@@ -640,6 +706,7 @@
     {
      "name": "CONNECTWISE_CONTROL_USERNAME",
      "label": "CONNECTWISE_CONTROL_USERNAME",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Your ConnectWise Control instance user name (HTTP Basic auth).",
@@ -659,6 +726,7 @@
     {
      "name": "CONNECTWISE_MANAGE_BASE_URL",
      "label": "CONNECTWISE_MANAGE_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "CONNECTWISE_MANAGE_BASE_URL for ConnectWise PSA (Manage)",
@@ -668,6 +736,7 @@
     {
      "name": "CW_API_VERSION",
      "label": "CW_API_VERSION",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "CW_API_VERSION for ConnectWise PSA (Manage)",
@@ -677,6 +746,7 @@
     {
      "name": "CW_CLIENT_ID",
      "label": "CW_CLIENT_ID",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Registered ConnectWise integration clientId GUID from developer.connectwise.com. Sent in the clientId header on every request.",
@@ -686,6 +756,7 @@
     {
      "name": "CW_COMPANY_ID",
      "label": "CW_COMPANY_ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "ConnectWise Manage company ID/codebase used in the composite Basic auth username.",
@@ -695,6 +766,7 @@
     {
      "name": "CW_PRIVATE_KEY",
      "label": "CW_PRIVATE_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "API Member private key used as the composite Basic auth password.",
@@ -704,6 +776,7 @@
     {
      "name": "CW_PUBLIC_KEY",
      "label": "CW_PUBLIC_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "API Member public key used with the company ID in the composite Basic auth username.",
@@ -713,6 +786,7 @@
     {
      "name": "CW_SITE",
      "label": "CW_SITE",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "ConnectWise Manage region host such as api-na.myconnectwise.net, api-eu.myconnectwise.net, api-au.myconnectwise.net, or your on-prem host.",
@@ -732,6 +806,7 @@
     {
      "name": "CORK_API_KEY",
      "label": "API key",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "From the Cork portal's API settings.",
@@ -741,6 +816,7 @@
     {
      "name": "CORK_BASE_URL",
      "label": "CORK_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Cork instance",
@@ -760,6 +836,7 @@
     {
      "name": "COVE_BASE_URL",
      "label": "COVE_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Cove Data Protection instance",
@@ -769,6 +846,7 @@
     {
      "name": "COVE_PARTNER",
      "label": "COVE_PARTNER",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Partner account name for Cove Data Protection",
@@ -778,6 +856,7 @@
     {
      "name": "COVE_PASSWORD",
      "label": "COVE_PASSWORD",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Password for Cove Data Protection",
@@ -787,6 +866,7 @@
     {
      "name": "COVE_USERNAME",
      "label": "COVE_USERNAME",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Username for Cove Data Protection",
@@ -806,6 +886,7 @@
     {
      "name": "CROWDSTRIKE_BASE_URL",
      "label": "CROWDSTRIKE_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your CrowdStrike Falcon instance",
@@ -815,6 +896,7 @@
     {
      "name": "CROWDSTRIKE_OAUTH_SCOPE",
      "label": "CROWDSTRIKE_OAUTH_SCOPE",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets CROWDSTRIKE_OAUTH_SCOPE for the CrowdStrike Falcon MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
@@ -824,6 +906,7 @@
     {
      "name": "CROWDSTRIKE_TOKEN_URL",
      "label": "CROWDSTRIKE_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "OAuth2 token endpoint for CrowdStrike Falcon",
@@ -833,6 +916,7 @@
     {
      "name": "FALCON_CLIENT_ID",
      "label": "FALCON_CLIENT_ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "CrowdStrike API client ID (Falcon console > API Clients & Keys).",
@@ -842,6 +926,7 @@
     {
      "name": "FALCON_CLIENT_SECRET",
      "label": "FALCON_CLIENT_SECRET",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "CrowdStrike API client secret. Shown once at client creation.",
@@ -861,6 +946,7 @@
     {
      "name": "DATTO_BCDR_BASE_URL",
      "label": "DATTO_BCDR_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "DATTO_BCDR_BASE_URL for Datto BCDR",
@@ -870,6 +956,7 @@
     {
      "name": "DATTO_BCDR_PUBLIC_KEY",
      "label": "Public key",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Datto partner portal: Admin > Integrations > API. Issued as a public/secret pair.",
@@ -879,6 +966,7 @@
     {
      "name": "DATTO_BCDR_SECRET_KEY",
      "label": "Secret key",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets DATTO_BCDR_SECRET_KEY for the Datto BCDR MCP server.",
@@ -898,6 +986,7 @@
     {
      "name": "DATTO_RMM_API_KEY",
      "label": "DATTO_RMM_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Datto RMM API key (username in the OAuth password grant). Generate in Setup > Users in the Datto RMM web UI.",
@@ -907,6 +996,7 @@
     {
      "name": "DATTO_RMM_API_SECRET_KEY",
      "label": "DATTO_RMM_API_SECRET_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Datto RMM API secret key (password in the OAuth password grant).",
@@ -916,6 +1006,7 @@
     {
      "name": "DATTO_RMM_API_URL",
      "label": "DATTO_RMM_API_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "DATTO_RMM_API_URL for Datto RMM",
@@ -925,6 +1016,7 @@
     {
      "name": "DATTO_RMM_BASE_URL",
      "label": "DATTO_RMM_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "DATTO_RMM_BASE_URL for Datto RMM",
@@ -934,6 +1026,7 @@
     {
      "name": "DATTO_RMM_PLATFORM",
      "label": "DATTO_RMM_PLATFORM",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "DATTO_RMM_PLATFORM for Datto RMM",
@@ -943,6 +1036,7 @@
     {
      "name": "DATTO_RMM_TOKEN",
      "label": "DATTO_RMM_TOKEN",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Optional pre-minted OAuth bearer token (skips the auto-mint).",
@@ -962,6 +1056,7 @@
     {
      "name": "DOMOTZ_API_KEY",
      "label": "DOMOTZ_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets DOMOTZ_API_KEY for the Domotz MCP server. Get a credential from https://portal.domotz.com/portal/settings/services?selected_menu=api_keys.",
@@ -971,6 +1066,7 @@
     {
      "name": "DOMOTZ_BASE_URL",
      "label": "DOMOTZ_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Domotz instance",
@@ -980,6 +1076,7 @@
     {
      "name": "DOMOTZ_REGION",
      "label": "DOMOTZ_REGION",
+     "derive": null,
      "required": null,
      "sensitive": false,
      "help": "Sets DOMOTZ_REGION for the endpoint template variable {region}.",
@@ -999,6 +1096,7 @@
     {
      "name": "GRADIENT_BASE_URL",
      "label": "GRADIENT_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Gradient MSP instance",
@@ -1008,6 +1106,7 @@
     {
      "name": "GRADIENT_TOKEN",
      "label": "GRADIENT_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets GRADIENT_TOKEN for the Gradient MSP MCP server.",
@@ -1027,6 +1126,7 @@
     {
      "name": "HALOPSA_BASE_URL",
      "label": "HALOPSA_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your HaloPSA instance",
@@ -1036,6 +1136,7 @@
     {
      "name": "HALOPSA_CLIENT_ID",
      "label": "API application client ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "From your Halo API application (Configuration > Integrations > HaloPSA API).",
@@ -1045,6 +1146,7 @@
     {
      "name": "HALOPSA_CLIENT_SECRET",
      "label": "API application secret",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "OAuth2 client secret from your Halo API application",
@@ -1054,15 +1156,23 @@
     {
      "name": "HALOPSA_DOMAIN",
      "label": "Portal domain",
+     "derive": {
+      "from_field": "HALOPSA_TENANT",
+      "template": "{value}.halopsa.com",
+      "override_label": "Using a custom domain instead of halopsa.com? Enter it",
+      "override_example": "psa.yourmsp.com",
+      "override_pattern": "^[A-Za-z0-9.-]+$"
+     },
      "required": null,
      "sensitive": false,
-     "help": "The host your Halo portal answers on.",
-     "example": "psa.yourmsp.com",
+     "help": "Derived from your tenant name automatically. Only fill the custom-domain box if your Halo lives on your own domain.",
+     "example": "",
      "pattern": ""
     },
     {
      "name": "HALOPSA_OAUTH_SCOPE",
      "label": "OAuth scope",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Leave blank: defaults to \"all\", which matches most Halo API applications. Set only if yours is restricted to a narrower scope.",
@@ -1072,6 +1182,7 @@
     {
      "name": "HALOPSA_SCOPE",
      "label": "HALOPSA_SCOPE",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Optional. OAuth2 scope (defaults to \"all\"); set to a narrower scope when your API application requires it",
@@ -1081,15 +1192,17 @@
     {
      "name": "HALOPSA_TENANT",
      "label": "Tenant name",
+     "derive": null,
      "required": null,
      "sensitive": false,
-     "help": "Your Halo tenant short name.",
+     "help": "The 'yourmsp' in yourmsp.halopsa.com. Shown in your Halo URL and under Configuration > Advanced Settings.",
      "example": "yourmsp",
-     "pattern": ""
+     "pattern": "^[a-z0-9-]+$"
     },
     {
      "name": "HALOPSA_TOKEN",
      "label": "HALOPSA_TOKEN",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Pre-issued Bearer access token. Overrides the client_credentials flow when set.",
@@ -1099,6 +1212,7 @@
     {
      "name": "HALOPSA_TOKEN_URL",
      "label": "HALOPSA_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "OAuth2 token endpoint for HaloPSA",
@@ -1118,6 +1232,7 @@
     {
      "name": "HUBSPOT_ACCESS_TOKEN",
      "label": "Private App token",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "app.hubspot.com/private-apps > Create. Grant read scopes only (crm.objects.*.read, crm.lists.read, crm.schemas.*.read); the connector then physically cannot write regardless of what any agent asks.",
@@ -1127,6 +1242,7 @@
     {
      "name": "HUBSPOT_BASE_URL",
      "label": "HUBSPOT_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your HubSpot instance",
@@ -1136,6 +1252,7 @@
     {
      "name": "HUBSPOT_OWNER_EMAIL",
      "label": "HUBSPOT_OWNER_EMAIL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "HUBSPOT_OWNER_EMAIL for HubSpot",
@@ -1155,6 +1272,7 @@
     {
      "name": "HUDU_API_KEY",
      "label": "API key",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Hudu portal: Admin > API Keys. A key scoped without password access is safest; the connector works fully except reading asset passwords.",
@@ -1163,11 +1281,19 @@
     },
     {
      "name": "HUDU_BASE_URL",
-     "label": "API base URL",
+     "label": "Hudu address",
+     "derive": {
+      "input_label": "Your Hudu web address",
+      "input_example": "https://docs.yourmsp.com",
+      "input_pattern": "^https://[A-Za-z0-9.-]+/?$",
+      "input_help": "The address you open Hudu at in the browser, nothing after the host. The required /api/v1 is added for you; forgetting it by hand makes every call 404 while the connection looks healthy.",
+      "template": "{value}/api/v1",
+      "strip_trailing_slash": true
+     },
      "required": true,
      "sensitive": false,
-     "help": "Your Hudu host PLUS /api/v1. Without the suffix every call returns 404 while the connection itself looks healthy.",
-     "example": "https://docs.yourmsp.com/api/v1",
+     "help": "Your Hudu instance's API base URL, including the /api/v1 path, e.g. https://your-subdomain.huducloud.com/api/v1 (self-hosted, *.huducloud.com, or a custom domain).",
+     "example": "",
      "pattern": "^https://.+/api/v1$"
     }
    ],
@@ -1183,6 +1309,7 @@
     {
      "name": "HUNTRESS_API_KEY",
      "label": "API key",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Huntress portal: top-right menu > API Credentials. Issued as a key + secret pair.",
@@ -1192,6 +1319,7 @@
     {
      "name": "HUNTRESS_API_SECRET",
      "label": "API secret",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets HUNTRESS_API_SECRET for the Huntress MCP server. Get a credential from https://www.huntress.com/terms-of-service.",
@@ -1201,6 +1329,7 @@
     {
      "name": "HUNTRESS_BASE_URL",
      "label": "HUNTRESS_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Huntress instance",
@@ -1220,6 +1349,7 @@
     {
      "name": "IMMYBOT_BASE_URL",
      "label": "IMMYBOT_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your ImmyBot instance",
@@ -1229,6 +1359,7 @@
     {
      "name": "IMMYBOT_CLIENT_ID",
      "label": "App registration client ID",
+     "derive": null,
      "required": null,
      "sensitive": true,
      "help": "Register an app in Entra, then in ImmyBot: Show More > People > New > paste the Enterprise App object ID into 'AD External ID'.",
@@ -1238,6 +1369,7 @@
     {
      "name": "IMMYBOT_CLIENT_SECRET",
      "label": "App registration secret",
+     "derive": null,
      "required": null,
      "sensitive": true,
      "help": "Client secret paired with IMMYBOT_CLIENT_ID, from the Entra app registration.",
@@ -1247,6 +1379,7 @@
     {
      "name": "IMMYBOT_OAUTH_SCOPE",
      "label": "IMMYBOT_OAUTH_SCOPE",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "IMMYBOT_OAUTH_SCOPE for ImmyBot",
@@ -1256,6 +1389,7 @@
     {
      "name": "IMMYBOT_SUBDOMAIN",
      "label": "Instance subdomain",
+     "derive": null,
      "required": null,
      "sensitive": false,
      "help": "The 'acme' in acme.immy.bot. Also derives the OAuth scope, so without it token requests are rejected.",
@@ -1265,6 +1399,7 @@
     {
      "name": "IMMYBOT_TENANT_ID",
      "label": "Entra tenant ID",
+     "derive": null,
      "required": null,
      "sensitive": false,
      "help": "Directory ID of the Entra tenant your ImmyBot trusts.",
@@ -1274,6 +1409,7 @@
     {
      "name": "IMMYBOT_TOKEN_URL",
      "label": "IMMYBOT_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "OAuth2 token endpoint for ImmyBot",
@@ -1293,6 +1429,7 @@
     {
      "name": "ITGLUE_API_KEY",
      "label": "ITGLUE_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "IT Glue API key with permissions for the requested read and write operations.",
@@ -1302,6 +1439,7 @@
     {
      "name": "ITGLUE_BASE_URL",
      "label": "ITGLUE_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your IT Glue instance",
@@ -1321,6 +1459,7 @@
     {
      "name": "KASEYA_BMS_BASE_URL",
      "label": "KASEYA_BMS_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "KASEYA_BMS_BASE_URL for Kaseya BMS",
@@ -1330,6 +1469,7 @@
     {
      "name": "KASEYA_BMS_BEARER_AUTH",
      "label": "KASEYA_BMS_BEARER_AUTH",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Sets KASEYA_BMS_BEARER_AUTH for the Kaseya BMS MCP server.",
@@ -1339,6 +1479,7 @@
     {
      "name": "KASEYA_BMS_TOKEN",
      "label": "KASEYA_BMS_TOKEN",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Sets KASEYA_BMS_TOKEN for the Kaseya BMS MCP server.",
@@ -1358,6 +1499,7 @@
     {
      "name": "KNOWBE4_API_KEY",
      "label": "KNOWBE4_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets KNOWBE4_API_KEY for the KnowBe4 MCP server. Get a credential from https://developer.knowbe4.com/.",
@@ -1367,6 +1509,7 @@
     {
      "name": "KNOWBE4_BASE_URL",
      "label": "KNOWBE4_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your KnowBe4 instance",
@@ -1376,6 +1519,7 @@
     {
      "name": "KNOWBE4_REGION",
      "label": "KNOWBE4_REGION",
+     "derive": null,
      "required": null,
      "sensitive": false,
      "help": "Sets KNOWBE4_REGION for the endpoint template variable {region}.",
@@ -1395,6 +1539,7 @@
     {
      "name": "LEVELIO_BASE_URL",
      "label": "LEVELIO_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Level instance",
@@ -1404,6 +1549,7 @@
     {
      "name": "LEVEL_API_TOKEN",
      "label": "LEVEL_API_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets LEVEL_API_TOKEN for the Level MCP server.",
@@ -1423,6 +1569,7 @@
     {
      "name": "LIONGARD_API_KEY",
      "label": "LIONGARD_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets LIONGARD_API_KEY for the Liongard MCP server.",
@@ -1432,6 +1579,7 @@
     {
      "name": "LIONGARD_BASE_URL",
      "label": "LIONGARD_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Liongard instance",
@@ -1441,6 +1589,7 @@
     {
      "name": "LIONGARD_INSTANCE",
      "label": "LIONGARD_INSTANCE",
+     "derive": null,
      "required": null,
      "sensitive": false,
      "help": "Sets LIONGARD_INSTANCE for the endpoint template variable {instance}.",
@@ -1460,6 +1609,7 @@
     {
      "name": "MAXIO_API_KEY",
      "label": "MAXIO_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "API key issued by Maxio",
@@ -1469,6 +1619,7 @@
     {
      "name": "MAXIO_BASE_URL",
      "label": "MAXIO_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Maxio instance",
@@ -1478,6 +1629,7 @@
     {
      "name": "MAXIO_PASSWORD",
      "label": "MAXIO_PASSWORD",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets MAXIO_PASSWORD for the Maxio MCP server. Get a credential from https://app.chargify.com/signup/maxio-billing-sandbox.",
@@ -1487,6 +1639,7 @@
     {
      "name": "MAXIO_SITE",
      "label": "MAXIO_SITE",
+     "derive": null,
      "required": null,
      "sensitive": false,
      "help": "Sets MAXIO_SITE for the endpoint template variable {site}.",
@@ -1496,6 +1649,7 @@
     {
      "name": "MAXIO_USERNAME",
      "label": "MAXIO_USERNAME",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets MAXIO_USERNAME for the Maxio MCP server. Get a credential from https://app.chargify.com/signup/maxio-billing-sandbox.",
@@ -1515,6 +1669,7 @@
     {
      "name": "MICROSOFT_GRAPH_BASE_URL",
      "label": "MICROSOFT_GRAPH_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "MICROSOFT_GRAPH_BASE_URL for Microsoft Graph",
@@ -1524,6 +1679,7 @@
     {
      "name": "MICROSOFT_GRAPH_TOKEN",
      "label": "MICROSOFT_GRAPH_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets MICROSOFT_GRAPH_TOKEN for the Microsoft Graph MCP server.",
@@ -1543,6 +1699,7 @@
     {
      "name": "MSPBOTS_API_KEY",
      "label": "MSPBOTS_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets MSPBOTS_API_KEY for the MSPbots MCP server.",
@@ -1552,6 +1709,7 @@
     {
      "name": "MSPBOTS_BASE_URL",
      "label": "MSPBOTS_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your MSPbots instance",
@@ -1571,6 +1729,7 @@
     {
      "name": "NCENTRAL_JWT",
      "label": "NCENTRAL_JWT",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets NCENTRAL_JWT for the N-central MCP server.",
@@ -1580,6 +1739,7 @@
     {
      "name": "N_CENTRAL_BASE_URL",
      "label": "N_CENTRAL_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "N_CENTRAL_BASE_URL for N-able N-central",
@@ -1599,6 +1759,7 @@
     {
      "name": "NERDIO_BASE_URL",
      "label": "NERDIO_BASE_URL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Your NMM instance root URL (per-MSP install), e.g. https://nmm.contoso.com. Required - there is no vendor-global endpoint.",
@@ -1608,6 +1769,7 @@
     {
      "name": "NERDIO_CLIENT_ID",
      "label": "NERDIO_CLIENT_ID",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets NERDIO_CLIENT_ID for the Nerdio Manager MCP server.",
@@ -1617,6 +1779,7 @@
     {
      "name": "NERDIO_CLIENT_SECRET",
      "label": "NERDIO_CLIENT_SECRET",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets NERDIO_CLIENT_SECRET for the Nerdio Manager MCP server.",
@@ -1626,6 +1789,7 @@
     {
      "name": "NERDIO_OAUTH_SCOPE",
      "label": "NERDIO_OAUTH_SCOPE",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets NERDIO_OAUTH_SCOPE for the Nerdio Manager MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
@@ -1635,6 +1799,7 @@
     {
      "name": "NERDIO_TOKEN_URL",
      "label": "NERDIO_TOKEN_URL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Entra ID token endpoint for your tenant: https://login.microsoftonline.com/<TENANT_ID>/oauth2/v2.0/token",
@@ -1654,6 +1819,7 @@
     {
      "name": "NINJAONE_BASE_URL",
      "label": "NINJAONE_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your NinjaOne instance",
@@ -1663,6 +1829,7 @@
     {
      "name": "NINJAONE_CLIENT_ID",
      "label": "API app client ID",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "NinjaOne: Administration > Apps > API > Add. Choose the machine-to-machine (client credentials) type.",
@@ -1672,6 +1839,7 @@
     {
      "name": "NINJAONE_CLIENT_SECRET",
      "label": "API app secret",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "OAuth2 client_secret from NinjaOne Administration > Apps > API.",
@@ -1681,6 +1849,7 @@
     {
      "name": "NINJAONE_OAUTH_SCOPE",
      "label": "OAuth scope",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Space-separated, and every word must be a scope the app actually has enabled, or the token request fails with invalid_scope. If unsure, enable only Monitoring on the app and enter: monitoring. That is also the right least-privilege posture for reads and reporting.",
@@ -1690,6 +1859,7 @@
     {
      "name": "NINJAONE_TOKEN_URL",
      "label": "NINJAONE_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "OAuth2 token endpoint for NinjaOne",
@@ -1709,6 +1879,7 @@
     {
      "name": "PAGERDUTY_API_KEY",
      "label": "PAGERDUTY_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets PAGERDUTY_API_KEY for the PagerDuty MCP server.",
@@ -1718,6 +1889,7 @@
     {
      "name": "PAGERDUTY_BASE_URL",
      "label": "PAGERDUTY_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your PagerDuty instance",
@@ -1737,6 +1909,7 @@
     {
      "name": "PANDADOC_API_KEY",
      "label": "PANDADOC_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets PANDADOC_API_KEY for the PandaDoc MCP server.",
@@ -1746,6 +1919,7 @@
     {
      "name": "PANDADOC_BASE_URL",
      "label": "PANDADOC_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your PandaDoc instance",
@@ -1765,6 +1939,7 @@
     {
      "name": "PAX8_AUDIENCE",
      "label": "PAX8_AUDIENCE",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "PAX8_AUDIENCE for Pax8",
@@ -1774,6 +1949,7 @@
     {
      "name": "PAX8_BASE_URL",
      "label": "PAX8_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Pax8 instance",
@@ -1783,6 +1959,7 @@
     {
      "name": "PAX8_CLIENT_ID",
      "label": "PAX8_CLIENT_ID",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets PAX8_CLIENT_ID for the Pax8 MCP server.",
@@ -1792,6 +1969,7 @@
     {
      "name": "PAX8_CLIENT_SECRET",
      "label": "PAX8_CLIENT_SECRET",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets PAX8_CLIENT_SECRET for the Pax8 MCP server.",
@@ -1801,6 +1979,7 @@
     {
      "name": "PAX8_OAUTH_SCOPE",
      "label": "PAX8_OAUTH_SCOPE",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets PAX8_OAUTH_SCOPE for the Pax8 MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
@@ -1810,6 +1989,7 @@
     {
      "name": "PAX8_TOKEN_URL",
      "label": "PAX8_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "OAuth2 token endpoint for Pax8",
@@ -1829,6 +2009,7 @@
     {
      "name": "PIPEDRIVE_API_KEY",
      "label": "PIPEDRIVE_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets PIPEDRIVE_API_KEY for the Pipedrive MCP server. Get a credential from https://app.pipedrive.com/settings/personal/api.",
@@ -1838,6 +2019,7 @@
     {
      "name": "PIPEDRIVE_BASE_URL",
      "label": "PIPEDRIVE_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Pipedrive instance",
@@ -1857,6 +2039,7 @@
     {
      "name": "PROOFPOINT_API_SECRET",
      "label": "PROOFPOINT_API_SECRET",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets PROOFPOINT_API_SECRET for the Proofpoint TAP MCP server.",
@@ -1866,6 +2049,7 @@
     {
      "name": "PROOFPOINT_BASE_URL",
      "label": "PROOFPOINT_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Proofpoint TAP instance",
@@ -1875,6 +2059,7 @@
     {
      "name": "PROOFPOINT_SERVICE_PRINCIPAL",
      "label": "PROOFPOINT_SERVICE_PRINCIPAL",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets PROOFPOINT_SERVICE_PRINCIPAL for the Proofpoint TAP MCP server.",
@@ -1894,6 +2079,7 @@
     {
      "name": "QUICKBOOKS_ACCESS_TOKEN",
      "label": "QUICKBOOKS_ACCESS_TOKEN",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Static access token, as an alternative to the refresh trio for a quick test. Intuit access tokens live one hour and nothing refreshes one supplied this way, so prefer the refresh credentials for anything long-running.",
@@ -1903,6 +2089,7 @@
     {
      "name": "QUICKBOOKS_BASE_URL",
      "label": "QUICKBOOKS_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Derived from QUICKBOOKS_REALM_ID automatically; set only for sandbox (QUICKBOOKS_ENVIRONMENT=sandbox does that too) or a nonstandard host.",
@@ -1912,6 +2099,7 @@
     {
      "name": "QUICKBOOKS_CLIENT_ID",
      "label": "App client ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "developer.intuit.com > your app > Keys & Credentials. Use the PRODUCTION keys for a real company file.",
@@ -1921,6 +2109,7 @@
     {
      "name": "QUICKBOOKS_CLIENT_SECRET",
      "label": "App client secret",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "OAuth2 client secret paired with QUICKBOOKS_CLIENT_ID.",
@@ -1930,6 +2119,7 @@
     {
      "name": "QUICKBOOKS_ENVIRONMENT",
      "label": "Environment",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "production for a real company, sandbox for an Intuit sandbox company. Must match where the refresh token was authorized.",
@@ -1939,6 +2129,7 @@
     {
      "name": "QUICKBOOKS_REALM_ID",
      "label": "Company (realm) ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Shown beside the refresh token in the OAuth Playground, and in any QuickBooks URL as companyid=<number>.",
@@ -1948,6 +2139,7 @@
     {
      "name": "QUICKBOOKS_REFRESH_TOKEN",
      "label": "Refresh token (seed)",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Easiest source: Intuit's OAuth 2.0 Playground. IMPORTANT: select YOUR app in the dropdown (not the sample app) with the com.intuit.quickbooks.accounting scope, authorize your company, and copy the refresh token. Intuit rotates this value; the connector persists rotations automatically, so this is only the seed.",
@@ -1957,6 +2149,7 @@
     {
      "name": "QUICKBOOKS_TOKEN_URL",
      "label": "QUICKBOOKS_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Intuit's production token endpoint by default; override only for testing.",
@@ -1976,6 +2169,7 @@
     {
      "name": "RESOURCEGURU_BASE_URL",
      "label": "RESOURCEGURU_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Resource Guru instance",
@@ -1985,6 +2179,7 @@
     {
      "name": "RESOURCEGURU_EMAIL",
      "label": "RESOURCEGURU_EMAIL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Your Resource Guru account email, used for HTTP Basic auth to the Resource Guru API.",
@@ -1994,6 +2189,7 @@
     {
      "name": "RESOURCEGURU_PASSWORD",
      "label": "RESOURCEGURU_PASSWORD",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Your Resource Guru account password, used for HTTP Basic auth to the Resource Guru API.",
@@ -2013,6 +2209,7 @@
     {
      "name": "REWST_API_TOKEN",
      "label": "REWST_API_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Rewst API token from an API client you create in the Rewst console (sent as a bearer token).",
@@ -2022,6 +2219,7 @@
     {
      "name": "REWST_BASE_URL",
      "label": "REWST_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Rewst API base URL for your region. Defaults to the US (https://api.rewst.io); set this for EU/AU or other regional instances.",
@@ -2041,6 +2239,7 @@
     {
      "name": "ROCKETCYBER_API_TOKEN",
      "label": "ROCKETCYBER_API_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets ROCKETCYBER_API_TOKEN for the RocketCyber MCP server.",
@@ -2050,6 +2249,7 @@
     {
      "name": "ROCKETCYBER_BASE_URL",
      "label": "ROCKETCYBER_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your RocketCyber instance",
@@ -2069,6 +2269,7 @@
     {
      "name": "ROOTLY_API_KEY",
      "label": "ROOTLY_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Rootly API key, sent as a Bearer token (JSON:API). Create one at Rootly > Settings > API Keys. Set this OR ROOTLY_API_TOKEN.",
@@ -2078,6 +2279,7 @@
     {
      "name": "ROOTLY_API_TOKEN",
      "label": "ROOTLY_API_TOKEN",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Accepted as an alias for ROOTLY_API_KEY (the variable the Rootly MCP server uses).",
@@ -2087,6 +2289,7 @@
     {
      "name": "ROOTLY_BASE_URL",
      "label": "ROOTLY_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Rootly instance",
@@ -2106,6 +2309,7 @@
     {
      "name": "RUNZERO_API_KEY",
      "label": "RUNZERO_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets RUNZERO_API_KEY for the runZero MCP server.",
@@ -2115,6 +2319,7 @@
     {
      "name": "RUNZERO_BASE_URL",
      "label": "RUNZERO_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your runZero instance",
@@ -2134,6 +2339,7 @@
     {
      "name": "SALESBUILDR_API_KEY",
      "label": "SALESBUILDR_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SALESBUILDR_API_KEY for the Salesbuildr MCP server.",
@@ -2143,6 +2349,7 @@
     {
      "name": "SALESBUILDR_BASE_URL",
      "label": "SALESBUILDR_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Salesbuildr instance",
@@ -2152,6 +2359,7 @@
     {
      "name": "SALESBUILDR_TENANT",
      "label": "SALESBUILDR_TENANT",
+     "derive": null,
      "required": null,
      "sensitive": false,
      "help": "Sets SALESBUILDR_TENANT for the endpoint template variable {tenant}.",
@@ -2171,6 +2379,7 @@
     {
      "name": "SENTINELONE_API_TOKEN",
      "label": "SENTINELONE_API_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SENTINELONE_API_TOKEN for the SentinelOne MCP server.",
@@ -2180,6 +2389,7 @@
     {
      "name": "SENTINELONE_BASE_URL",
      "label": "SENTINELONE_BASE_URL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Base URL of your SentinelOne instance",
@@ -2199,6 +2409,7 @@
     {
      "name": "SERVOSITY_MSP_BASE_URL",
      "label": "SERVOSITY_MSP_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "SERVOSITY_MSP_BASE_URL for Servosity",
@@ -2208,6 +2419,7 @@
     {
      "name": "SERVOSITY_MSP_RESELLER_ID",
      "label": "SERVOSITY_MSP_RESELLER_ID",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "SERVOSITY_MSP_RESELLER_ID for Servosity",
@@ -2217,6 +2429,7 @@
     {
      "name": "SERVOSITY_MSP_TOKEN",
      "label": "SERVOSITY_MSP_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SERVOSITY_MSP_TOKEN for the Servosity MCP server.",
@@ -2236,6 +2449,7 @@
     {
      "name": "SHERWEB_BASE_URL",
      "label": "SHERWEB_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Sherweb instance",
@@ -2245,6 +2459,7 @@
     {
      "name": "SHERWEB_CLIENT_ID",
      "label": "API client ID",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "From Sherweb's developer portal (api.sherweb.com): register an application.",
@@ -2254,6 +2469,7 @@
     {
      "name": "SHERWEB_CLIENT_SECRET",
      "label": "API client secret",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SHERWEB_CLIENT_SECRET for the Sherweb MCP server.",
@@ -2263,6 +2479,7 @@
     {
      "name": "SHERWEB_OAUTH_SCOPE",
      "label": "SHERWEB_OAUTH_SCOPE",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SHERWEB_OAUTH_SCOPE for the Sherweb MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
@@ -2272,6 +2489,7 @@
     {
      "name": "SHERWEB_SUBSCRIPTION_KEY",
      "label": "Subscription key",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "The API-gateway subscription key from the same developer portal; sent alongside the OAuth token on every call.",
@@ -2281,6 +2499,7 @@
     {
      "name": "SHERWEB_TOKEN_URL",
      "label": "SHERWEB_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "OAuth2 token endpoint for Sherweb",
@@ -2300,6 +2519,7 @@
     {
      "name": "SKYKICK_BASE_URL",
      "label": "SKYKICK_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your SkyKick instance",
@@ -2309,6 +2529,7 @@
     {
      "name": "SKYKICK_CLIENT_ID",
      "label": "SKYKICK_CLIENT_ID",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SKYKICK_CLIENT_ID for the SkyKick MCP server.",
@@ -2318,6 +2539,7 @@
     {
      "name": "SKYKICK_CLIENT_SECRET",
      "label": "SKYKICK_CLIENT_SECRET",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SKYKICK_CLIENT_SECRET for the SkyKick MCP server.",
@@ -2327,6 +2549,7 @@
     {
      "name": "SKYKICK_OAUTH_SCOPE",
      "label": "SKYKICK_OAUTH_SCOPE",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SKYKICK_OAUTH_SCOPE for the SkyKick MCP server. Required by the generated client for credential refresh or hand-written auth flow.",
@@ -2336,6 +2559,7 @@
     {
      "name": "SKYKICK_TOKEN_URL",
      "label": "SKYKICK_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "OAuth2 token endpoint for SkyKick",
@@ -2355,6 +2579,7 @@
     {
      "name": "SUPEROPS_API_TOKEN",
      "label": "SUPEROPS_API_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SUPEROPS_API_TOKEN for the SuperOps MCP server.",
@@ -2364,6 +2589,7 @@
     {
      "name": "SUPEROPS_BASE_URL",
      "label": "SUPEROPS_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your SuperOps instance",
@@ -2373,6 +2599,7 @@
     {
      "name": "SUPEROPS_REGION",
      "label": "SUPEROPS_REGION",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "SuperOps region your credentials were issued for",
@@ -2382,6 +2609,7 @@
     {
      "name": "SUPEROPS_SUBDOMAIN",
      "label": "SUPEROPS_SUBDOMAIN",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Your SuperOps subdomain",
@@ -2401,6 +2629,7 @@
     {
      "name": "SYNCRO_API_KEY",
      "label": "SYNCRO_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets SYNCRO_API_KEY for the Syncro MCP server. Get a credential from https://syncromsp.com.",
@@ -2410,6 +2639,7 @@
     {
      "name": "SYNCRO_BASE_URL",
      "label": "SYNCRO_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Syncro instance",
@@ -2419,6 +2649,7 @@
     {
      "name": "SYNCRO_SUBDOMAIN",
      "label": "SYNCRO_SUBDOMAIN",
+     "derive": null,
      "required": null,
      "sensitive": false,
      "help": "Sets SYNCRO_SUBDOMAIN for the endpoint template variable {subdomain}.",
@@ -2438,6 +2669,7 @@
     {
      "name": "TACTICAL_RMM_BASE_URL",
      "label": "TACTICAL_RMM_BASE_URL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "TACTICAL_RMM_BASE_URL for Tactical RMM",
@@ -2447,6 +2679,7 @@
     {
      "name": "TRMM_API_KEY",
      "label": "TRMM_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Tactical RMM API key (Settings > Global Settings > API Keys). Bypasses 2FA.",
@@ -2466,6 +2699,7 @@
     {
      "name": "PRINTING_PRESS_CLIENT_PROFILE",
      "label": "PRINTING_PRESS_CLIENT_PROFILE",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Binds the MCP server to an existing tenant-gated Printing Press client profile.",
@@ -2475,6 +2709,7 @@
     {
      "name": "THREATLOCKER_API_KEY",
      "label": "API key",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Create under Integrations > API Interface in the portal, on the SAME instance as the host above. Keys can carry an expiry date.",
@@ -2483,16 +2718,25 @@
     },
     {
      "name": "THREATLOCKER_BASE_URL",
-     "label": "Portal API host",
+     "label": "ThreatLocker instance",
+     "derive": {
+      "input_label": "Instance letter",
+      "input_example": "f",
+      "input_pattern": "^[a-zA-Z]$",
+      "input_help": "The letter shown at your portal login, e.g. 'ThreatLocker Access (F)' means f. The wrong instance rejects your key in a way that looks like a bad key.",
+      "template": "https://portalapi.{value}.threatlocker.com/portalapi",
+      "lowercase": true
+     },
      "required": false,
      "sensitive": false,
-     "help": "The letter is your ThreatLocker instance: look at your portal login, e.g. 'ThreatLocker Access (F)' means the F instance. The default is G, and the wrong instance rejects your key in a way that looks like a bad key. Keep the /portalapi suffix.",
-     "example": "https://portalapi.f.threatlocker.com/portalapi",
+     "help": "Only the instance letter is yours; the rest of the address is fixed.",
+     "example": "",
      "pattern": "^https://portalapi\\.[a-z]\\.threatlocker\\.com/portalapi$"
     },
     {
      "name": "THREATLOCKER_ORG_ID",
      "label": "Organization GUID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "The GUID of your own organization, sent as the ManagedOrganizationId header. Most data calls refuse without it. Visible in the portal URL as organizationId=<guid> when viewing your organization.",
@@ -2512,6 +2756,7 @@
     {
      "name": "UNIFI_API_KEY",
      "label": "UNIFI_API_KEY",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Local API key from the gateway UI: Settings > Control Plane > Integrations > Create API Key.",
@@ -2521,6 +2766,7 @@
     {
      "name": "UNIFI_BASE_PATH",
      "label": "UNIFI_BASE_PATH",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "UNIFI_BASE_PATH for UniFi Network",
@@ -2530,6 +2776,7 @@
     {
      "name": "UNIFI_BASE_URL",
      "label": "UNIFI_BASE_URL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Base URL of your UniFi Network instance",
@@ -2539,6 +2786,7 @@
     {
      "name": "UNIFI_GATEWAY_HOST",
      "label": "UNIFI_GATEWAY_HOST",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Hostname or IP of the UniFi OS gateway on your network, e.g. 10.0.0.1 (the CLI adds the /proxy/network prefix).",
@@ -2548,6 +2796,7 @@
     {
      "name": "UNIFI_INSECURE_SKIP_VERIFY",
      "label": "UNIFI_INSECURE_SKIP_VERIFY",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "UNIFI_INSECURE_SKIP_VERIFY for UniFi Network",
@@ -2567,6 +2816,7 @@
     {
      "name": "VEEAM_BASE_URL",
      "label": "VEEAM_BASE_URL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Your VSPC appliance REST API base URL, e.g. https://vspc.example.com:1280/api/v3. The console is appliance-hosted, so this is per-instance and required.",
@@ -2576,6 +2826,7 @@
     {
      "name": "VEEAM_TOKEN",
      "label": "VEEAM_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Bearer token for the VSPC REST API (POST /token with your portal credentials).",
@@ -2595,6 +2846,7 @@
     {
      "name": "WORDPRESS_BASE_URL",
      "label": "WORDPRESS_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your WordPress instance",
@@ -2604,6 +2856,7 @@
     {
      "name": "WORDPRESS_BASIC_AUTH",
      "label": "WORDPRESS_BASIC_AUTH",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets WORDPRESS_BASIC_AUTH for the Wordpress MCP server.",
@@ -2623,6 +2876,7 @@
     {
      "name": "XERO_ACCESS_TOKEN",
      "label": "XERO_ACCESS_TOKEN",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Sets XERO_ACCESS_TOKEN for the Xero MCP server.",
@@ -2632,6 +2886,7 @@
     {
      "name": "XERO_AUTHORIZATION_URL",
      "label": "XERO_AUTHORIZATION_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "XERO_AUTHORIZATION_URL for Xero",
@@ -2641,6 +2896,7 @@
     {
      "name": "XERO_BASE_URL",
      "label": "XERO_BASE_URL",
+     "derive": null,
      "required": false,
      "sensitive": false,
      "help": "Base URL of your Xero instance",
@@ -2650,6 +2906,7 @@
     {
      "name": "XERO_CLIENT_ID",
      "label": "XERO_CLIENT_ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "OAuth2 client ID from your Xero API application",
@@ -2659,6 +2916,7 @@
     {
      "name": "XERO_CLIENT_SECRET",
      "label": "XERO_CLIENT_SECRET",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "OAuth2 client secret from your Xero API application",
@@ -2668,6 +2926,7 @@
     {
      "name": "XERO_OAUTH2",
      "label": "XERO_OAUTH2",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "Optional. Sets XERO_OAUTH2 for the Xero MCP server.",
@@ -2677,6 +2936,7 @@
     {
      "name": "XERO_TENANT_ID",
      "label": "XERO_TENANT_ID",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Tenant ID in Xero",
@@ -2686,6 +2946,7 @@
     {
      "name": "XERO_TOKEN_URL",
      "label": "XERO_TOKEN_URL",
+     "derive": null,
      "required": false,
      "sensitive": true,
      "help": "OAuth2 token endpoint for Xero",
@@ -2705,6 +2966,7 @@
     {
      "name": "ZAMMAD_API_TOKEN",
      "label": "ZAMMAD_API_TOKEN",
+     "derive": null,
      "required": true,
      "sensitive": true,
      "help": "Sets ZAMMAD_API_TOKEN for the Zammad MCP server.",
@@ -2714,6 +2976,7 @@
     {
      "name": "ZAMMAD_BASE_URL",
      "label": "ZAMMAD_BASE_URL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "Base URL of your Zammad instance",
@@ -2723,6 +2986,7 @@
     {
      "name": "ZAMMAD_URL",
      "label": "ZAMMAD_URL",
+     "derive": null,
      "required": true,
      "sensitive": false,
      "help": "ZAMMAD_URL for Zammad",
