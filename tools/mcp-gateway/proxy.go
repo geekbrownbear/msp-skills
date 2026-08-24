@@ -47,6 +47,7 @@ type Gateway struct {
 	annMu       sync.RWMutex
 	annotations map[string]map[string]*bool
 	annClient   *http.Client
+	agg         *aggregator
 }
 
 func NewGateway(cfg *Config, auditor *Auditor) (*Gateway, error) {
@@ -58,6 +59,7 @@ func NewGateway(cfg *Config, auditor *Auditor) (*Gateway, error) {
 		annotations: map[string]map[string]*bool{},
 		annClient:   &http.Client{Timeout: 15 * time.Second},
 	}
+	g.agg = newAggregator(g)
 	for slug, conn := range cfg.Connectors {
 		target, err := url.Parse(conn.URL)
 		if err != nil {
@@ -81,9 +83,15 @@ func NewGateway(cfg *Config, auditor *Auditor) (*Gateway, error) {
 }
 
 func (g *Gateway) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// /mcp with no connector is the aggregate fleet endpoint: one server, one
+	// token, three meta-tools, discovery on demand.
+	if p := strings.TrimRight(r.URL.Path, "/"); p == "/mcp" {
+		g.agg.ServeHTTP(w, r)
+		return
+	}
 	slug, ok := connectorFromPath(r.URL.Path)
 	if !ok {
-		http.Error(w, "not found: expected /mcp/<connector>", http.StatusNotFound)
+		http.Error(w, "not found: expected /mcp/<connector>, or /mcp for the fleet endpoint", http.StatusNotFound)
 		return
 	}
 	if _, known := g.cfg.Connectors[slug]; !known {
@@ -236,20 +244,7 @@ func (g *Gateway) ensureAnnotations(slug string) {
 		return
 	}
 
-	post := func(session, body string) (*http.Response, error) {
-		req, err := http.NewRequest(http.MethodPost, conn.URL, strings.NewReader(body))
-		if err != nil {
-			return nil, err
-		}
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("Accept", "application/json, text/event-stream")
-		if session != "" {
-			req.Header.Set("Mcp-Session-Id", session)
-		}
-		return g.annClient.Do(req)
-	}
-
-	resp, err := post("", `{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"msp-mcp-gateway","version":"1"}}}`)
+	resp, err := g.mcpPost(conn.URL, "", `{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"msp-mcp-gateway","version":"1"}}}`)
 	if err != nil {
 		return
 	}
@@ -257,12 +252,12 @@ func (g *Gateway) ensureAnnotations(slug string) {
 	io.Copy(io.Discard, resp.Body)
 	resp.Body.Close()
 
-	if r2, err := post(session, `{"jsonrpc":"2.0","method":"notifications/initialized"}`); err == nil {
+	if r2, err := g.mcpPost(conn.URL, session, `{"jsonrpc":"2.0","method":"notifications/initialized"}`); err == nil {
 		io.Copy(io.Discard, r2.Body)
 		r2.Body.Close()
 	}
 
-	resp, err = post(session, `{"jsonrpc":"2.0","id":2,"method":"tools/list"}`)
+	resp, err = g.mcpPost(conn.URL, session, `{"jsonrpc":"2.0","id":2,"method":"tools/list"}`)
 	if err != nil {
 		return
 	}
@@ -291,6 +286,21 @@ func (g *Gateway) ensureAnnotations(slug string) {
 	g.annMu.Lock()
 	g.annotations[slug] = m
 	g.annMu.Unlock()
+}
+
+// mcpPost sends one JSON-RPC body to a connector's MCP endpoint on the
+// internal network, optionally within a downstream session.
+func (g *Gateway) mcpPost(url, session, body string) (*http.Response, error) {
+	req, err := http.NewRequest(http.MethodPost, url, strings.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json, text/event-stream")
+	if session != "" {
+		req.Header.Set("Mcp-Session-Id", session)
+	}
+	return g.annClient.Do(req)
 }
 
 func (g *Gateway) readOnlyHint(slug, tool string) *bool {

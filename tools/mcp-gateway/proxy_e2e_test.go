@@ -207,3 +207,68 @@ func TestE2ECallBeforeListStillDeniesWrites(t *testing.T) {
 		t.Fatalf("write tool must stay denied after self-prime, got %d", resp.StatusCode)
 	}
 }
+
+func TestE2EAggregateFleetFlow(t *testing.T) {
+	front, _, auditPath := newTestGateway(t, Grant{AllowTools: []string{"*"}})
+
+	// initialize on the aggregate endpoint
+	resp := post(t, front.URL+"/mcp", "tok", `{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}`)
+	sid := resp.Header.Get("Mcp-Session-Id")
+	resp.Body.Close()
+	if sid == "" {
+		t.Fatal("aggregate initialize returned no session")
+	}
+	call := func(body string) map[string]any {
+		req, _ := http.NewRequest(http.MethodPost, front.URL+"/mcp", strings.NewReader(body))
+		req.Header.Set("Authorization", "Bearer tok")
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Mcp-Session-Id", sid)
+		r2, err := http.DefaultClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer r2.Body.Close()
+		var out map[string]any
+		json.NewDecoder(r2.Body).Decode(&out)
+		return out
+	}
+
+	// tools/list shows exactly the three meta-tools
+	out := call(`{"jsonrpc":"2.0","id":2,"method":"tools/list"}`)
+	tools := out["result"].(map[string]any)["tools"].([]any)
+	if len(tools) != 3 {
+		t.Fatalf("aggregate advertises %d tools, want 3", len(tools))
+	}
+
+	// fleet_connectors lists the granted connector
+	out = call(`{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"fleet_connectors","arguments":{}}}`)
+	txt := out["result"].(map[string]any)["content"].([]any)[0].(map[string]any)["text"].(string)
+	if !strings.Contains(txt, "halopsa") || !strings.Contains(txt, "read-only") {
+		t.Fatalf("fleet_connectors missing grant info: %s", txt)
+	}
+
+	// fleet_call on a read tool proxies through
+	out = call(`{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"fleet_call","arguments":{"connector":"halopsa","tool":"search","arguments":{"q":"x"}}}}`)
+	res := out["result"].(map[string]any)
+	if res["isError"] == true {
+		t.Fatalf("read tool refused through aggregate: %v", res)
+	}
+
+	// fleet_call on a write tool is refused and audited
+	out = call(`{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"fleet_call","arguments":{"connector":"purgeless","tool":"purge"}}}`)
+	_ = out
+	out = call(`{"jsonrpc":"2.0","id":6,"method":"tools/call","params":{"name":"fleet_call","arguments":{"connector":"halopsa","tool":"purge"}}}`)
+	res = out["result"].(map[string]any)
+	if res["isError"] != true {
+		t.Fatal("write tool allowed through aggregate under read-only grant")
+	}
+	found := false
+	for _, e := range readEvents(t, auditPath) {
+		if e.MCP.Tool == "purge" && e.Policy.Decision == "deny" {
+			found = true
+		}
+	}
+	if !found {
+		t.Fatal("aggregate denial not audited")
+	}
+}
