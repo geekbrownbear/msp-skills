@@ -275,7 +275,7 @@ func TestMetaToolSchemasAreClientValid(t *testing.T) {
 	if err := json.Unmarshal(raw, &tools); err != nil {
 		t.Fatalf("meta-tool schemas do not round-trip: %v", err)
 	}
-	if len(tools) != 3 {
-		t.Fatalf("expected 3 meta-tools, got %d", len(tools))
+	if len(tools) != 4 {
+		t.Fatalf("expected 4 meta-tools, got %d", len(tools))
 	}
 }

@@ -26,6 +26,7 @@ import (
 	"io"
 	"net/http"
 	"sort"
+	"strings"
 	"sync"
 	"time"
 )
@@ -155,6 +156,9 @@ func (a *aggregator) dispatch(sess *aggSession, actor *Actor, req rpcRequest, r 
 	json.Unmarshal(req.Params.Arguments, &args)
 
 	switch req.Params.Name {
+	case "fleet_overview":
+		return a.overview(sess, actor, r)
+
 	case "fleet_connectors":
 		type row struct {
 			Slug   string `json:"connector"`
@@ -173,7 +177,7 @@ func (a *aggregator) dispatch(sess *aggSession, actor *Actor, req rpcRequest, r 
 		sort.Slice(rows, func(i, j int) bool { return rows[i].Slug < rows[j].Slug })
 		return toolText(map[string]any{
 			"connectors": rows,
-			"next":       "call fleet_tools with a connector name to see its tools, then fleet_call to use one",
+			"next":       "fleet_overview surveys every mirror in one call; fleet_tools lists one connector; fleet_call invokes a tool",
 		})
 
 	case "fleet_tools":
@@ -222,6 +226,108 @@ func (a *aggregator) dispatch(sess *aggSession, actor *Actor, req rpcRequest, r 
 	}
 }
 
+// overview surveys every granted connector's mirror in one tool call, by
+// invoking each connector's standard `analytics` summary concurrently.
+//
+// It exists because the discovery flow, correct as it is, spends a client
+// tool call per step: a "look at everything" request across 14 connectors
+// burned a Desktop conversation's whole tool budget on plumbing before any
+// real question got asked. One overview call buys the model the map, so the
+// budget goes to the follow-ups that matter. Every downstream call is policy
+// checked and audited exactly as if the client had made it itself.
+func (a *aggregator) overview(sess *aggSession, actor *Actor, r *http.Request) map[string]any {
+	type row struct {
+		slug string
+		out  map[string]any
+	}
+	var slugs []string
+	for slug := range a.g.cfg.Connectors {
+		if _, ok := actor.Grants[slug]; ok {
+			slugs = append(slugs, slug)
+		}
+	}
+	sort.Strings(slugs)
+
+	rows := make(chan row, len(slugs))
+	sem := make(chan struct{}, 6)
+	for _, slug := range slugs {
+		go func(slug string) {
+			sem <- struct{}{}
+			defer func() { <-sem }()
+			rows <- row{slug, a.overviewOne(sess, actor, slug, r)}
+		}(slug)
+	}
+	result := map[string]any{}
+	for range slugs {
+		rw := <-rows
+		result[rw.slug] = rw.out
+	}
+	return toolText(map[string]any{
+		"mirror_summaries": result,
+		"note":             "counts are the local mirror per connector; a thin or empty entry means little is synced there, not that the connector is down. Use fleet_tools + fleet_call for live reads and deep dives.",
+	})
+}
+
+func (a *aggregator) overviewOne(sess *aggSession, actor *Actor, slug string, r *http.Request) map[string]any {
+	a.g.ensureAnnotations(slug)
+	dec := Evaluate(actor, slug, "analytics", a.g.readOnlyHint(slug, "analytics"))
+	ev := &Event{
+		Actor:     a.g.eventActor(actor, r),
+		Connector: slug,
+		MCP:       EventMCP{Method: "tools/call", Tool: "analytics"},
+	}
+	if !dec.Allow {
+		ev.Policy = EventPolicy{Decision: "deny", Reason: dec.Reason, Class: dec.Class}
+		a.g.auditor.Append(ev)
+		return map[string]any{"error": "analytics not permitted: " + dec.Reason}
+	}
+	start := time.Now()
+	raw, err := a.downstreamCall(sess, slug, "analytics", json.RawMessage(`{}`))
+	ev.Policy = EventPolicy{Decision: "allow", Class: dec.Class}
+	status := "ok"
+	if err != nil {
+		status = "error"
+	}
+	ev.Result = &EventResult{Status: status, DurationMS: time.Since(start).Milliseconds()}
+	a.g.auditor.Append(ev)
+	if err != nil {
+		return map[string]any{"error": err.Error()}
+	}
+
+	// analytics prints a "Resource Type	Count" table; turn it into numbers.
+	var parsed struct {
+		Content []struct {
+			Type string `json:"type"`
+			Text string `json:"text"`
+		} `json:"content"`
+	}
+	counts := map[string]int64{}
+	if json.Unmarshal(raw, &parsed) == nil {
+		for _, c := range parsed.Content {
+			if c.Type != "text" {
+				continue
+			}
+			for _, ln := range strings.Split(c.Text, "\n") {
+				name, num, ok := strings.Cut(ln, "\t")
+				if !ok {
+					continue
+				}
+				var n int64
+				if _, err := fmt.Sscanf(strings.TrimSpace(num), "%d", &n); err == nil && name != "" {
+					counts[strings.TrimSpace(name)] = n
+					if len(counts) >= 60 {
+						break
+					}
+				}
+			}
+		}
+	}
+	if len(counts) == 0 {
+		return map[string]any{"mirror": "empty or unparsed"}
+	}
+	return map[string]any{"resources": counts}
+}
+
 func metaTools() []map[string]any {
 	obj := func(props map[string]any, required ...string) map[string]any {
 		m := map[string]any{"type": "object", "properties": props}
@@ -236,6 +342,12 @@ func metaTools() []map[string]any {
 	str := func(desc string) map[string]any { return map[string]any{"type": "string", "description": desc} }
 	ro, notRo := true, false
 	return []map[string]any{
+		{
+			"name":        "fleet_overview",
+			"description": "One-call survey of the whole fleet: every connector's local mirror summarized as resource counts. Start here for any broad question; it costs one tool call instead of one per connector.",
+			"inputSchema": obj(map[string]any{}),
+			"annotations": map[string]any{"readOnlyHint": &ro},
+		},
 		{
 			"name":        "fleet_connectors",
 			"description": "List the MSP connectors this token can reach (HaloPSA, ImmyBot, CIPP, Hudu, ThreatLocker, and the rest of the fleet) and whether each grant is read-only. Start here.",

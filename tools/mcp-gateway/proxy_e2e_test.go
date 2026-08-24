@@ -236,8 +236,8 @@ func TestE2EAggregateFleetFlow(t *testing.T) {
 	// tools/list shows exactly the three meta-tools
 	out := call(`{"jsonrpc":"2.0","id":2,"method":"tools/list"}`)
 	tools := out["result"].(map[string]any)["tools"].([]any)
-	if len(tools) != 3 {
-		t.Fatalf("aggregate advertises %d tools, want 3", len(tools))
+	if len(tools) != 4 {
+		t.Fatalf("aggregate advertises %d tools, want 4", len(tools))
 	}
 
 	// fleet_connectors lists the granted connector
@@ -270,5 +270,43 @@ func TestE2EAggregateFleetFlow(t *testing.T) {
 	}
 	if !found {
 		t.Fatal("aggregate denial not audited")
+	}
+}
+
+func TestE2EAggregateOverviewOneCall(t *testing.T) {
+	front, _, auditPath := newTestGateway(t, Grant{AllowTools: []string{"*"}})
+	resp := post(t, front.URL+"/mcp", "tok", `{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}`)
+	sid := resp.Header.Get("Mcp-Session-Id")
+	resp.Body.Close()
+	req, _ := http.NewRequest(http.MethodPost, front.URL+"/mcp", strings.NewReader(`{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"fleet_overview","arguments":{}}}`))
+	req.Header.Set("Authorization", "Bearer tok")
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Mcp-Session-Id", sid)
+	r2, err := http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer r2.Body.Close()
+	var out map[string]any
+	json.NewDecoder(r2.Body).Decode(&out)
+	txt := out["result"].(map[string]any)["content"].([]any)[0].(map[string]any)["text"].(string)
+	var body struct {
+		Summaries map[string]any `json:"mirror_summaries"`
+	}
+	if err := json.Unmarshal([]byte(txt), &body); err != nil {
+		t.Fatalf("overview payload not JSON: %v", err)
+	}
+	if _, ok := body.Summaries["halopsa"]; !ok {
+		t.Fatalf("overview missing granted connector: %v", body.Summaries)
+	}
+	// each downstream survey call must be audited
+	found := false
+	for _, e := range readEvents(t, auditPath) {
+		if e.MCP.Tool == "analytics" && e.Connector == "halopsa" {
+			found = true
+		}
+	}
+	if !found {
+		t.Fatal("overview downstream call not audited")
 	}
 }
