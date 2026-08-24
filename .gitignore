@@ -202,3 +202,7 @@ assets/social/*
 docker/.env
 docker/env/*.env
 !docker/env/*.env.example
+
+# Rendered single-file stack for external managers (dockhand/portainer): embeds
+# operator-specific paths and binds; regenerate per host, never commit.
+docker/dockhand-stack.yml

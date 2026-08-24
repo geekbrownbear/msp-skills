@@ -2166,67 +2166,132 @@ networks:
 
 volumes:
   msp-abnormal-data:
+    name: msp-skills_msp-abnormal-data
   msp-acronis-data:
+    name: msp-skills_msp-acronis-data
   msp-action1-data:
+    name: msp-skills_msp-action1-data
   msp-afi-data:
+    name: msp-skills_msp-afi-data
   msp-appdirect-data:
+    name: msp-skills_msp-appdirect-data
   msp-atera-data:
+    name: msp-skills_msp-atera-data
   msp-autotask-data:
+    name: msp-skills_msp-autotask-data
   msp-auvik-data:
+    name: msp-skills_msp-auvik-data
   msp-avanan-data:
+    name: msp-skills_msp-avanan-data
   msp-aws-billing-data:
+    name: msp-skills_msp-aws-billing-data
   msp-axcient-data:
+    name: msp-skills_msp-axcient-data
   msp-betterstack-data:
+    name: msp-skills_msp-betterstack-data
   msp-blumira-data:
+    name: msp-skills_msp-blumira-data
   msp-cipp-data:
+    name: msp-skills_msp-cipp-data
   msp-connectwise-automate-data:
+    name: msp-skills_msp-connectwise-automate-data
   msp-connectwise-control-data:
+    name: msp-skills_msp-connectwise-control-data
   msp-connectwise-manage-data:
+    name: msp-skills_msp-connectwise-manage-data
   msp-cork-data:
+    name: msp-skills_msp-cork-data
   msp-cove-data:
+    name: msp-skills_msp-cove-data
   msp-crowdstrike-data:
+    name: msp-skills_msp-crowdstrike-data
   msp-datto-bcdr-data:
+    name: msp-skills_msp-datto-bcdr-data
   msp-datto-rmm-data:
+    name: msp-skills_msp-datto-rmm-data
   msp-domotz-data:
+    name: msp-skills_msp-domotz-data
   msp-gradient-data:
+    name: msp-skills_msp-gradient-data
   msp-halopsa-data:
+    name: msp-skills_msp-halopsa-data
   msp-hubspot-data:
+    name: msp-skills_msp-hubspot-data
   msp-hudu-data:
+    name: msp-skills_msp-hudu-data
   msp-huntress-data:
+    name: msp-skills_msp-huntress-data
   msp-immybot-data:
+    name: msp-skills_msp-immybot-data
   msp-itglue-data:
+    name: msp-skills_msp-itglue-data
   msp-kaseya-bms-data:
+    name: msp-skills_msp-kaseya-bms-data
   msp-knowbe4-data:
+    name: msp-skills_msp-knowbe4-data
   msp-levelio-data:
+    name: msp-skills_msp-levelio-data
   msp-liongard-data:
+    name: msp-skills_msp-liongard-data
   msp-maxio-data:
+    name: msp-skills_msp-maxio-data
   msp-microsoft-graph-data:
+    name: msp-skills_msp-microsoft-graph-data
   msp-mspbots-data:
+    name: msp-skills_msp-mspbots-data
   msp-n-central-data:
+    name: msp-skills_msp-n-central-data
   msp-nerdio-data:
+    name: msp-skills_msp-nerdio-data
   msp-ninjaone-data:
+    name: msp-skills_msp-ninjaone-data
   msp-pagerduty-data:
+    name: msp-skills_msp-pagerduty-data
   msp-pandadoc-data:
+    name: msp-skills_msp-pandadoc-data
   msp-pax8-data:
+    name: msp-skills_msp-pax8-data
   msp-pipedrive-data:
+    name: msp-skills_msp-pipedrive-data
   msp-proofpoint-data:
+    name: msp-skills_msp-proofpoint-data
   msp-quickbooks-data:
+    name: msp-skills_msp-quickbooks-data
   msp-resourceguru-data:
+    name: msp-skills_msp-resourceguru-data
   msp-rewst-data:
+    name: msp-skills_msp-rewst-data
   msp-rocketcyber-data:
+    name: msp-skills_msp-rocketcyber-data
   msp-rootly-data:
+    name: msp-skills_msp-rootly-data
   msp-runzero-data:
+    name: msp-skills_msp-runzero-data
   msp-salesbuildr-data:
+    name: msp-skills_msp-salesbuildr-data
   msp-sentinelone-data:
+    name: msp-skills_msp-sentinelone-data
   msp-servosity-data:
+    name: msp-skills_msp-servosity-data
   msp-sherweb-data:
+    name: msp-skills_msp-sherweb-data
   msp-skykick-data:
+    name: msp-skills_msp-skykick-data
   msp-superops-data:
+    name: msp-skills_msp-superops-data
   msp-syncro-data:
+    name: msp-skills_msp-syncro-data
   msp-tactical-rmm-data:
+    name: msp-skills_msp-tactical-rmm-data
   msp-threatlocker-data:
+    name: msp-skills_msp-threatlocker-data
   msp-unifi-network-data:
+    name: msp-skills_msp-unifi-network-data
   msp-veeam-data:
+    name: msp-skills_msp-veeam-data
   msp-wordpress-data:
+    name: msp-skills_msp-wordpress-data
   msp-xero-data:
+    name: msp-skills_msp-xero-data
   msp-zammad-data:
+    name: msp-skills_msp-zammad-data

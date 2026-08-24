@@ -13,6 +13,7 @@
 services:
   gateway:
     profiles: [gateway]
+    image: msp-skills/gateway:dev
     build:
       context: ../tools/mcp-gateway
       dockerfile: ../../docker/Dockerfile.gateway
@@ -40,3 +41,4 @@ services:
 
 volumes:
   msp-gateway-audit:
+    name: msp-skills_msp-gateway-audit

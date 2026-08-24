@@ -366,8 +366,13 @@ def main(out_dir=None):
         "",
         "volumes:",
     ]
+    # Volume names are pinned absolutely rather than left to the project-name
+    # prefix. Without this, deploying the same file under a stack manager that
+    # names the project differently silently creates 14 fresh empty volumes
+    # and strands the real mirrors under the old names.
     for slug in slugs:
         footer.append(f"  msp-{slug}-data:")
+        footer.append(f"    name: msp-skills_msp-{slug}-data")
     footer.append("")
 
     compose = "\n".join(header) + "\n" + "\n\n".join(body) + "\n" + "\n".join(footer)
