@@ -360,6 +360,7 @@ def main(out_dir=None):
         "",
         "networks:",
         "  msp-internal:",
+        "    name: msp-skills_internal",
         "    driver: bridge",
         "    # Not `internal: true`: connectors must reach their vendor APIs.",
         "    # Isolation comes from publishing no ports, not from blocking egress.",
