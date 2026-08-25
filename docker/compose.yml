@@ -33,7 +33,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-abnormal-data:/data
+      - abnormal-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -66,7 +66,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-acronis-data:/data
+      - acronis-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -99,7 +99,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-action1-data:/data
+      - action1-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -132,7 +132,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-afi-data:/data
+      - afi-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -165,7 +165,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-appdirect-data:/data
+      - appdirect-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -198,7 +198,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-atera-data:/data
+      - atera-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -231,7 +231,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-autotask-data:/data
+      - autotask-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -264,7 +264,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-auvik-data:/data
+      - auvik-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -297,7 +297,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-avanan-data:/data
+      - avanan-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -330,7 +330,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-aws-billing-data:/data
+      - aws-billing-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -363,7 +363,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-axcient-data:/data
+      - axcient-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -396,7 +396,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-betterstack-data:/data
+      - betterstack-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -429,7 +429,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-blumira-data:/data
+      - blumira-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -462,7 +462,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-cipp-data:/data
+      - cipp-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -495,7 +495,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-connectwise-automate-data:/data
+      - connectwise-automate-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -528,7 +528,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-connectwise-control-data:/data
+      - connectwise-control-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -561,7 +561,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-connectwise-manage-data:/data
+      - connectwise-manage-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -594,7 +594,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-cork-data:/data
+      - cork-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -627,7 +627,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-cove-data:/data
+      - cove-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -660,7 +660,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-crowdstrike-data:/data
+      - crowdstrike-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -693,7 +693,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-datto-bcdr-data:/data
+      - datto-bcdr-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -726,7 +726,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-datto-rmm-data:/data
+      - datto-rmm-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -759,7 +759,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-domotz-data:/data
+      - domotz-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -792,7 +792,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-gradient-data:/data
+      - gradient-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -825,7 +825,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-halopsa-data:/data
+      - halopsa-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -858,7 +858,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-hubspot-data:/data
+      - hubspot-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -891,7 +891,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-hudu-data:/data
+      - hudu-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -924,7 +924,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-huntress-data:/data
+      - huntress-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -957,7 +957,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-immybot-data:/data
+      - immybot-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -990,7 +990,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-itglue-data:/data
+      - itglue-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1023,7 +1023,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-kaseya-bms-data:/data
+      - kaseya-bms-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1056,7 +1056,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-knowbe4-data:/data
+      - knowbe4-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1089,7 +1089,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-levelio-data:/data
+      - levelio-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1122,7 +1122,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-liongard-data:/data
+      - liongard-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1155,7 +1155,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-maxio-data:/data
+      - maxio-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1188,7 +1188,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-microsoft-graph-data:/data
+      - microsoft-graph-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1221,7 +1221,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-mspbots-data:/data
+      - mspbots-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1254,7 +1254,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-n-central-data:/data
+      - n-central-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1287,7 +1287,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-nerdio-data:/data
+      - nerdio-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1320,7 +1320,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-ninjaone-data:/data
+      - ninjaone-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1353,7 +1353,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-pagerduty-data:/data
+      - pagerduty-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1386,7 +1386,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-pandadoc-data:/data
+      - pandadoc-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1419,7 +1419,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-pax8-data:/data
+      - pax8-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1452,7 +1452,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-pipedrive-data:/data
+      - pipedrive-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1485,7 +1485,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-proofpoint-data:/data
+      - proofpoint-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1518,7 +1518,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-quickbooks-data:/data
+      - quickbooks-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1551,7 +1551,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-resourceguru-data:/data
+      - resourceguru-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1584,7 +1584,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-rewst-data:/data
+      - rewst-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1617,7 +1617,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-rocketcyber-data:/data
+      - rocketcyber-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1650,7 +1650,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-rootly-data:/data
+      - rootly-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1683,7 +1683,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-runzero-data:/data
+      - runzero-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1716,7 +1716,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-salesbuildr-data:/data
+      - salesbuildr-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1749,7 +1749,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-sentinelone-data:/data
+      - sentinelone-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1782,7 +1782,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-servosity-data:/data
+      - servosity-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1815,7 +1815,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-sherweb-data:/data
+      - sherweb-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1848,7 +1848,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-skykick-data:/data
+      - skykick-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1881,7 +1881,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-superops-data:/data
+      - superops-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1914,7 +1914,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-syncro-data:/data
+      - syncro-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1947,7 +1947,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-tactical-rmm-data:/data
+      - tactical-rmm-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -1980,7 +1980,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-threatlocker-data:/data
+      - threatlocker-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -2013,7 +2013,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-unifi-network-data:/data
+      - unifi-network-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -2046,7 +2046,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-veeam-data:/data
+      - veeam-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -2079,7 +2079,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-wordpress-data:/data
+      - wordpress-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -2112,7 +2112,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-xero-data:/data
+      - xero-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -2145,7 +2145,7 @@ services:
       PP_MCP_TRANSPORT: http
     user: "10001:10001"
     volumes:
-      - msp-zammad-data:/data
+      - zammad-data:/data
     networks: [msp-internal]
     read_only: true
     tmpfs:
@@ -2165,133 +2165,133 @@ networks:
     # Isolation comes from publishing no ports, not from blocking egress.
 
 volumes:
-  msp-abnormal-data:
-    name: msp-skills_msp-abnormal-data
-  msp-acronis-data:
-    name: msp-skills_msp-acronis-data
-  msp-action1-data:
-    name: msp-skills_msp-action1-data
-  msp-afi-data:
-    name: msp-skills_msp-afi-data
-  msp-appdirect-data:
-    name: msp-skills_msp-appdirect-data
-  msp-atera-data:
-    name: msp-skills_msp-atera-data
-  msp-autotask-data:
-    name: msp-skills_msp-autotask-data
-  msp-auvik-data:
-    name: msp-skills_msp-auvik-data
-  msp-avanan-data:
-    name: msp-skills_msp-avanan-data
-  msp-aws-billing-data:
-    name: msp-skills_msp-aws-billing-data
-  msp-axcient-data:
-    name: msp-skills_msp-axcient-data
-  msp-betterstack-data:
-    name: msp-skills_msp-betterstack-data
-  msp-blumira-data:
-    name: msp-skills_msp-blumira-data
-  msp-cipp-data:
-    name: msp-skills_msp-cipp-data
-  msp-connectwise-automate-data:
-    name: msp-skills_msp-connectwise-automate-data
-  msp-connectwise-control-data:
-    name: msp-skills_msp-connectwise-control-data
-  msp-connectwise-manage-data:
-    name: msp-skills_msp-connectwise-manage-data
-  msp-cork-data:
-    name: msp-skills_msp-cork-data
-  msp-cove-data:
-    name: msp-skills_msp-cove-data
-  msp-crowdstrike-data:
-    name: msp-skills_msp-crowdstrike-data
-  msp-datto-bcdr-data:
-    name: msp-skills_msp-datto-bcdr-data
-  msp-datto-rmm-data:
-    name: msp-skills_msp-datto-rmm-data
-  msp-domotz-data:
-    name: msp-skills_msp-domotz-data
-  msp-gradient-data:
-    name: msp-skills_msp-gradient-data
-  msp-halopsa-data:
-    name: msp-skills_msp-halopsa-data
-  msp-hubspot-data:
-    name: msp-skills_msp-hubspot-data
-  msp-hudu-data:
-    name: msp-skills_msp-hudu-data
-  msp-huntress-data:
-    name: msp-skills_msp-huntress-data
-  msp-immybot-data:
-    name: msp-skills_msp-immybot-data
-  msp-itglue-data:
-    name: msp-skills_msp-itglue-data
-  msp-kaseya-bms-data:
-    name: msp-skills_msp-kaseya-bms-data
-  msp-knowbe4-data:
-    name: msp-skills_msp-knowbe4-data
-  msp-levelio-data:
-    name: msp-skills_msp-levelio-data
-  msp-liongard-data:
-    name: msp-skills_msp-liongard-data
-  msp-maxio-data:
-    name: msp-skills_msp-maxio-data
-  msp-microsoft-graph-data:
-    name: msp-skills_msp-microsoft-graph-data
-  msp-mspbots-data:
-    name: msp-skills_msp-mspbots-data
-  msp-n-central-data:
-    name: msp-skills_msp-n-central-data
-  msp-nerdio-data:
-    name: msp-skills_msp-nerdio-data
-  msp-ninjaone-data:
-    name: msp-skills_msp-ninjaone-data
-  msp-pagerduty-data:
-    name: msp-skills_msp-pagerduty-data
-  msp-pandadoc-data:
-    name: msp-skills_msp-pandadoc-data
-  msp-pax8-data:
-    name: msp-skills_msp-pax8-data
-  msp-pipedrive-data:
-    name: msp-skills_msp-pipedrive-data
-  msp-proofpoint-data:
-    name: msp-skills_msp-proofpoint-data
-  msp-quickbooks-data:
-    name: msp-skills_msp-quickbooks-data
-  msp-resourceguru-data:
-    name: msp-skills_msp-resourceguru-data
-  msp-rewst-data:
-    name: msp-skills_msp-rewst-data
-  msp-rocketcyber-data:
-    name: msp-skills_msp-rocketcyber-data
-  msp-rootly-data:
-    name: msp-skills_msp-rootly-data
-  msp-runzero-data:
-    name: msp-skills_msp-runzero-data
-  msp-salesbuildr-data:
-    name: msp-skills_msp-salesbuildr-data
-  msp-sentinelone-data:
-    name: msp-skills_msp-sentinelone-data
-  msp-servosity-data:
-    name: msp-skills_msp-servosity-data
-  msp-sherweb-data:
-    name: msp-skills_msp-sherweb-data
-  msp-skykick-data:
-    name: msp-skills_msp-skykick-data
-  msp-superops-data:
-    name: msp-skills_msp-superops-data
-  msp-syncro-data:
-    name: msp-skills_msp-syncro-data
-  msp-tactical-rmm-data:
-    name: msp-skills_msp-tactical-rmm-data
-  msp-threatlocker-data:
-    name: msp-skills_msp-threatlocker-data
-  msp-unifi-network-data:
-    name: msp-skills_msp-unifi-network-data
-  msp-veeam-data:
-    name: msp-skills_msp-veeam-data
-  msp-wordpress-data:
-    name: msp-skills_msp-wordpress-data
-  msp-xero-data:
-    name: msp-skills_msp-xero-data
-  msp-zammad-data:
-    name: msp-skills_msp-zammad-data
+  abnormal-data:
+    name: msp-skills_abnormal-data
+  acronis-data:
+    name: msp-skills_acronis-data
+  action1-data:
+    name: msp-skills_action1-data
+  afi-data:
+    name: msp-skills_afi-data
+  appdirect-data:
+    name: msp-skills_appdirect-data
+  atera-data:
+    name: msp-skills_atera-data
+  autotask-data:
+    name: msp-skills_autotask-data
+  auvik-data:
+    name: msp-skills_auvik-data
+  avanan-data:
+    name: msp-skills_avanan-data
+  aws-billing-data:
+    name: msp-skills_aws-billing-data
+  axcient-data:
+    name: msp-skills_axcient-data
+  betterstack-data:
+    name: msp-skills_betterstack-data
+  blumira-data:
+    name: msp-skills_blumira-data
+  cipp-data:
+    name: msp-skills_cipp-data
+  connectwise-automate-data:
+    name: msp-skills_connectwise-automate-data
+  connectwise-control-data:
+    name: msp-skills_connectwise-control-data
+  connectwise-manage-data:
+    name: msp-skills_connectwise-manage-data
+  cork-data:
+    name: msp-skills_cork-data
+  cove-data:
+    name: msp-skills_cove-data
+  crowdstrike-data:
+    name: msp-skills_crowdstrike-data
+  datto-bcdr-data:
+    name: msp-skills_datto-bcdr-data
+  datto-rmm-data:
+    name: msp-skills_datto-rmm-data
+  domotz-data:
+    name: msp-skills_domotz-data
+  gradient-data:
+    name: msp-skills_gradient-data
+  halopsa-data:
+    name: msp-skills_halopsa-data
+  hubspot-data:
+    name: msp-skills_hubspot-data
+  hudu-data:
+    name: msp-skills_hudu-data
+  huntress-data:
+    name: msp-skills_huntress-data
+  immybot-data:
+    name: msp-skills_immybot-data
+  itglue-data:
+    name: msp-skills_itglue-data
+  kaseya-bms-data:
+    name: msp-skills_kaseya-bms-data
+  knowbe4-data:
+    name: msp-skills_knowbe4-data
+  levelio-data:
+    name: msp-skills_levelio-data
+  liongard-data:
+    name: msp-skills_liongard-data
+  maxio-data:
+    name: msp-skills_maxio-data
+  microsoft-graph-data:
+    name: msp-skills_microsoft-graph-data
+  mspbots-data:
+    name: msp-skills_mspbots-data
+  n-central-data:
+    name: msp-skills_n-central-data
+  nerdio-data:
+    name: msp-skills_nerdio-data
+  ninjaone-data:
+    name: msp-skills_ninjaone-data
+  pagerduty-data:
+    name: msp-skills_pagerduty-data
+  pandadoc-data:
+    name: msp-skills_pandadoc-data
+  pax8-data:
+    name: msp-skills_pax8-data
+  pipedrive-data:
+    name: msp-skills_pipedrive-data
+  proofpoint-data:
+    name: msp-skills_proofpoint-data
+  quickbooks-data:
+    name: msp-skills_quickbooks-data
+  resourceguru-data:
+    name: msp-skills_resourceguru-data
+  rewst-data:
+    name: msp-skills_rewst-data
+  rocketcyber-data:
+    name: msp-skills_rocketcyber-data
+  rootly-data:
+    name: msp-skills_rootly-data
+  runzero-data:
+    name: msp-skills_runzero-data
+  salesbuildr-data:
+    name: msp-skills_salesbuildr-data
+  sentinelone-data:
+    name: msp-skills_sentinelone-data
+  servosity-data:
+    name: msp-skills_servosity-data
+  sherweb-data:
+    name: msp-skills_sherweb-data
+  skykick-data:
+    name: msp-skills_skykick-data
+  superops-data:
+    name: msp-skills_superops-data
+  syncro-data:
+    name: msp-skills_syncro-data
+  tactical-rmm-data:
+    name: msp-skills_tactical-rmm-data
+  threatlocker-data:
+    name: msp-skills_threatlocker-data
+  unifi-network-data:
+    name: msp-skills_unifi-network-data
+  veeam-data:
+    name: msp-skills_veeam-data
+  wordpress-data:
+    name: msp-skills_wordpress-data
+  xero-data:
+    name: msp-skills_xero-data
+  zammad-data:
+    name: msp-skills_zammad-data

@@ -211,7 +211,7 @@ def render_service(slug, skills, http, ncw_var):
         lines.append(f'      {ncw_var}: "1"')
     lines.append(f"    user: \"{RUN_UID}:{RUN_UID}\"")
     lines.append("    volumes:")
-    lines.append(f"      - msp-{slug}-data:/data")
+    lines.append(f"      - {slug}-data:/data")
     lines.append("    networks: [msp-internal]")
     # No ports. The gateway is the only published surface, which is what makes
     # its audit log a record of every call rather than a record of polite ones.
@@ -371,8 +371,8 @@ def main(out_dir=None):
     # names the project differently silently creates 14 fresh empty volumes
     # and strands the real mirrors under the old names.
     for slug in slugs:
-        footer.append(f"  msp-{slug}-data:")
-        footer.append(f"    name: msp-skills_msp-{slug}-data")
+        footer.append(f"  {slug}-data:")
+        footer.append(f"    name: msp-skills_{slug}-data")
     footer.append("")
 
     compose = "\n".join(header) + "\n" + "\n\n".join(body) + "\n" + "\n".join(footer)

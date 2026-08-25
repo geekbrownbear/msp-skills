@@ -13,7 +13,7 @@
 services:
   gateway:
     profiles: [gateway]
-    image: msp-skills/gateway:dev
+    image: msp-skills/gateway:0.1.0
     build:
       context: ../tools/mcp-gateway
       dockerfile: ../../docker/Dockerfile.gateway
@@ -22,7 +22,7 @@ services:
       - "${MSP_GATEWAY_BIND:?set MSP_GATEWAY_BIND to a specific LAN address}:${MSP_GATEWAY_PORT:-8080}:8080"
     volumes:
       - ${MSP_GATEWAY_CONFIG:?set MSP_GATEWAY_CONFIG to your gateway.json}:/etc/msp-mcp-gateway/gateway.json:ro
-      - msp-gateway-audit:/var/lib/msp-mcp-gateway
+      - gateway-audit:/var/lib/msp-mcp-gateway
     environment:
       # Correct inside a container: the namespace is the boundary and the
       # ports mapping above restricts the host side to one address.
@@ -40,5 +40,5 @@ services:
       - ALL
 
 volumes:
-  msp-gateway-audit:
-    name: msp-skills_msp-gateway-audit
+  gateway-audit:
+    name: msp-skills_gateway-audit

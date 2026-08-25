@@ -114,7 +114,7 @@ def main():
         for needle, why in REQUIRED_LINES.items():
             if needle not in blob:
                 errors.append(f"service '{name}' is missing {needle!r} ({why})")
-        if f"msp-{name}-data:/data" not in blob:
+        if f"{name}-data:/data" not in blob:
             errors.append(f"service '{name}' does not mount its own named volume")
         if name not in registry:
             errors.append(f"service '{name}' is not in skills.json")
