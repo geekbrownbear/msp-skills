@@ -28,6 +28,20 @@ th{color:var(--ink3);font-size:12px;text-transform:uppercase;letter-spacing:.06e
 .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(55,179,210,.14);color:var(--cyan)}
 .soon{margin-top:22px;padding-top:16px;border-top:1px solid var(--edge);color:var(--ink3);font-size:13px}
 .soon span{display:inline-block;margin:4px 8px 0 0;padding:3px 10px;border:1px solid var(--edge);border-radius:999px}
+.ok{margin-top:16px;background:rgba(157,223,75,.12);border:1px solid rgba(157,223,75,.35);color:#dff0c8;padding:10px 12px;border-radius:10px;font-size:13px;word-break:break-all}
+.ok code{color:var(--ink)}
+button.mini{width:auto;height:34px;margin:12px 0 0;padding:0 16px;font-size:13px}
+button.danger{background:var(--alert);color:#fff}
+.muted{color:var(--ink3)}
+a.cyan,.cyan{color:var(--cyan);text-decoration:none}
+h2{font-weight:700}
+select{width:100%;height:42px;padding:0 10px;border-radius:10px;border:1px solid var(--edge);background:var(--navy);color:var(--ink);font-size:15px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.inline{display:flex;gap:10px;align-items:flex-end;margin-top:12px}
+.inline input{margin:0}
+code{font-family:ui-monospace,Menlo,monospace}
+table td form,table td form button{margin:0}
+input[type=radio]{width:auto;transform:scale(1.2)}
 </style></head><body>
 <div class="brand">Bearium Control Plane<small>msp-skills gateway</small></div>{{end}}
 
@@ -66,12 +80,90 @@ th{color:var(--ink3);font-size:12px;text-transform:uppercase;letter-spacing:.06e
 <div class="row"><h1>Admin</h1>
 <form method="post" action="/logout"><button class="link" type="submit">Sign out</button></form></div>
 <p class="sub">Signed in as {{.User.Name}} ({{.User.Email}}) <span class="badge">{{.User.Role}}</span></p>
+
+{{if .NewToken}}<div class="ok">New token <b>{{.NewTokenLabel}}</b> (shown once, copy it now):<br><code>{{.NewToken}}</code></div>{{end}}
+
+<div class="row"><h2 style="font-size:16px;margin:18px 0 0">Users</h2>
+{{if .IsAdmin}}<a href="/admin/user/new"><button class="mini" type="button">Add user</button></a>{{end}}</div>
 <table>
-<tr><th>Email</th><th>Name</th><th>Role</th></tr>
-{{range .Users}}<tr><td>{{.Email}}</td><td>{{.Name}}</td><td>{{.Role}}</td></tr>{{end}}
+<tr><th>Email</th><th>Name</th><th>Role</th><th>Status</th>{{if .IsAdmin}}<th></th>{{end}}</tr>
+{{range .Users}}<tr>
+<td>{{.Email}}</td><td>{{.Name}}</td><td>{{.Role}}</td>
+<td>{{if .Disabled}}<span class="muted">disabled</span>{{else}}active{{end}}</td>
+{{if $.IsAdmin}}<td><a class="cyan" href="/admin/user?email={{.Email}}">Manage</a></td>{{end}}
+</tr>{{end}}
 </table>
-<div class="soon">Coming next:
-<span>Add users</span><span>Per-connector permissions</span><span>Read/write grants</span><span>SSO (M365 / Google)</span><span>Personal access tokens</span><span>Audit trail</span>
+
+<h2 style="font-size:16px;margin:22px 0 0">Your access tokens</h2>
+<p class="sub" style="margin-top:4px">For Claude Desktop, scripts, or any non-Callisto client. Scoped to your permissions.</p>
+<table>
+<tr><th>Label</th><th>Created</th><th></th></tr>
+{{range .User.Tokens}}<tr><td>{{.Label}}</td><td>{{.CreatedAt}}</td>
+<td><form method="post" action="/admin/token"><input type="hidden" name="csrf" value="{{$.CSRF}}"><input type="hidden" name="action" value="revoke"><input type="hidden" name="hash" value="{{.Hash}}"><button class="link" type="submit">Revoke</button></form></td></tr>{{end}}
+</table>
+<form method="post" action="/admin/token" class="inline">
+<input type="hidden" name="csrf" value="{{.CSRF}}"><input type="hidden" name="action" value="mint">
+<input type="text" name="label" placeholder="Token label (e.g. laptop)" style="max-width:260px">
+<button class="mini" type="submit">Generate token</button>
+</form>
+
+<div class="soon">Coming next: <span>SSO (M365 / Google)</span><span>Audit trail</span></div>
+</div>{{template "foot" .}}{{end}}
+
+{{define "newuser"}}{{template "head" .}}
+<div class="card">
+<div class="row"><h1>Add user</h1><a class="cyan" href="/admin">Back</a></div>
+{{if .Error}}<div class="err">{{.Error}}</div>{{end}}
+<form method="post" action="/admin/user/new">
+<input type="hidden" name="csrf" value="{{.CSRF}}">
+<label>Name</label><input type="text" name="name" required>
+<label>Email</label><input type="email" name="email" required>
+<label>Role</label><select name="role">{{range .Roles}}<option value="{{.}}">{{.}}</option>{{end}}</select>
+<label>Temporary password (min 12 characters)</label><input type="password" name="password" required>
+<button type="submit">Create user</button>
+</form>
+</div>{{template "foot" .}}{{end}}
+
+{{define "manageuser"}}{{template "head" .}}
+<div class="card wide">
+<div class="row"><h1>{{.T.Name}}</h1><a class="cyan" href="/admin">Back</a></div>
+<p class="sub">{{.T.Email}} <span class="badge">{{.T.Role}}</span>{{if .T.Disabled}} <span class="muted">disabled</span>{{end}}</p>
+{{if .Error}}<div class="err">{{.Error}}</div>{{end}}
+
+<h2 style="font-size:16px;margin:16px 0 6px">Connector permissions</h2>
+<form method="post" action="/admin/user?email={{.T.Email}}">
+<input type="hidden" name="csrf" value="{{.CSRF}}"><input type="hidden" name="action" value="permissions">
+<table>
+<tr><th>Connector</th><th>None</th><th>Read</th><th>Read + write</th></tr>
+{{range .Rows}}<tr><td>{{.Name}}</td>
+<td><input type="radio" name="grant_{{.Slug}}" value="none" {{if eq .Access "none"}}checked{{end}}></td>
+<td><input type="radio" name="grant_{{.Slug}}" value="read" {{if eq .Access "read"}}checked{{end}}></td>
+<td><input type="radio" name="grant_{{.Slug}}" value="write" {{if eq .Access "write"}}checked{{end}}></td>
+</tr>{{end}}
+</table>
+<button class="mini" type="submit">Save permissions</button>
+</form>
+
+<div class="grid2">
+<form method="post" action="/admin/user?email={{.T.Email}}">
+<input type="hidden" name="csrf" value="{{.CSRF}}"><input type="hidden" name="action" value="role">
+<label>Role</label><select name="role">{{range .Roles}}<option value="{{.}}" {{if eq . $.T.Role}}selected{{end}}>{{.}}</option>{{end}}</select>
+<button class="mini" type="submit">Update role</button>
+</form>
+<form method="post" action="/admin/user?email={{.T.Email}}">
+<input type="hidden" name="csrf" value="{{.CSRF}}"><input type="hidden" name="action" value="reset">
+<label>Reset password (min 12)</label><input type="password" name="password">
+<button class="mini" type="submit">Reset</button>
+</form>
+</div>
+
+<div class="row" style="margin-top:18px">
+{{if .T.Disabled}}
+<form method="post" action="/admin/user?email={{.T.Email}}"><input type="hidden" name="csrf" value="{{.CSRF}}"><input type="hidden" name="action" value="enable"><button class="mini" type="submit">Enable</button></form>
+{{else}}
+<form method="post" action="/admin/user?email={{.T.Email}}"><input type="hidden" name="csrf" value="{{.CSRF}}"><input type="hidden" name="action" value="disable"><button class="mini" type="submit">Disable</button></form>
+{{end}}
+<form method="post" action="/admin/user?email={{.T.Email}}" onsubmit="return confirm('Delete {{.T.Email}}?')"><input type="hidden" name="csrf" value="{{.CSRF}}"><input type="hidden" name="action" value="delete"><button class="mini danger" type="submit">Delete</button></form>
 </div>
 </div>{{template "foot" .}}{{end}}
 `

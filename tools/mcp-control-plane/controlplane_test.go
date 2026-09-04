@@ -5,6 +5,7 @@ import (
 	"net/http/cookiejar"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -66,7 +67,7 @@ func newTestServer(t *testing.T) (*httptest.Server, *http.Client) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	srv := NewServer(store, NewSessions(time.Hour))
+	srv := NewServer(store, NewSessions(time.Hour), "")
 	ts := httptest.NewServer(srv.Handler())
 	t.Cleanup(ts.Close)
 	jar, _ := cookiejar.New(nil)
@@ -130,6 +131,75 @@ func TestSetupAndLoginFlow(t *testing.T) {
 		t.Fatalf("wrong password should error, got %s", b)
 	}
 	post(t, c, ts.URL+"/login", url.Values{"csrf": {csrf}, "email": {"abhi@bearium.net"}, "password": {"a-very-long-password"}}, "/admin")
+}
+
+func TestBuildGatewayActors(t *testing.T) {
+	users := []*User{
+		{Email: "a@b.net", Name: "A", Role: RoleSuperAdmin,
+			Grants: map[string]CPGrant{"halopsa": {Access: "read"}, "quickbooks": {Access: "none"}, "immybot": {Access: "write"}},
+			Tokens: []TokenRef{{Hash: "deadbeef", Label: "laptop"}}},
+		{Email: "d@b.net", Name: "D", Role: RoleUser, Disabled: true},
+	}
+	acts := buildGatewayActors(users)
+	if len(acts) != 2 { // disabled excluded; a -> email actor + 1 token actor
+		t.Fatalf("want 2 actors, got %d", len(acts))
+	}
+	base := acts[0]
+	if base.Email != "a@b.net" || !base.Admin {
+		t.Fatalf("bad base actor %+v", base)
+	}
+	if g, ok := base.Grants["halopsa"]; !ok || g.Write {
+		t.Fatalf("halopsa should be read-only: %+v", base.Grants)
+	}
+	if g, ok := base.Grants["immybot"]; !ok || !g.Write {
+		t.Fatalf("immybot should be write: %+v", base.Grants)
+	}
+	if _, ok := base.Grants["quickbooks"]; ok {
+		t.Fatalf("quickbooks 'none' should be omitted")
+	}
+	if acts[1].TokenSHA256 != "deadbeef" {
+		t.Fatalf("token actor missing hash: %+v", acts[1])
+	}
+}
+
+func TestAdminCreatesUserSetsPermissionsEmitsActors(t *testing.T) {
+	dir := t.TempDir()
+	store, err := NewStore(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	gwPath := dir + "/actors.json"
+	srv := NewServer(store, NewSessions(time.Hour), gwPath)
+	ts := httptest.NewServer(srv.Handler())
+	t.Cleanup(ts.Close)
+	jar, _ := cookiejar.New(nil)
+	c := &http.Client{Jar: jar}
+
+	c.Get(ts.URL + "/")
+	csrf := csrfFromJar(t, c, ts.URL)
+	post(t, c, ts.URL+"/setup", url.Values{"csrf": {csrf}, "name": {"Admin"}, "email": {"admin@b.net"},
+		"password": {"a-very-long-password"}, "confirm": {"a-very-long-password"}}, "/admin")
+
+	csrf = csrfFromJar(t, c, ts.URL)
+	post(t, c, ts.URL+"/admin/user/new", url.Values{"csrf": {csrf}, "name": {"Jane"}, "email": {"jane@b.net"},
+		"role": {"user"}, "password": {"another-long-pass"}}, "/admin/user")
+
+	csrf = csrfFromJar(t, c, ts.URL)
+	post(t, c, ts.URL+"/admin/user?email=jane@b.net", url.Values{"csrf": {csrf}, "action": {"permissions"},
+		"grant_halopsa": {"read"}, "grant_immybot": {"write"}, "grant_quickbooks": {"none"}}, "/admin/user")
+
+	j := store.ByEmail("jane@b.net")
+	if j == nil || j.Grants["halopsa"].Access != "read" || j.Grants["immybot"].Access != "write" {
+		t.Fatalf("grants not saved: %+v", j)
+	}
+	rawB, err := os.ReadFile(gwPath)
+	if err != nil {
+		t.Fatalf("actors file not written: %v", err)
+	}
+	raw := string(rawB)
+	if !strings.Contains(raw, "jane@b.net") || !strings.Contains(raw, "halopsa") {
+		t.Fatalf("actors file missing jane/halopsa: %s", raw)
+	}
 }
 
 // ---- test helpers ----

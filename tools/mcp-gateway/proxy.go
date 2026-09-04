@@ -5,12 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"os"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 )
 
@@ -33,9 +36,15 @@ type rpcRequest struct {
 // Gateway routes /mcp/<slug> to the matching connector.
 type Gateway struct {
 	cfg     *Config
-	auth    *Authenticator
+	auth    atomic.Pointer[Authenticator] // hot-swappable on actors-file change
 	auditor *Auditor
 	proxies map[string]*httputil.ReverseProxy
+
+	// Inputs for rebuilding the authenticator when the actors file changes.
+	baseActors []Actor
+	proxyAuth  *ProxyAuth
+	actorsPath string
+	actorsMod  int64 // unix nanos of the last-seen actors-file mtime
 
 	// annotations caches each connector's tool -> readOnlyHint. Two sources:
 	// tools/list responses passing through (free), and a direct fetch from the
@@ -53,11 +62,25 @@ type Gateway struct {
 func NewGateway(cfg *Config, auditor *Auditor) (*Gateway, error) {
 	g := &Gateway{
 		cfg:         cfg,
-		auth:        NewAuthenticator(cfg.Actors, cfg.ProxyAuth),
 		auditor:     auditor,
 		proxies:     map[string]*httputil.ReverseProxy{},
 		annotations: map[string]map[string]*bool{},
 		annClient:   &http.Client{Timeout: 15 * time.Second},
+		baseActors:  cfg.Actors,
+		proxyAuth:   cfg.ProxyAuth,
+		actorsPath:  cfg.ActorsPath,
+	}
+	// Inline actors plus any control-plane-managed actors file.
+	fileActors, err := LoadActorsFile(cfg.ActorsPath)
+	if err != nil {
+		return nil, err
+	}
+	g.auth.Store(NewAuthenticator(append(append([]Actor{}, g.baseActors...), fileActors...), g.proxyAuth))
+	if cfg.ActorsPath != "" {
+		if fi, err := os.Stat(cfg.ActorsPath); err == nil {
+			g.actorsMod = fi.ModTime().UnixNano()
+		}
+		go g.watchActors()
 	}
 	g.agg = newAggregator(g)
 	for slug, conn := range cfg.Connectors {
@@ -99,7 +122,7 @@ func (g *Gateway) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	actor := g.auth.Authenticate(r)
+	actor := g.auth.Load().Authenticate(r)
 	if actor == nil {
 		w.Header().Set("WWW-Authenticate", `Bearer realm="msp-mcp-gateway"`)
 		http.Error(w, "unauthorized: supply a bearer token", http.StatusUnauthorized)
@@ -178,6 +201,36 @@ func (g *Gateway) deny(w http.ResponseWriter, actor *Actor, slug, tool string, d
 		Policy:    EventPolicy{Decision: "deny", Reason: dec.Reason, Class: dec.Class},
 	})
 	http.Error(w, "forbidden: "+dec.Reason, http.StatusForbidden)
+}
+
+// watchActors polls the control-plane actors file and hot-swaps the
+// authenticator when it changes, so permission edits take effect without a
+// restart. Stdlib mtime poll (no fsnotify dependency), matching the connectors'
+// secrets-reload pattern.
+func (g *Gateway) watchActors() {
+	t := time.NewTicker(5 * time.Second)
+	defer t.Stop()
+	for range t.C {
+		fi, err := os.Stat(g.actorsPath)
+		if err != nil {
+			continue
+		}
+		if mod := fi.ModTime().UnixNano(); mod != atomic.LoadInt64(&g.actorsMod) {
+			atomic.StoreInt64(&g.actorsMod, mod)
+			g.reloadActors()
+		}
+	}
+}
+
+func (g *Gateway) reloadActors() {
+	fileActors, err := LoadActorsFile(g.actorsPath)
+	if err != nil {
+		log.Printf("actors reload skipped: %v", err)
+		return
+	}
+	combined := append(append([]Actor{}, g.baseActors...), fileActors...)
+	g.auth.Store(NewAuthenticator(combined, g.proxyAuth))
+	log.Printf("actors reloaded: %d inline + %d file", len(g.baseActors), len(fileActors))
 }
 
 func (g *Gateway) eventActor(a *Actor, r *http.Request) EventActor {

@@ -32,6 +32,12 @@ type Config struct {
 	Connectors map[string]Connector `json:"connectors"`
 	Actors     []Actor              `json:"actors"`
 
+	// ActorsPath, when set, is a JSON file (array of Actor) managed by the
+	// control plane. Its actors are merged with the inline Actors above and
+	// hot-reloaded when the file changes, so permission edits take effect
+	// without restarting the gateway.
+	ActorsPath string `json:"actors_path,omitempty"`
+
 	// ProxyAuth, when set, lets a trusted SSO proxy (oauth2-proxy/Authentik in
 	// front) assert the authenticated user's identity via a header. Requests
 	// carrying identity headers are only honored when they also carry the
@@ -126,6 +132,23 @@ func LoadConfig(path string) (*Config, error) {
 		return nil, err
 	}
 	return &c, nil
+}
+
+// LoadActorsFile reads the control-plane-managed actors file. A missing file is
+// not an error (no dynamic actors yet); malformed JSON is.
+func LoadActorsFile(path string) ([]Actor, error) {
+	raw, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	var actors []Actor
+	if err := json.Unmarshal(raw, &actors); err != nil {
+		return nil, fmt.Errorf("parsing actors file %s: %w", path, err)
+	}
+	return actors, nil
 }
 
 func (c *Config) validate() error {

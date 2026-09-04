@@ -16,7 +16,8 @@ func main() {
 		log.Fatalf("control plane: %v", err)
 	}
 	sessions := NewSessions(12 * time.Hour)
-	srv := NewServer(store, sessions)
+	srv := NewServer(store, sessions, os.Getenv("CONTROL_PLANE_GATEWAY_ACTORS_FILE"))
+	srv.syncGateway() // emit current state on boot
 
 	s := &http.Server{
 		Addr:              addr,

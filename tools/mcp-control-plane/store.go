@@ -32,6 +32,23 @@ type User struct {
 	Role         Role   `json:"role"`
 	Disabled     bool   `json:"disabled,omitempty"`
 	CreatedAt    string `json:"created_at"`
+
+	// Grants is per-connector access, keyed by connector slug.
+	Grants map[string]CPGrant `json:"grants,omitempty"`
+	// Tokens are personal access tokens (sha256 only), for non-Callisto clients.
+	Tokens []TokenRef `json:"tokens,omitempty"`
+}
+
+// CPGrant is the control plane's per-connector access level. It is translated
+// into the gateway's Grant (allow/deny globs + write) by the emitter.
+type CPGrant struct {
+	Access string `json:"access"` // none | read | write
+}
+
+type TokenRef struct {
+	Hash      string `json:"hash"` // sha256 hex of the token; plaintext shown once
+	Label     string `json:"label"`
+	CreatedAt string `json:"created_at"`
 }
 
 var errEmailTaken = errors.New("a user with that email already exists")
@@ -114,6 +131,57 @@ func (s *Store) Create(u *User) (*User, error) {
 	}
 	cp := *u
 	return &cp, nil
+}
+
+// Update applies fn to a copy of the user and commits it atomically.
+func (s *Store) Update(email string, fn func(*User) error) (*User, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	u := s.users[normalizeEmail(email)]
+	if u == nil {
+		return nil, errors.New("no such user")
+	}
+	cp := *u
+	if err := fn(&cp); err != nil {
+		return nil, err
+	}
+	s.users[cp.Email] = &cp
+	if err := s.persistLocked(); err != nil {
+		s.users[u.Email] = u
+		return nil, err
+	}
+	r := cp
+	return &r, nil
+}
+
+// Delete removes a user. The last remaining super admin cannot be deleted.
+func (s *Store) Delete(email string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	email = normalizeEmail(email)
+	u := s.users[email]
+	if u == nil {
+		return errors.New("no such user")
+	}
+	if u.Role == RoleSuperAdmin && s.countSuperAdminsLocked() <= 1 {
+		return errors.New("cannot delete the only super admin")
+	}
+	delete(s.users, email)
+	if err := s.persistLocked(); err != nil {
+		s.users[email] = u
+		return err
+	}
+	return nil
+}
+
+func (s *Store) countSuperAdminsLocked() int {
+	n := 0
+	for _, u := range s.users {
+		if u.Role == RoleSuperAdmin {
+			n++
+		}
+	}
+	return n
 }
 
 func (s *Store) persistLocked() error {

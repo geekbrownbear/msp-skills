@@ -111,6 +111,37 @@ func TestAuthenticateProxyHeader(t *testing.T) {
 	}
 }
 
+func TestActorsFileReload(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "actors.json")
+
+	// Missing file is not an error.
+	if a, err := LoadActorsFile(path); err != nil || a != nil {
+		t.Fatalf("missing file should be (nil,nil), got %v / %v", a, err)
+	}
+
+	g := &Gateway{baseActors: []Actor{testActor("inline", "inline-tok", Grant{})}, actorsPath: path}
+	g.auth.Store(NewAuthenticator(g.baseActors, nil))
+
+	// The control plane writes a new actor; reload picks it up.
+	raw, _ := json.Marshal([]Actor{testActor("dynamic", "dyn-tok", Grant{})})
+	if err := os.WriteFile(path, raw, 0o600); err != nil {
+		t.Fatal(err)
+	}
+	g.reloadActors()
+
+	auth := func(tok string) *Actor {
+		r := httptest.NewRequest(http.MethodPost, "/mcp/halopsa", nil)
+		r.Header.Set("Authorization", "Bearer "+tok)
+		return g.auth.Load().Authenticate(r)
+	}
+	if got := auth("dyn-tok"); got == nil || got.Name != "dynamic" {
+		t.Fatalf("expected dynamic actor after reload, got %v", got)
+	}
+	if got := auth("inline-tok"); got == nil || got.Name != "inline" {
+		t.Fatalf("inline actor should still resolve, got %v", got)
+	}
+}
+
 func TestPolicy(t *testing.T) {
 	ro, rw := true, false
 	cases := []struct {

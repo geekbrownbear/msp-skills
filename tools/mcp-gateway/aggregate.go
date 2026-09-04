@@ -66,7 +66,7 @@ func toolErr(msg string) map[string]any {
 
 // ServeHTTP handles the aggregate MCP server at /mcp.
 func (a *aggregator) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	actor := a.g.auth.Authenticate(r)
+	actor := a.g.auth.Load().Authenticate(r)
 	if actor == nil {
 		w.Header().Set("WWW-Authenticate", `Bearer realm="msp-mcp-gateway"`)
 		http.Error(w, "unauthorized: supply a bearer token", http.StatusUnauthorized)

@@ -21,18 +21,20 @@ type ctxKey int
 const userKey ctxKey = 0
 
 type Server struct {
-	store    *Store
-	sessions *Sessions
-	tmpl     *template.Template
-	limiter  *loginLimiter
+	store             *Store
+	sessions          *Sessions
+	tmpl              *template.Template
+	limiter           *loginLimiter
+	gatewayActorsPath string
 }
 
-func NewServer(store *Store, sessions *Sessions) *Server {
+func NewServer(store *Store, sessions *Sessions, gatewayActorsPath string) *Server {
 	return &Server{
-		store:    store,
-		sessions: sessions,
-		tmpl:     template.Must(template.New("").Parse(templates)),
-		limiter:  newLoginLimiter(10, 15*time.Minute),
+		store:             store,
+		sessions:          sessions,
+		tmpl:              template.Must(template.New("").Parse(templates)),
+		limiter:           newLoginLimiter(10, 15*time.Minute),
+		gatewayActorsPath: gatewayActorsPath,
 	}
 }
 
@@ -43,8 +45,32 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("/login", s.handleLogin)
 	mux.HandleFunc("/logout", s.handleLogout)
 	mux.Handle("/admin", s.requireAuth(http.HandlerFunc(s.handleAdmin)))
+	mux.Handle("/admin/user/new", s.requireAdmin(http.HandlerFunc(s.handleUserNew)))
+	mux.Handle("/admin/user", s.requireAdmin(http.HandlerFunc(s.handleUser)))
+	mux.Handle("/admin/token", s.requireAuth(http.HandlerFunc(s.handleToken)))
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("ok")) })
 	return mux
+}
+
+// syncGateway re-emits the actors file the gateway hot-reloads. Called after any
+// change to users, grants, or tokens.
+func (s *Server) syncGateway() {
+	if err := writeGatewayActors(s.gatewayActorsPath, s.store.List()); err != nil {
+		// Non-fatal: the change is saved in the store; the gateway file just
+		// lags until the next successful write.
+		_ = err
+	}
+}
+
+func (s *Server) requireAdmin(next http.Handler) http.Handler {
+	return s.requireAuth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		u := r.Context().Value(userKey).(*User)
+		if !u.Role.isAdmin() {
+			http.Error(w, "forbidden", http.StatusForbidden)
+			return
+		}
+		next.ServeHTTP(w, r)
+	}))
 }
 
 // ---- handlers ----
@@ -153,14 +179,6 @@ func (s *Server) handleLogout(w http.ResponseWriter, r *http.Request) {
 	}
 	s.clearCookie(w, r, sessionCookie)
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
-}
-
-func (s *Server) handleAdmin(w http.ResponseWriter, r *http.Request) {
-	u := r.Context().Value(userKey).(*User)
-	s.render(w, "admin", map[string]any{
-		"User":  u,
-		"Users": s.store.List(),
-	})
 }
 
 // ---- auth plumbing ----
