@@ -31,6 +31,39 @@ type Config struct {
 
 	Connectors map[string]Connector `json:"connectors"`
 	Actors     []Actor              `json:"actors"`
+
+	// ProxyAuth, when set, lets a trusted SSO proxy (oauth2-proxy/Authentik in
+	// front) assert the authenticated user's identity via a header. Requests
+	// carrying identity headers are only honored when they also carry the
+	// shared secret, so an internal network peer cannot forge an identity.
+	ProxyAuth *ProxyAuth `json:"proxy_auth,omitempty"`
+}
+
+type ProxyAuth struct {
+	// SharedSecretSHA256 is the hex sha256 of a secret the trusted proxy sends
+	// in TrustHeader on every request. The plaintext is never stored here.
+	SharedSecretSHA256 string `json:"shared_secret_sha256"`
+
+	// TrustHeader carries the shared secret. Default: X-Gateway-Proxy-Secret.
+	TrustHeader string `json:"trust_header,omitempty"`
+
+	// EmailHeader carries the authenticated user's email. Default:
+	// X-Forwarded-Email (what oauth2-proxy sets with --set-xauthrequest).
+	EmailHeader string `json:"email_header,omitempty"`
+}
+
+func (p *ProxyAuth) trustHeader() string {
+	if p.TrustHeader != "" {
+		return p.TrustHeader
+	}
+	return "X-Gateway-Proxy-Secret"
+}
+
+func (p *ProxyAuth) emailHeader() string {
+	if p.EmailHeader != "" {
+		return p.EmailHeader
+	}
+	return "X-Forwarded-Email"
 }
 
 type Connector struct {
@@ -45,7 +78,17 @@ type Actor struct {
 
 	// TokenSHA256 is the hex sha256 of the bearer token. The plaintext token
 	// is never stored, so this file leaking does not hand over access.
-	TokenSHA256 string `json:"token_sha256"`
+	// Optional when Email is set (the actor authenticates via the SSO proxy).
+	TokenSHA256 string `json:"token_sha256,omitempty"`
+
+	// Email is the SSO identity (lowercased). When the trusted SSO proxy asserts
+	// this email, the request resolves to this actor. Optional when a token is
+	// set (a machine client). At least one of TokenSHA256 or Email is required.
+	Email string `json:"email,omitempty"`
+
+	// Admin marks an actor as allowed to reach the gateway's admin surface
+	// (permissions editor, audit viewer). Off by default.
+	Admin bool `json:"admin,omitempty"`
 
 	// Grants is keyed by connector slug. An absent slug means no access.
 	Grants map[string]Grant `json:"grants"`
@@ -136,20 +179,43 @@ func (c *Config) validate() error {
 	if len(c.Actors) == 0 {
 		return fmt.Errorf("no actors configured; nobody could authenticate")
 	}
-	seen := map[string]string{}
+	if c.ProxyAuth != nil && !hexSHA256.MatchString(c.ProxyAuth.SharedSecretSHA256) {
+		return fmt.Errorf("proxy_auth.shared_secret_sha256 must be 64 lowercase hex characters")
+	}
+	seen := map[string]string{}      // token digest -> actor
+	seenEmail := map[string]string{} // email -> actor
 	for i, a := range c.Actors {
 		if a.Name == "" {
 			return fmt.Errorf("actor %d has no name", i)
 		}
-		if !hexSHA256.MatchString(a.TokenSHA256) {
-			return fmt.Errorf("actor %q: token_sha256 must be 64 lowercase hex characters", a.Name)
+		// An actor authenticates by bearer token, by SSO email, or both. At
+		// least one is required: an actor with neither can never be resolved.
+		if a.TokenSHA256 == "" && a.Email == "" {
+			return fmt.Errorf("actor %q: one of token_sha256 or email is required", a.Name)
 		}
-		if prev, dup := seen[a.TokenSHA256]; dup {
-			// Two actors sharing a token makes the audit log lie about who
-			// acted, which defeats the point of having one.
-			return fmt.Errorf("actors %q and %q share a token", prev, a.Name)
+		if a.TokenSHA256 != "" {
+			if !hexSHA256.MatchString(a.TokenSHA256) {
+				return fmt.Errorf("actor %q: token_sha256 must be 64 lowercase hex characters", a.Name)
+			}
+			if prev, dup := seen[a.TokenSHA256]; dup {
+				// Two actors sharing a token makes the audit log lie about who
+				// acted, which defeats the point of having one.
+				return fmt.Errorf("actors %q and %q share a token", prev, a.Name)
+			}
+			seen[a.TokenSHA256] = a.Name
 		}
-		seen[a.TokenSHA256] = a.Name
+		if a.Email != "" {
+			if a.Email != strings.ToLower(a.Email) {
+				return fmt.Errorf("actor %q: email must be lowercase", a.Name)
+			}
+			if a.Email != "" && c.ProxyAuth == nil {
+				return fmt.Errorf("actor %q has an email but proxy_auth is not configured", a.Name)
+			}
+			if prev, dup := seenEmail[a.Email]; dup {
+				return fmt.Errorf("actors %q and %q share the email %q", prev, a.Name, a.Email)
+			}
+			seenEmail[a.Email] = a.Name
+		}
 		for slug := range a.Grants {
 			if _, ok := c.Connectors[slug]; !ok {
 				return fmt.Errorf("actor %q is granted unknown connector %q", a.Name, slug)

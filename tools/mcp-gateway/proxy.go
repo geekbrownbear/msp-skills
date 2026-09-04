@@ -53,7 +53,7 @@ type Gateway struct {
 func NewGateway(cfg *Config, auditor *Auditor) (*Gateway, error) {
 	g := &Gateway{
 		cfg:         cfg,
-		auth:        NewAuthenticator(cfg.Actors),
+		auth:        NewAuthenticator(cfg.Actors, cfg.ProxyAuth),
 		auditor:     auditor,
 		proxies:     map[string]*httputil.ReverseProxy{},
 		annotations: map[string]map[string]*bool{},
@@ -185,7 +185,7 @@ func (g *Gateway) eventActor(a *Actor, r *http.Request) EventActor {
 	if err != nil {
 		host = r.RemoteAddr
 	}
-	return EventActor{Name: a.Name, Kind: a.Kind, SourceIP: host}
+	return EventActor{Name: a.Name, Kind: a.Kind, Email: a.Email, SourceIP: host}
 }
 
 // captureAnnotations learns tool read-only hints from tools/list responses.

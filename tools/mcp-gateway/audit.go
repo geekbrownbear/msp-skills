@@ -28,6 +28,7 @@ type Event struct {
 type EventActor struct {
 	Name     string `json:"name"`
 	Kind     string `json:"kind"`
+	Email    string `json:"email,omitempty"`
 	SourceIP string `json:"source_ip"`
 }
 

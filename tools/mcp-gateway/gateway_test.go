@@ -22,7 +22,7 @@ func testActor(name, tok string, g Grant) Actor {
 }
 
 func TestAuthenticate(t *testing.T) {
-	a := NewAuthenticator([]Actor{testActor("alice", "secret-token", Grant{})})
+	a := NewAuthenticator([]Actor{testActor("alice", "secret-token", Grant{})}, nil)
 	cases := []struct {
 		name, header string
 		want         string
@@ -51,6 +51,63 @@ func TestAuthenticate(t *testing.T) {
 				t.Fatalf("expected %q, got %q", c.want, got.Name)
 			}
 		})
+	}
+}
+
+func TestAuthenticateProxyHeader(t *testing.T) {
+	const secret = "proxy-shared-secret"
+	proxy := &ProxyAuth{SharedSecretSHA256: tokenDigest(secret)}
+	alice := Actor{Name: "alice", Kind: "human", Email: "alice@bearium.net", Grants: map[string]Grant{"halopsa": {}}}
+	a := NewAuthenticator([]Actor{alice}, proxy)
+
+	set := func(r *http.Request, secretVal, email string) {
+		if secretVal != "" {
+			r.Header.Set("X-Gateway-Proxy-Secret", secretVal)
+		}
+		if email != "" {
+			r.Header.Set("X-Forwarded-Email", email)
+		}
+	}
+	cases := []struct {
+		name, secretVal, email, want string
+	}{
+		{"valid identity", secret, "alice@bearium.net", "alice"},
+		{"email case-folded", secret, "Alice@Bearium.net", "alice"},
+		{"wrong secret", "nope", "alice@bearium.net", ""},
+		{"missing secret", "", "alice@bearium.net", ""},
+		{"missing email", secret, "", ""},
+		{"unknown email", secret, "mallory@evil.test", ""},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			r := httptest.NewRequest(http.MethodPost, "/mcp/halopsa", nil)
+			set(r, c.secretVal, c.email)
+			got := a.Authenticate(r)
+			switch {
+			case c.want == "" && got != nil:
+				t.Fatalf("expected no actor, got %q", got.Name)
+			case c.want != "" && (got == nil || got.Name != c.want):
+				t.Fatalf("expected %q, got %v", c.want, got)
+			}
+		})
+	}
+
+	// A forged identity header must be ignored entirely when no proxy is
+	// configured, so a direct client cannot assert its own email.
+	noProxy := NewAuthenticator([]Actor{alice}, nil)
+	r := httptest.NewRequest(http.MethodPost, "/mcp/halopsa", nil)
+	set(r, secret, "alice@bearium.net")
+	if got := noProxy.Authenticate(r); got != nil {
+		t.Fatalf("proxy disabled: expected no actor, got %q", got.Name)
+	}
+
+	// A bearer token still authenticates a machine actor even with proxy on.
+	bob := testActor("bob", "bob-token", Grant{})
+	withBoth := NewAuthenticator([]Actor{alice, bob}, proxy)
+	rb := httptest.NewRequest(http.MethodPost, "/mcp/halopsa", nil)
+	rb.Header.Set("Authorization", "Bearer bob-token")
+	if got := withBoth.Authenticate(rb); got == nil || got.Name != "bob" {
+		t.Fatalf("expected bob via token, got %v", got)
 	}
 }
 
