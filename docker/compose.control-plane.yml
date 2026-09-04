@@ -1,0 +1,58 @@
+# CONTROL PLANE overlay: the gateway's own auth + admin surface (accounts,
+# per-connector permissions, personal access tokens, audit viewer). Hand-authored.
+#
+# Requires the gateway overlay:
+#   docker compose -f compose.yml -f compose.secrets.yml \
+#     -f compose.gateway.yml -f compose.control-plane.yml --profile gateway up -d
+#
+# One manual step in your gateway.json, so the gateway loads the control plane's
+# actors and hot-reloads them:
+#   "actors_path": "/var/lib/control-plane/actors.json"
+#
+# The control plane writes that actors file (shared volume) and reads the
+# gateway's audit log (read-only). It runs as uid 10002 like the gateway, so no
+# cross-uid volume permission issues.
+#
+# Env:
+#   MSP_CONTROL_PLANE_BIND  a specific LAN address (never 0.0.0.0)
+#   MSP_CONTROL_PLANE_PORT  host port (default 8090)
+#   MSP_GATEWAY_AUDIT_FILE  basename of audit_log in gateway.json (default audit.jsonl)
+
+services:
+  control-plane:
+    profiles: [gateway]
+    image: msp-skills/control-plane:0.1.0
+    build:
+      context: ../tools/mcp-control-plane
+      dockerfile: ../../docker/Dockerfile.control-plane
+    container_name: msp-control-plane
+    restart: unless-stopped
+    ports:
+      - "${MSP_CONTROL_PLANE_BIND:?set MSP_CONTROL_PLANE_BIND to a specific LAN address}:${MSP_CONTROL_PLANE_PORT:-8090}:8090"
+    environment:
+      CONTROL_PLANE_DATA_DIR: /data
+      CONTROL_PLANE_ADDR: ":8090"
+      CONTROL_PLANE_GATEWAY_ACTORS_FILE: /shared-actors/actors.json
+      CONTROL_PLANE_AUDIT_LOG: /gateway-audit/${MSP_GATEWAY_AUDIT_FILE:-audit.jsonl}
+    volumes:
+      - control-plane-data:/data
+      - control-plane-actors:/shared-actors
+      - gateway-audit:/gateway-audit:ro
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8090/healthz"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+
+  # Give the gateway read access to the control-plane-managed actors file.
+  # Pair with "actors_path": "/var/lib/control-plane/actors.json" in gateway.json.
+  gateway:
+    volumes:
+      - control-plane-actors:/var/lib/control-plane:ro
+
+volumes:
+  control-plane-data:
+  control-plane-actors:

@@ -1,0 +1,30 @@
+# The control plane: auth + admin surface for the gateway. Hand-authored.
+# Build context is tools/mcp-control-plane (Go module; uses golang.org/x/crypto
+# for argon2id, so `go mod download` runs at build time).
+#
+# Runs as uid 10002, the same as the gateway, so the actors file it writes and
+# the audit log it reads on shared volumes need no cross-uid permission dance.
+
+ARG GO_VERSION=1.26
+ARG ALPINE_VERSION=3.20
+
+FROM golang:${GO_VERSION}-alpine AS build
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+ENV CGO_ENABLED=0
+RUN go build -trimpath -ldflags "-s -w" -o /out/msp-control-plane .
+
+FROM alpine:${ALPINE_VERSION}
+RUN apk add --no-cache ca-certificates tzdata wget \
+ && addgroup -g 10002 -S cp \
+ && adduser -u 10002 -S -G cp -h /data cp \
+ && mkdir -p /data && chown -R 10002:10002 /data
+COPY --from=build /out/msp-control-plane /usr/local/bin/msp-control-plane
+USER 10002:10002
+EXPOSE 8090
+ENV CONTROL_PLANE_DATA_DIR=/data CONTROL_PLANE_ADDR=:8090
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://127.0.0.1:8090/healthz || exit 1
+ENTRYPOINT ["/usr/local/bin/msp-control-plane"]
