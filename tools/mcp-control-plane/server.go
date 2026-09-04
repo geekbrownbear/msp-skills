@@ -36,6 +36,11 @@ type Server struct {
 	flows       *flowStore
 	oidcMu      sync.Mutex
 	oidcCache   map[string]*oidc.Provider
+
+	// Delegated SSO: a signed-ticket handoff so a trusted internal app can
+	// authenticate users against this control plane (see sso_delegate.go).
+	ssoTicketKey        []byte
+	ssoAllowedRedirects []string
 }
 
 func NewServer(store *Store, sessions *Sessions, gatewayActorsPath string) *Server {
@@ -66,6 +71,8 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("/auth/microsoft/callback", s.handleSSOCallback("microsoft"))
 	mux.HandleFunc("/auth/google/start", s.handleSSOStart("google"))
 	mux.HandleFunc("/auth/google/callback", s.handleSSOCallback("google"))
+	// Delegated SSO for a trusted internal app (handles its own auth-or-redirect).
+	mux.HandleFunc("/sso/authorize", s.handleSSOAuthorize)
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("ok")) })
 	return mux
 }
@@ -172,7 +179,7 @@ func (s *Server) handleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	csrf := s.ensureCSRF(w, r)
 	if r.Method == http.MethodGet {
-		s.render(w, "login", map[string]any{"CSRF": csrf, "SSO": s.ssoButtons()})
+		s.render(w, "login", map[string]any{"CSRF": csrf, "SSO": s.ssoButtons(), "Next": safeNext(r.URL.Query().Get("next"))})
 		return
 	}
 	if r.Method != http.MethodPost {
@@ -199,7 +206,7 @@ func (s *Server) handleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	s.limiter.reset(ip)
 	s.startSession(w, r, u.Email)
-	http.Redirect(w, r, "/admin", http.StatusSeeOther)
+	http.Redirect(w, r, s.loginDest(r.FormValue("next")), http.StatusSeeOther)
 }
 
 func (s *Server) handleLogout(w http.ResponseWriter, r *http.Request) {

@@ -73,6 +73,7 @@ input[type=radio]{width:auto;transform:scale(1.2)}
 {{if .Error}}<div class="err">{{.Error}}</div>{{end}}
 <form method="post" action="/login">
 <input type="hidden" name="csrf" value="{{.CSRF}}">
+<input type="hidden" name="next" value="{{.Next}}">
 <label>Email</label><input type="email" name="email" autocomplete="username" required>
 <label>Password</label><input type="password" name="password" autocomplete="current-password" required>
 <button type="submit">Sign in</button>
@@ -80,8 +81,8 @@ input[type=radio]{width:auto;transform:scale(1.2)}
 {{if .SSO}}{{if or (index .SSO "microsoft") (index .SSO "google")}}
 <div class="ordiv">or</div>
 <div class="ssorow">
-{{if index .SSO "microsoft"}}<a class="ssobtn" href="/auth/microsoft/start">Sign in with Microsoft</a>{{end}}
-{{if index .SSO "google"}}<a class="ssobtn" href="/auth/google/start">Sign in with Google</a>{{end}}
+{{if index .SSO "microsoft"}}<a class="ssobtn" href="/auth/microsoft/start?next={{.Next}}">Sign in with Microsoft</a>{{end}}
+{{if index .SSO "google"}}<a class="ssobtn" href="/auth/google/start?next={{.Next}}">Sign in with Google</a>{{end}}
 </div>
 {{end}}{{end}}
 </div>{{template "foot" .}}{{end}}

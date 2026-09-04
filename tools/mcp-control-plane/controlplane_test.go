@@ -1,9 +1,12 @@
 package main
 
 import (
+	"crypto/hmac"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/cookiejar"
 	"net/http/httptest"
@@ -256,7 +259,7 @@ func TestSSOLoginMapping(t *testing.T) {
 		before := store.Count()
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest(http.MethodGet, "/auth/microsoft/callback", nil)
-		srv.ssoLogin(w, r, "microsoft", email, "Name", func(m string) { failMsg = m })
+		srv.ssoLogin(w, r, "microsoft", email, "Name", "", func(m string) { failMsg = m })
 		return store.Count() > before, failMsg
 	}
 
@@ -374,4 +377,99 @@ func readAll(t *testing.T, resp *http.Response) string {
 		}
 	}
 	return string(buf)
+}
+
+// verifyTestTicket mirrors what a delegated app (Callisto) does to validate a
+// ticket: recompute the HMAC over part1, constant-time compare, then decode.
+func verifyTestTicket(key []byte, tok string) (ticketClaims, error) {
+	parts := strings.SplitN(tok, ".", 2)
+	if len(parts) != 2 {
+		return ticketClaims{}, fmt.Errorf("bad format")
+	}
+	mac := hmac.New(sha256.New, key)
+	mac.Write([]byte(parts[0]))
+	want := base64.RawURLEncoding.EncodeToString(mac.Sum(nil))
+	if !hmac.Equal([]byte(want), []byte(parts[1])) {
+		return ticketClaims{}, fmt.Errorf("bad signature")
+	}
+	raw, err := base64.RawURLEncoding.DecodeString(parts[0])
+	if err != nil {
+		return ticketClaims{}, err
+	}
+	var c ticketClaims
+	if err := json.Unmarshal(raw, &c); err != nil {
+		return ticketClaims{}, err
+	}
+	return c, nil
+}
+
+func TestDelegatedSSOAuthorize(t *testing.T) {
+	dir := t.TempDir()
+	store, _ := NewStore(dir)
+	store.Create(&User{Email: "a@bearium.net", Name: "A", PasswordHash: "h", Role: RoleSuperAdmin})
+	srv := NewServer(store, NewSessions(time.Hour), dir+"/actors.json")
+	key := []byte("shared-ticket-key")
+	srv.ssoTicketKey = key
+	srv.ssoAllowedRedirects = []string{"https://app.example/auth/callback"}
+
+	// A valid session cookie for the authed cases.
+	sw := httptest.NewRecorder()
+	srv.startSession(sw, httptest.NewRequest(http.MethodGet, "/", nil), "a@bearium.net")
+	cookie := sw.Result().Cookies()[0]
+	allowed := url.QueryEscape("https://app.example/auth/callback")
+
+	// Unauthenticated -> bounce to login, returning here afterwards.
+	r := httptest.NewRequest(http.MethodGet, "/sso/authorize?redirect_uri="+allowed+"&state=xyz", nil)
+	w := httptest.NewRecorder()
+	srv.handleSSOAuthorize(w, r)
+	if w.Code != http.StatusSeeOther || !strings.HasPrefix(w.Header().Get("Location"), "/login?next=") {
+		t.Fatalf("unauth: want redirect to /login, got %d %s", w.Code, w.Header().Get("Location"))
+	}
+
+	// Authenticated but disallowed redirect_uri -> 400 (no ticket leaks).
+	r = httptest.NewRequest(http.MethodGet, "/sso/authorize?redirect_uri="+url.QueryEscape("https://evil.example/x")+"&state=xyz", nil)
+	r.AddCookie(cookie)
+	w = httptest.NewRecorder()
+	srv.handleSSOAuthorize(w, r)
+	if w.Code != http.StatusBadRequest {
+		t.Fatalf("bad redirect_uri: want 400, got %d", w.Code)
+	}
+
+	// Authenticated + allowed -> redirect to the app with a verifiable ticket.
+	r = httptest.NewRequest(http.MethodGet, "/sso/authorize?redirect_uri="+allowed+"&state=xyz", nil)
+	r.AddCookie(cookie)
+	w = httptest.NewRecorder()
+	srv.handleSSOAuthorize(w, r)
+	if w.Code != http.StatusSeeOther {
+		t.Fatalf("authed: want 303, got %d", w.Code)
+	}
+	loc, _ := url.Parse(w.Header().Get("Location"))
+	if loc.Query().Get("state") != "xyz" {
+		t.Fatalf("state not echoed back: %s", w.Header().Get("Location"))
+	}
+	claims, err := verifyTestTicket(key, loc.Query().Get("ticket"))
+	if err != nil {
+		t.Fatalf("ticket did not verify: %v", err)
+	}
+	if claims.Email != "a@bearium.net" || claims.Role != string(RoleSuperAdmin) {
+		t.Fatalf("ticket claims wrong: %+v", claims)
+	}
+	if claims.Exp <= time.Now().Unix() {
+		t.Fatalf("ticket already expired: exp=%d", claims.Exp)
+	}
+
+	// A tampered signature must fail.
+	if _, err := verifyTestTicket(key, loc.Query().Get("ticket")+"x"); err == nil {
+		t.Fatalf("tampered ticket verified")
+	}
+
+	// safeNext rejects off-origin targets.
+	for _, bad := range []string{"//evil.example", "https://evil.example", "/\\evil"} {
+		if safeNext(bad) != "" {
+			t.Fatalf("safeNext accepted %q", bad)
+		}
+	}
+	if safeNext("/sso/authorize?x=1") != "/sso/authorize?x=1" {
+		t.Fatalf("safeNext rejected a valid relative path")
+	}
 }

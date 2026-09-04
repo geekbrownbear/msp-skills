@@ -15,6 +15,7 @@ type oauthFlow struct {
 	provider string
 	nonce    string
 	verifier string
+	returnTo string // where to land after login (a pending delegated-SSO request)
 	expires  time.Time
 }
 
@@ -112,7 +113,7 @@ func (s *Server) handleSSOStart(provider string) http.HandlerFunc {
 		state := randToken()
 		nonce := randToken()
 		verifier := oauth2.GenerateVerifier()
-		s.flows.put(state, oauthFlow{provider: provider, nonce: nonce, verifier: verifier, expires: time.Now().Add(10 * time.Minute)})
+		s.flows.put(state, oauthFlow{provider: provider, nonce: nonce, verifier: verifier, returnTo: safeNext(r.URL.Query().Get("next")), expires: time.Now().Add(10 * time.Minute)})
 		s.setCookie(w, r, oauthStateCookie, state, 10*time.Minute)
 		url := oc.AuthCodeURL(state, oidc.Nonce(nonce), oauth2.S256ChallengeOption(verifier))
 		http.Redirect(w, r, url, http.StatusSeeOther)
@@ -182,7 +183,7 @@ func (s *Server) handleSSOCallback(provider string) http.HandlerFunc {
 			fail("Your account did not return an email address.")
 			return
 		}
-		s.ssoLogin(w, r, provider, email, claims.Name, fail)
+		s.ssoLogin(w, r, provider, email, claims.Name, flow.returnTo, fail)
 	}
 }
 
@@ -190,14 +191,14 @@ func (s *Server) handleSSOCallback(provider string) http.HandlerFunc {
 // account by email, or (if the email's domain is allowlisted for the provider)
 // a newly auto-provisioned low-privilege user. Off-domain unknown emails are
 // denied.
-func (s *Server) ssoLogin(w http.ResponseWriter, r *http.Request, provider, email, name string, fail func(string)) {
+func (s *Server) ssoLogin(w http.ResponseWriter, r *http.Request, provider, email, name, returnTo string, fail func(string)) {
 	if u := s.store.ByEmail(email); u != nil {
 		if u.Disabled {
 			fail("Your account is disabled.")
 			return
 		}
 		s.startSession(w, r, u.Email)
-		http.Redirect(w, r, "/admin", http.StatusSeeOther)
+		http.Redirect(w, r, s.loginDest(returnTo), http.StatusSeeOther)
 		return
 	}
 	cfg := s.providers.Get().provider(provider)
@@ -211,7 +212,7 @@ func (s *Server) ssoLogin(w http.ResponseWriter, r *http.Request, provider, emai
 		}
 		s.syncGateway()
 		s.startSession(w, r, email)
-		http.Redirect(w, r, "/admin", http.StatusSeeOther)
+		http.Redirect(w, r, s.loginDest(returnTo), http.StatusSeeOther)
 		return
 	}
 	fail("No account exists for " + email + ". Ask an administrator to add you.")
