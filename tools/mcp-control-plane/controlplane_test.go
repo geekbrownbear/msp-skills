@@ -1,6 +1,9 @@
 package main
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
 	"net/http"
 	"net/http/cookiejar"
 	"net/http/httptest"
@@ -203,6 +206,46 @@ func TestAdminCreatesUserSetsPermissionsEmitsActors(t *testing.T) {
 }
 
 // ---- test helpers ----
+
+func TestReadAuditChain(t *testing.T) {
+	path := t.TempDir() + "/audit.jsonl"
+	auditLine := func(seq int64, prev string) []byte {
+		e := map[string]any{
+			"seq": seq, "prev_sha256": prev, "ts": "2026-09-04T00:00:00Z",
+			"actor":     map[string]any{"email": "a@bearium.net", "name": "A"},
+			"connector": "halopsa",
+			"mcp":       map[string]any{"method": "tools/call", "tool": "tickets"},
+			"policy":    map[string]any{"decision": "allow", "class": "read"},
+		}
+		b, _ := json.Marshal(e)
+		return b
+	}
+	sha := func(b []byte) string { s := sha256.Sum256(b); return hex.EncodeToString(s[:]) }
+
+	l1 := auditLine(1, "")
+	l2 := auditLine(2, sha(l1))
+	if err := os.WriteFile(path, []byte(string(l1)+"\n"+string(l2)+"\n"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	rep, err := readAudit(path, 10)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !rep.ChainOK || rep.Total != 2 {
+		t.Fatalf("valid chain expected ok/2, got %+v", rep)
+	}
+	if rep.Events[0].Seq != 2 || rep.Events[0].Actor.Email != "a@bearium.net" {
+		t.Fatalf("newest-first parse wrong: %+v", rep.Events[0])
+	}
+
+	bad := auditLine(2, "deadbeefdeadbeef")
+	if err := os.WriteFile(path, []byte(string(l1)+"\n"+string(bad)+"\n"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if rep2, _ := readAudit(path, 10); rep2.ChainOK {
+		t.Fatal("tampered chain should be reported broken")
+	}
+}
 
 func post(t *testing.T, c *http.Client, u string, v url.Values, wantPath string) {
 	t.Helper()

@@ -107,7 +107,8 @@ input[type=radio]{width:auto;transform:scale(1.2)}
 <button class="mini" type="submit">Generate token</button>
 </form>
 
-<div class="soon">Coming next: <span>SSO (M365 / Google)</span><span>Audit trail</span></div>
+<div class="row" style="margin-top:22px"><a class="cyan" href="/admin/audit">View audit trail &rarr;</a></div>
+<div class="soon">Coming next: <span>SSO (M365 / Google)</span></div>
 </div>{{template "foot" .}}{{end}}
 
 {{define "newuser"}}{{template "head" .}}
@@ -165,5 +166,28 @@ input[type=radio]{width:auto;transform:scale(1.2)}
 {{end}}
 <form method="post" action="/admin/user?email={{.T.Email}}" onsubmit="return confirm('Delete {{.T.Email}}?')"><input type="hidden" name="csrf" value="{{.CSRF}}"><input type="hidden" name="action" value="delete"><button class="mini danger" type="submit">Delete</button></form>
 </div>
+</div>{{template "foot" .}}{{end}}
+
+{{define "audit"}}{{template "head" .}}
+<div class="card wide">
+<div class="row"><h1>Audit trail</h1><a class="cyan" href="/admin">Back</a></div>
+{{if not .Rep.Configured}}<p class="sub">No audit log configured. Set CONTROL_PLANE_AUDIT_LOG to the gateway's hash-chained log file.</p>
+{{else}}
+<p class="sub">{{.Rep.Total}} events.
+{{if .Rep.ChainOK}}<span class="badge" style="background:rgba(75,183,72,.16);color:#7cc397">chain verified</span>
+{{else}}<span class="badge" style="background:rgba(248,113,113,.16);color:#e08a7c">chain broken: {{.Rep.ChainErr}}</span>{{end}}</p>
+{{if .Rep.Events}}
+<table>
+<tr><th>Time</th><th>Actor</th><th>Connector</th><th>Action</th><th>Decision</th></tr>
+{{range .Rep.Events}}<tr>
+<td class="muted">{{.TS}}</td>
+<td>{{if .Actor.Email}}{{.Actor.Email}}{{else}}{{.Actor.Name}}{{end}}</td>
+<td>{{.Connector}}</td>
+<td>{{.MCP.Method}}{{if .MCP.Tool}} &middot; {{.MCP.Tool}}{{end}}</td>
+<td>{{if eq .Policy.Decision "deny"}}<span style="color:#e08a7c">deny</span>{{else}}allow{{end}}{{if .Policy.Class}} <span class="muted">({{.Policy.Class}})</span>{{end}}</td>
+</tr>{{end}}
+</table>
+{{else}}<p class="sub">No events recorded yet.</p>{{end}}
+{{end}}
 </div>{{template "foot" .}}{{end}}
 `

@@ -26,6 +26,7 @@ type Server struct {
 	tmpl              *template.Template
 	limiter           *loginLimiter
 	gatewayActorsPath string
+	auditLogPath      string // read-only view of the gateway's hash-chained log
 }
 
 func NewServer(store *Store, sessions *Sessions, gatewayActorsPath string) *Server {
@@ -48,6 +49,7 @@ func (s *Server) Handler() http.Handler {
 	mux.Handle("/admin/user/new", s.requireAdmin(http.HandlerFunc(s.handleUserNew)))
 	mux.Handle("/admin/user", s.requireAdmin(http.HandlerFunc(s.handleUser)))
 	mux.Handle("/admin/token", s.requireAuth(http.HandlerFunc(s.handleToken)))
+	mux.Handle("/admin/audit", s.requireAdmin(http.HandlerFunc(s.handleAudit)))
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("ok")) })
 	return mux
 }

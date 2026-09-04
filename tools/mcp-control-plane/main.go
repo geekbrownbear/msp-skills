@@ -17,6 +17,7 @@ func main() {
 	}
 	sessions := NewSessions(12 * time.Hour)
 	srv := NewServer(store, sessions, os.Getenv("CONTROL_PLANE_GATEWAY_ACTORS_FILE"))
+	srv.auditLogPath = os.Getenv("CONTROL_PLANE_AUDIT_LOG")
 	srv.syncGateway() // emit current state on boot
 
 	s := &http.Server{
