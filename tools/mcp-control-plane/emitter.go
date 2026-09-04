@@ -33,12 +33,21 @@ func buildGatewayActors(users []*User) []gwActor {
 			continue
 		}
 		grants := map[string]gwGrant{}
-		for slug, g := range u.Grants {
-			switch g.Access {
-			case "read":
-				grants[slug] = gwGrant{AllowTools: []string{"*"}}
-			case "write":
-				grants[slug] = gwGrant{AllowTools: []string{"*"}, Write: true}
+		if u.Role.isAdmin() {
+			// Admins get full access to every connector, so an owner never has
+			// to hand-grant the whole fleet. Regular users get only what they
+			// are explicitly granted.
+			for _, c := range connectors() {
+				grants[c.Slug] = gwGrant{AllowTools: []string{"*"}, Write: true}
+			}
+		} else {
+			for slug, g := range u.Grants {
+				switch g.Access {
+				case "read":
+					grants[slug] = gwGrant{AllowTools: []string{"*"}}
+				case "write":
+					grants[slug] = gwGrant{AllowTools: []string{"*"}, Write: true}
+				}
 			}
 		}
 		base := gwActor{

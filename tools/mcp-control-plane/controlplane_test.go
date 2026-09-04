@@ -141,30 +141,55 @@ func TestSetupAndLoginFlow(t *testing.T) {
 
 func TestBuildGatewayActors(t *testing.T) {
 	users := []*User{
-		{Email: "a@b.net", Name: "A", Role: RoleSuperAdmin,
+		{Email: "u@b.net", Name: "U", Role: RoleUser,
 			Grants: map[string]CPGrant{"halopsa": {Access: "read"}, "quickbooks": {Access: "none"}, "immybot": {Access: "write"}},
 			Tokens: []TokenRef{{Hash: "deadbeef", Label: "laptop"}}},
+		{Email: "admin@b.net", Name: "Admin", Role: RoleSuperAdmin},
 		{Email: "d@b.net", Name: "D", Role: RoleUser, Disabled: true},
 	}
 	acts := buildGatewayActors(users)
-	if len(acts) != 2 { // disabled excluded; a -> email actor + 1 token actor
-		t.Fatalf("want 2 actors, got %d", len(acts))
+	if len(acts) != 3 { // u -> email + 1 token; admin -> email; d disabled -> none
+		t.Fatalf("want 3 actors, got %d", len(acts))
 	}
-	base := acts[0]
-	if base.Email != "a@b.net" || !base.Admin {
-		t.Fatalf("bad base actor %+v", base)
+	email := map[string]gwActor{}
+	var tokenActor gwActor
+	for _, a := range acts {
+		if a.TokenSHA256 != "" {
+			tokenActor = a
+		} else {
+			email[a.Email] = a
+		}
 	}
-	if g, ok := base.Grants["halopsa"]; !ok || g.Write {
-		t.Fatalf("halopsa should be read-only: %+v", base.Grants)
+	// Regular user: only explicit grants, and not an admin.
+	u := email["u@b.net"]
+	if u.Admin {
+		t.Fatalf("regular user must not carry the admin flag")
 	}
-	if g, ok := base.Grants["immybot"]; !ok || !g.Write {
-		t.Fatalf("immybot should be write: %+v", base.Grants)
+	if g, ok := u.Grants["halopsa"]; !ok || g.Write {
+		t.Fatalf("halopsa should be read-only: %+v", u.Grants)
 	}
-	if _, ok := base.Grants["quickbooks"]; ok {
+	if g, ok := u.Grants["immybot"]; !ok || !g.Write {
+		t.Fatalf("immybot should be write: %+v", u.Grants)
+	}
+	if _, ok := u.Grants["quickbooks"]; ok {
 		t.Fatalf("quickbooks 'none' should be omitted")
 	}
-	if acts[1].TokenSHA256 != "deadbeef" {
-		t.Fatalf("token actor missing hash: %+v", acts[1])
+	// Admin: full write on every connector, no hand-granting needed.
+	adm := email["admin@b.net"]
+	if !adm.Admin {
+		t.Fatalf("super admin should carry the admin flag")
+	}
+	if len(adm.Grants) != len(connectors()) {
+		t.Fatalf("admin should get all %d connectors, got %d", len(connectors()), len(adm.Grants))
+	}
+	for _, c := range connectors() {
+		if g, ok := adm.Grants[c.Slug]; !ok || !g.Write {
+			t.Fatalf("admin should have write on %q, got %+v", c.Slug, adm.Grants[c.Slug])
+		}
+	}
+	// Token actor inherits its owner's identity.
+	if tokenActor.TokenSHA256 != "deadbeef" || tokenActor.Email != "u@b.net" {
+		t.Fatalf("token actor wrong: %+v", tokenActor)
 	}
 }
 
