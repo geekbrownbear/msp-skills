@@ -15,10 +15,11 @@ func (s *Server) renderAdmin(w http.ResponseWriter, r *http.Request, extra map[s
 		fresh = u
 	}
 	data := map[string]any{
-		"User":    fresh,
-		"Users":   s.store.List(),
-		"IsAdmin": u.Role.isAdmin(),
-		"CSRF":    s.ensureCSRF(w, r),
+		"User":         fresh,
+		"Users":        s.store.List(),
+		"IsAdmin":      u.Role.isAdmin(),
+		"IsSuperAdmin": u.Role == RoleSuperAdmin,
+		"CSRF":         s.ensureCSRF(w, r),
 	}
 	for k, v := range extra {
 		data[k] = v

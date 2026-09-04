@@ -34,6 +34,8 @@ services:
       CONTROL_PLANE_ADDR: ":8090"
       CONTROL_PLANE_GATEWAY_ACTORS_FILE: /shared-actors/actors.json
       CONTROL_PLANE_AUDIT_LOG: /gateway-audit/${MSP_GATEWAY_AUDIT_FILE:-audit.jsonl}
+      # External URL (Caddy hostname), so SSO builds correct redirect URIs.
+      CONTROL_PLANE_EXTERNAL_URL: ${CONTROL_PLANE_EXTERNAL_URL:-}
     volumes:
       - control-plane-data:/data
       - control-plane-actors:/shared-actors

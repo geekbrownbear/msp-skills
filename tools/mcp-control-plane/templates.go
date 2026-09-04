@@ -42,6 +42,10 @@ select{width:100%;height:42px;padding:0 10px;border-radius:10px;border:1px solid
 code{font-family:ui-monospace,Menlo,monospace}
 table td form,table td form button{margin:0}
 input[type=radio]{width:auto;transform:scale(1.2)}
+.ordiv{margin:18px 0 6px;text-align:center;color:var(--ink3);font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+.ssorow{display:flex;flex-direction:column;gap:10px}
+.ssobtn{display:block;text-align:center;padding:11px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);text-decoration:none;font-weight:600}
+.ssobtn:hover{border-color:var(--cyan);color:var(--cyan)}
 </style></head><body>
 <div class="brand">Bearium Control Plane<small>msp-skills gateway</small></div>{{end}}
 
@@ -73,6 +77,13 @@ input[type=radio]{width:auto;transform:scale(1.2)}
 <label>Password</label><input type="password" name="password" autocomplete="current-password" required>
 <button type="submit">Sign in</button>
 </form>
+{{if .SSO}}{{if or (index .SSO "microsoft") (index .SSO "google")}}
+<div class="ordiv">or</div>
+<div class="ssorow">
+{{if index .SSO "microsoft"}}<a class="ssobtn" href="/auth/microsoft/start">Sign in with Microsoft</a>{{end}}
+{{if index .SSO "google"}}<a class="ssobtn" href="/auth/google/start">Sign in with Google</a>{{end}}
+</div>
+{{end}}{{end}}
 </div>{{template "foot" .}}{{end}}
 
 {{define "admin"}}{{template "head" .}}
@@ -107,8 +118,10 @@ input[type=radio]{width:auto;transform:scale(1.2)}
 <button class="mini" type="submit">Generate token</button>
 </form>
 
-<div class="row" style="margin-top:22px"><a class="cyan" href="/admin/audit">View audit trail &rarr;</a></div>
-<div class="soon">Coming next: <span>SSO (M365 / Google)</span></div>
+<div class="row" style="margin-top:22px">
+<a class="cyan" href="/admin/audit">View audit trail &rarr;</a>
+{{if .IsSuperAdmin}}<a class="cyan" href="/admin/sso">Single sign-on &rarr;</a>{{end}}
+</div>
 </div>{{template "foot" .}}{{end}}
 
 {{define "newuser"}}{{template "head" .}}
@@ -189,5 +202,34 @@ input[type=radio]{width:auto;transform:scale(1.2)}
 </table>
 {{else}}<p class="sub">No events recorded yet.</p>{{end}}
 {{end}}
+</div>{{template "foot" .}}{{end}}
+
+{{define "sso"}}{{template "head" .}}
+<div class="card wide">
+<div class="row"><h1>Single sign-on</h1><a class="cyan" href="/admin">Back</a></div>
+<p class="sub">Configure Microsoft and/or Google sign-in. Anyone from an allowed domain is auto-provisioned as a low-privilege member on first login; you grant connectors afterward.</p>
+{{if .Error}}<div class="err">{{.Error}}</div>{{end}}
+{{if .Saved}}<div class="ok">{{.Saved}}</div>{{end}}
+{{if not .External}}<div class="err">CONTROL_PLANE_EXTERNAL_URL is not set, so the redirect URIs below are blank. Set it to your Caddy hostname (e.g. https://controlplane.local.bearium.net).</div>{{end}}
+<form method="post" action="/admin/sso">
+<input type="hidden" name="csrf" value="{{.CSRF}}">
+
+<h2 style="font-size:16px;margin:18px 0 4px">Microsoft (Entra)</h2>
+<p class="sub" style="margin:0 0 8px">Redirect URI to register: <code>{{.MSRedirect}}</code></p>
+<label style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="ms_enabled" {{if .MSEnabled}}checked{{end}} style="width:auto">Enabled</label>
+<label>Directory (tenant) ID</label><input type="text" name="ms_tenant" value="{{.MSTenant}}">
+<label>Application (client) ID</label><input type="text" name="ms_client_id" value="{{.MSClientID}}">
+<label>Client secret {{if .MSHasSecret}}<span class="muted">(set &mdash; leave blank to keep)</span>{{end}}</label><input type="password" name="ms_client_secret" autocomplete="off">
+<label>Allowed email domains (comma-separated)</label><input type="text" name="ms_domains" value="{{.MSDomains}}" placeholder="bearium.net">
+
+<h2 style="font-size:16px;margin:26px 0 4px">Google Workspace</h2>
+<p class="sub" style="margin:0 0 8px">Redirect URI to register: <code>{{.GRedirect}}</code></p>
+<label style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="g_enabled" {{if .GEnabled}}checked{{end}} style="width:auto">Enabled</label>
+<label>Client ID</label><input type="text" name="g_client_id" value="{{.GClientID}}">
+<label>Client secret {{if .GHasSecret}}<span class="muted">(set &mdash; leave blank to keep)</span>{{end}}</label><input type="password" name="g_client_secret" autocomplete="off">
+<label>Allowed email domains (comma-separated)</label><input type="text" name="g_domains" value="{{.GDomains}}" placeholder="bearium.net">
+
+<button type="submit">Save SSO settings</button>
+</form>
 </div>{{template "foot" .}}{{end}}
 `

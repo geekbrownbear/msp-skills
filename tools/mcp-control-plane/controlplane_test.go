@@ -207,6 +207,76 @@ func TestAdminCreatesUserSetsPermissionsEmitsActors(t *testing.T) {
 
 // ---- test helpers ----
 
+func TestProviderStoreAndIssuer(t *testing.T) {
+	dir := t.TempDir()
+	ps, err := NewProviderStore(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := ps.Save(SSOConfig{Microsoft: ProviderConfig{Enabled: true, ClientID: "cid", ClientSecret: "sec", TenantID: "tid", AllowedDomains: []string{"bearium.net"}}}); err != nil {
+		t.Fatal(err)
+	}
+	ps2, err := NewProviderStore(dir) // reload from disk
+	if err != nil {
+		t.Fatal(err)
+	}
+	ms := ps2.Get().Microsoft
+	if !ms.ready() || ms.ClientSecret != "sec" {
+		t.Fatalf("secret/ready not persisted: %+v", ms)
+	}
+	if got := ms.issuer("microsoft"); got != "https://login.microsoftonline.com/tid/v2.0" {
+		t.Fatalf("issuer wrong: %s", got)
+	}
+}
+
+func TestDomainAllowed(t *testing.T) {
+	if !domainAllowed("Jane@Bearium.net", []string{"bearium.net"}) {
+		t.Fatal("case-insensitive domain should be allowed")
+	}
+	if domainAllowed("x@evil.test", []string{"bearium.net"}) {
+		t.Fatal("off-domain should be denied")
+	}
+	if domainAllowed("no-at-sign", []string{"bearium.net"}) {
+		t.Fatal("malformed email should be denied")
+	}
+	if domainAllowed("x@bearium.net", nil) {
+		t.Fatal("empty allowlist should deny (no auto-provision)")
+	}
+}
+
+func TestSSOLoginMapping(t *testing.T) {
+	dir := t.TempDir()
+	store, _ := NewStore(dir)
+	ps, _ := NewProviderStore(dir)
+	ps.Save(SSOConfig{Microsoft: ProviderConfig{Enabled: true, ClientID: "x", ClientSecret: "y", AllowedDomains: []string{"bearium.net"}}})
+	srv := NewServer(store, NewSessions(time.Hour), dir+"/actors.json")
+	srv.providers = ps
+
+	run := func(email string) (created bool, failMsg string) {
+		before := store.Count()
+		w := httptest.NewRecorder()
+		r := httptest.NewRequest(http.MethodGet, "/auth/microsoft/callback", nil)
+		srv.ssoLogin(w, r, "microsoft", email, "Name", func(m string) { failMsg = m })
+		return store.Count() > before, failMsg
+	}
+
+	// Allowed domain, unknown user -> auto-provisioned as 'user'.
+	if created, fail := run("new@bearium.net"); !created || fail != "" {
+		t.Fatalf("expected auto-provision, created=%v fail=%q", created, fail)
+	}
+	if u := store.ByEmail("new@bearium.net"); u == nil || u.Role != RoleUser {
+		t.Fatalf("provisioned account wrong: %+v", u)
+	}
+	// Existing user -> login, no new account.
+	if created, fail := run("new@bearium.net"); created || fail != "" {
+		t.Fatalf("existing user should log in without creating; created=%v fail=%q", created, fail)
+	}
+	// Off-domain unknown user -> denied, no account.
+	if created, fail := run("mallory@evil.test"); created || fail == "" {
+		t.Fatalf("off-domain should be denied; created=%v fail=%q", created, fail)
+	}
+}
+
 func TestReadAuditChain(t *testing.T) {
 	path := t.TempDir() + "/audit.jsonl"
 	auditLine := func(seq int64, prev string) []byte {

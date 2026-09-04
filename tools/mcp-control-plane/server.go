@@ -8,6 +8,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/coreos/go-oidc/v3/oidc"
 )
 
 const (
@@ -27,6 +29,13 @@ type Server struct {
 	limiter           *loginLimiter
 	gatewayActorsPath string
 	auditLogPath      string // read-only view of the gateway's hash-chained log
+
+	// SSO (optional; configured in the admin UI).
+	providers   *ProviderStore
+	externalURL string
+	flows       *flowStore
+	oidcMu      sync.Mutex
+	oidcCache   map[string]*oidc.Provider
 }
 
 func NewServer(store *Store, sessions *Sessions, gatewayActorsPath string) *Server {
@@ -36,6 +45,7 @@ func NewServer(store *Store, sessions *Sessions, gatewayActorsPath string) *Serv
 		tmpl:              template.Must(template.New("").Parse(templates)),
 		limiter:           newLoginLimiter(10, 15*time.Minute),
 		gatewayActorsPath: gatewayActorsPath,
+		flows:             newFlowStore(),
 	}
 }
 
@@ -50,8 +60,25 @@ func (s *Server) Handler() http.Handler {
 	mux.Handle("/admin/user", s.requireAdmin(http.HandlerFunc(s.handleUser)))
 	mux.Handle("/admin/token", s.requireAuth(http.HandlerFunc(s.handleToken)))
 	mux.Handle("/admin/audit", s.requireAdmin(http.HandlerFunc(s.handleAudit)))
+	mux.Handle("/admin/sso", s.requireSuperAdmin(http.HandlerFunc(s.handleSSO)))
+	// SSO login flow (public: these initiate/complete authentication).
+	mux.HandleFunc("/auth/microsoft/start", s.handleSSOStart("microsoft"))
+	mux.HandleFunc("/auth/microsoft/callback", s.handleSSOCallback("microsoft"))
+	mux.HandleFunc("/auth/google/start", s.handleSSOStart("google"))
+	mux.HandleFunc("/auth/google/callback", s.handleSSOCallback("google"))
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("ok")) })
 	return mux
+}
+
+func (s *Server) requireSuperAdmin(next http.Handler) http.Handler {
+	return s.requireAuth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		u := r.Context().Value(userKey).(*User)
+		if u.Role != RoleSuperAdmin {
+			http.Error(w, "forbidden", http.StatusForbidden)
+			return
+		}
+		next.ServeHTTP(w, r)
+	}))
 }
 
 // syncGateway re-emits the actors file the gateway hot-reloads. Called after any
@@ -145,7 +172,7 @@ func (s *Server) handleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	csrf := s.ensureCSRF(w, r)
 	if r.Method == http.MethodGet {
-		s.render(w, "login", map[string]any{"CSRF": csrf})
+		s.render(w, "login", map[string]any{"CSRF": csrf, "SSO": s.ssoButtons()})
 		return
 	}
 	if r.Method != http.MethodPost {
