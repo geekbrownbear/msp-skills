@@ -4,9 +4,9 @@ const templates = `
 {{define "head"}}<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bearium Control Plane</title>
+<title>Gateway control plane</title>
 <style>
-:root{--navy:#0B2545;--navy2:#11315C;--ink:#E6EDED;--ink3:#94A3B8;--cyan:#37B3D2;--lime:#9DDF4B;--edge:rgba(255,255,255,.12);--alert:#F87171}
+:root{--navy:#0F172A;--navy2:#1E293B;--ink:#E2E8F0;--ink3:#94A3B8;--cyan:#60A5FA;--lime:#3B82F6;--edge:rgba(255,255,255,.10);--alert:#F87171}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:var(--navy);color:var(--ink);font:15px/1.5 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;display:flex;flex-direction:column;align-items:center}
 .brand{margin:40px 0 8px;font-weight:800;font-size:20px;letter-spacing:.02em}
@@ -18,7 +18,7 @@ p.sub{color:var(--ink3);margin:0 0 20px;font-size:14px}
 label{display:block;font-size:13px;color:var(--ink3);margin:14px 0 6px}
 input[type=email],input[type=text],input[type=password]{width:100%;height:42px;padding:0 12px;border-radius:10px;border:1px solid var(--edge);background:var(--navy);color:var(--ink);font-size:15px}
 input:focus{outline:none;border-color:var(--cyan)}
-button{margin-top:22px;width:100%;height:44px;border:0;border-radius:999px;background:var(--lime);color:#0F172A;font-weight:800;font-size:15px;cursor:pointer}
+button{margin-top:22px;width:100%;height:44px;border:0;border-radius:999px;background:var(--lime);color:#fff;font-weight:800;font-size:15px;cursor:pointer}
 button.link{background:none;color:var(--cyan);width:auto;height:auto;margin:0;font-weight:600}
 .err{margin-top:16px;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--alert);padding:10px 12px;border-radius:10px;font-size:13px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
@@ -47,7 +47,7 @@ input[type=radio]{width:auto;transform:scale(1.2)}
 .ssobtn{display:block;text-align:center;padding:11px;border-radius:999px;border:1px solid var(--edge);color:var(--ink);text-decoration:none;font-weight:600}
 .ssobtn:hover{border-color:var(--cyan);color:var(--cyan)}
 </style></head><body>
-<div class="brand">Bearium Control Plane<small>msp-skills gateway</small></div>{{end}}
+<div class="brand">Control plane<small>gateway</small></div>{{end}}
 
 {{define "foot"}}</body></html>{{end}}
 
@@ -69,7 +69,7 @@ input[type=radio]{width:auto;transform:scale(1.2)}
 {{define "login"}}{{template "head" .}}
 <div class="card">
 <h1>Sign in</h1>
-<p class="sub">Sign in to the Bearium gateway control plane.</p>
+<p class="sub">Sign in to the gateway control plane.</p>
 {{if .Error}}<div class="err">{{.Error}}</div>{{end}}
 <form method="post" action="/login">
 <input type="hidden" name="csrf" value="{{.CSRF}}">
