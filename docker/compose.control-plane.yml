@@ -36,6 +36,11 @@ services:
       CONTROL_PLANE_AUDIT_LOG: /gateway-audit/${MSP_GATEWAY_AUDIT_FILE:-audit.jsonl}
       # External URL (Caddy hostname), so SSO builds correct redirect URIs.
       CONTROL_PLANE_EXTERNAL_URL: ${CONTROL_PLANE_EXTERNAL_URL:-}
+      # Delegated SSO for the console: signed-ticket handoff. The ticket key MUST
+      # match the console's SSO_TICKET_KEY; allowed redirects are the console's
+      # /auth/callback URL(s), comma-separated.
+      CONTROL_PLANE_SSO_TICKET_KEY: ${CONTROL_PLANE_SSO_TICKET_KEY:-}
+      CONTROL_PLANE_SSO_ALLOWED_REDIRECTS: ${CONTROL_PLANE_SSO_ALLOWED_REDIRECTS:-}
     volumes:
       - control-plane-data:/data
       - control-plane-actors:/shared-actors
